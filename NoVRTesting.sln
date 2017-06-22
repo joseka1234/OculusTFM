@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoVRTesting", "Assembly-CSharp-firstpass.csproj", "{9990DA4E-74E8-37DB-FEB2-EAD3B65A6778}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoVRTesting", "Assembly-CSharp.csproj", "{EB0D17F9-6F79-3E3D-6B96-6436439E4912}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoVRTesting", "Assembly-CSharp-Editor-firstpass.csproj", "{7C40D8ED-88A0-4673-C9D0-B9085543A976}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9990DA4E-74E8-37DB-FEB2-EAD3B65A6778}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9990DA4E-74E8-37DB-FEB2-EAD3B65A6778}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9990DA4E-74E8-37DB-FEB2-EAD3B65A6778}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9990DA4E-74E8-37DB-FEB2-EAD3B65A6778}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB0D17F9-6F79-3E3D-6B96-6436439E4912}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB0D17F9-6F79-3E3D-6B96-6436439E4912}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB0D17F9-6F79-3E3D-6B96-6436439E4912}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB0D17F9-6F79-3E3D-6B96-6436439E4912}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C40D8ED-88A0-4673-C9D0-B9085543A976}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C40D8ED-88A0-4673-C9D0-B9085543A976}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C40D8ED-88A0-4673-C9D0-B9085543A976}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C40D8ED-88A0-4673-C9D0-B9085543A976}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal
