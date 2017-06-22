@@ -1,0 +1,75 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{makeidx}
+\usepackage{graphicx}
+\author{José Carlos Rodríguez Cortés}
+\title{Cuaderno Bitácora TFM}
+\begin{document}
+\maketitle
+\begin{abstract}
+Cuaderno en el que se apuntarán los eventos sucedidos durante cada día de investigación para el TFM para su posterior estudio y/o integración a la memoria final del trabajo, así como al artículo.
+\end{abstract}
+\break
+
+\section{Día 1: 20/06/2017}
+
+\subsection{Hechos}
+
+Toma de contacto con Oculus SDK y Unity.
+Implementación de los algoritmos preparados con anterioridad. A saber:
+
+\begin{itemize}
+\item Algoritmo de movimiento mediante raycast. Implementando para ello 3 tipos de movimientos:
+	\begin{itemize}
+	\item Teletransporte
+	\item Desplazamiento bidimensional sobre un plano con tiempo constante, es decir, sea cual sea la distancia a recorrer siempre se tardará lo mismo, por lo que algunos movimiento serán más acelerados que otros.
+	\item Desplazamiento tridimensional. Se ejecuta un desplazamiento bidimensional con un "salto" implementado a partir de una función senoidal con una algura máxima. También tiene una duración constante por lo que puede ser un movimiento más veloz si apuntamos a zonas distantes del mapa.
+	\end{itemize}
+\item Algoritmo de foco dinámico sin necesidad de eyetracking utilizando para ello el artículo [CITA AL ARTÍCULO AQUÍ].
+\end{itemize}
+
+\subsection{Observaciones}
+
+Tras hacer algunas pruebas de compatibilidad de estos algoritmos con las gafas Oculus Rift se prevee buen funcionamiento de todos ellos para escenarios más complejos. A falta de testear estos algoritmos con más personas se asumirá que funcionan y no causan fatiga.
+
+Se ha detectado que en el enfoque dinámico el paso de enfocado a desenfocado y viceversa es demasiado brusco.
+
+\subsection{Trabajo Futuro}
+
+Para el próximo día se plantean las siguientes tareas:
+\begin{itemize}
+\item Implementar interacción de agarrar y soltar. Idea: Utilizar OVRGrabber y OVRGrabbable.
+\item Intentar implementar manos virtuales a partir de modelos gratuitos de internet para mejorar la experiencia dentro del mundo virtual.
+\end{itemize}
+
+\section{Día 2: 22/06/2017}
+
+\subsection{Hechos}
+
+Ajustados algunos parámetros de los algoritmos probados el Día 1. Sin cambios observables en la visualización final.
+
+Se intenta implementar funcionalidad para agarrar objetos mediante el OVRGrabbable y OVRGrabber de la librería OVR de Oculus SDK, sin embargo, durante la búsqueda de información para esta implementación se encuentra un SDK que abstrae el oficial de Oculus llamado NewtonVR.
+
+Se despliega una escena sencilla con este nuevo SDK y se hacen pruebas de interacción.
+Se integra Avatar SDK para potenciar la visualización de la escena y la inmersión del jugador.
+
+Tras hacer algunas pruebas con el Avatar SDK en escenas independientes se integra Avatar SDK a la escena realizada con NewtonVR resultando en una escena en la que podemos ver nuestras manos virtuales además de interactuar con algunos objetos a los que se les aplican físicas.
+
+\subsection{Observaciones}
+
+Tras utilizar NewtonVR para implementar una escena sencilla se observa que es mucho más sencillo crear escenas con este nuevo SDK que con el SDK básico de Oculus por lo que se plantean nuevos desarrollos a partir del mismo.
+
+Avatar SDK es extremadamente sencillo de incorporar a cualquier escena por lo que será en extremo útil para crear una mejor experiencia.
+
+\subsection{Trabajo Futuro}
+
+Para las próximas sesiones se plantea buscar nuevas formas de interacción e implementarlas, intentar implementar Go-Go en alguna o todas sus variantes, además de buscar algunas escenas complejas en internet para integrarlas al proyecto y comenzar a crear inmersión.\\
+\textbf{Idea}: Crear una escena de una bolera. Así se podrían aprovechar las interacciones que se han implementado en esta sesión con lanzamiento de bolas y derribar objetos verticales.\\
+\textbf{Idea}: Basar el trabajo en un pequeño minijuego deportivo inmersivo (bolos, baloncesto, etc...).
+
+
+\end{document}
