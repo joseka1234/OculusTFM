@@ -46,6 +46,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\DeathZone.cs" />
      <Compile Include="Assets\NewtonVR\CollisionSoundFramework\NVRCollisionSoundController.cs" />
      <Compile Include="Assets\NewtonVR\CollisionSoundFramework\NVRCollisionSoundMaterials.cs" />
      <Compile Include="Assets\NewtonVR\CollisionSoundFramework\NVRCollisionSoundObject.cs" />
@@ -99,6 +100,11 @@
      <Compile Include="Assets\NewtonVR\Oculus\NVROculusIntegration.cs" />
      <Compile Include="Assets\NewtonVR\SteamVR\NVRSteamVRInputDevice.cs" />
      <Compile Include="Assets\NewtonVR\SteamVR\NVRSteamVRIntegration.cs" />
+     <Compile Include="Assets\OSPNative\scenes\Standard Assets\Character Controllers\Sources\Scripts\MouseLook.cs" />
+     <Compile Include="Assets\OSPNative\scripts\ONSPAmbisonicsNative.cs" />
+     <Compile Include="Assets\OSPNative\scripts\ONSPAudioSource.cs" />
+     <Compile Include="Assets\OSPNative\scripts\ONSPVersion.cs" />
+     <Compile Include="Assets\OSPNative\scripts\helpers\ONSPReflectionZone.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRBoundary.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRCameraRig.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRCommon.cs" />
@@ -160,6 +166,7 @@
      <Compile Include="Assets\Scripts\Basic\FocoDinamico.cs" />
      <Compile Include="Assets\Scripts\Basic\RayController.cs" />
      <Compile Include="Assets\Scripts\Basic\TouchVisualization.cs" />
+     <Compile Include="Assets\Scripts\NewtonVR\ManagerOfScene.cs" />
      <Compile Include="Assets\Scripts\Oculus\Interactuar.cs" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderRGB.shader" />
