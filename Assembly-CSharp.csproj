@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>Temp\bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_5_6_1;UNITY_5_6;UNITY_5;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_RUNTIME_NAVMESH_BUILDING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;INCLUDE_DYNAMIC_GI;INCLUDE_GI;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;ENABLE_VIDEO;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_EVENT_QUEUE;ENABLE_CLUSTERINPUT;ENABLE_VR;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_2_0_SUBSET;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_5_6_1;UNITY_5_6;UNITY_5;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_RUNTIME_NAVMESH_BUILDING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;INCLUDE_DYNAMIC_GI;INCLUDE_GI;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;ENABLE_VIDEO;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_EVENT_QUEUE;ENABLE_CLUSTERINPUT;ENABLE_VR;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_2_0_SUBSET;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE;NVR_Oculus</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
@@ -46,6 +46,59 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\NewtonVR\CollisionSoundFramework\NVRCollisionSoundController.cs" />
+     <Compile Include="Assets\NewtonVR\CollisionSoundFramework\NVRCollisionSoundMaterials.cs" />
+     <Compile Include="Assets\NewtonVR\CollisionSoundFramework\NVRCollisionSoundObject.cs" />
+     <Compile Include="Assets\NewtonVR\CollisionSoundFramework\NVRCollisionSoundProvider.cs" />
+     <Compile Include="Assets\NewtonVR\CollisionSoundFramework\NVRCollisionSoundProviderFMOD.cs" />
+     <Compile Include="Assets\NewtonVR\CollisionSoundFramework\NVRCollisionSoundProviderUnity.cs" />
+     <Compile Include="Assets\NewtonVR\EnumEqualityComparer.cs" />
+     <Compile Include="Assets\NewtonVR\Example\NVRExampleButtonDropSphere.cs" />
+     <Compile Include="Assets\NewtonVR\Example\NVRExampleButtonResetScene.cs" />
+     <Compile Include="Assets\NewtonVR\Example\NVRExampleColorLever.cs" />
+     <Compile Include="Assets\NewtonVR\Example\NVRExampleColorSlider.cs" />
+     <Compile Include="Assets\NewtonVR\Example\NVRExampleDegreeResult.cs" />
+     <Compile Include="Assets\NewtonVR\Example\NVRExampleEvent.cs" />
+     <Compile Include="Assets\NewtonVR\Example\NVRExampleGrower.cs" />
+     <Compile Include="Assets\NewtonVR\Example\NVRExampleGun.cs" />
+     <Compile Include="Assets\NewtonVR\Example\NVRExampleLaserPointer.cs" />
+     <Compile Include="Assets\NewtonVR\Example\NVRExampleLetterResult.cs" />
+     <Compile Include="Assets\NewtonVR\Example\NVRExampleLeverResultRocket.cs" />
+     <Compile Include="Assets\NewtonVR\Example\NVRExampleRGBResult.cs" />
+     <Compile Include="Assets\NewtonVR\Example\NVRExampleSpawner.cs" />
+     <Compile Include="Assets\NewtonVR\Example\NVRExampleSwitchResult.cs" />
+     <Compile Include="Assets\NewtonVR\Example\NVRExampleTeleporter.cs" />
+     <Compile Include="Assets\NewtonVR\NVRAttachJoint.cs" />
+     <Compile Include="Assets\NewtonVR\NVRAttachPoint.cs" />
+     <Compile Include="Assets\NewtonVR\NVRAttachPointMapper.cs" />
+     <Compile Include="Assets\NewtonVR\NVRButton.cs" />
+     <Compile Include="Assets\NewtonVR\NVRButtonInput.cs" />
+     <Compile Include="Assets\NewtonVR\NVRButtons.cs" />
+     <Compile Include="Assets\NewtonVR\NVRButtonsComparer.cs" />
+     <Compile Include="Assets\NewtonVR\NVRCanvasInput.cs" />
+     <Compile Include="Assets\NewtonVR\NVRHand.cs" />
+     <Compile Include="Assets\NewtonVR\NVRHead.cs" />
+     <Compile Include="Assets\NewtonVR\NVRHelpers.cs" />
+     <Compile Include="Assets\NewtonVR\NVRInputDevice.cs" />
+     <Compile Include="Assets\NewtonVR\NVRIntegration.cs" />
+     <Compile Include="Assets\NewtonVR\NVRInteractable.cs" />
+     <Compile Include="Assets\NewtonVR\NVRInteractableItem.cs" />
+     <Compile Include="Assets\NewtonVR\NVRInteractableItemAutoAttach.cs" />
+     <Compile Include="Assets\NewtonVR\NVRInteractableItemClippable.cs" />
+     <Compile Include="Assets\NewtonVR\NVRInteractableRotator.cs" />
+     <Compile Include="Assets\NewtonVR\NVRInteractables.cs" />
+     <Compile Include="Assets\NewtonVR\NVRLetterSpinner.cs" />
+     <Compile Include="Assets\NewtonVR\NVRLever.cs" />
+     <Compile Include="Assets\NewtonVR\NVRPhysicalController.cs" />
+     <Compile Include="Assets\NewtonVR\NVRPlayer.cs" />
+     <Compile Include="Assets\NewtonVR\NVRSDKIntegrations.cs" />
+     <Compile Include="Assets\NewtonVR\NVRSlider.cs" />
+     <Compile Include="Assets\NewtonVR\NVRSwitch.cs" />
+     <Compile Include="Assets\NewtonVR\NVRUIIgnoreRaycast.cs" />
+     <Compile Include="Assets\NewtonVR\Oculus\NVROculusInputDevice.cs" />
+     <Compile Include="Assets\NewtonVR\Oculus\NVROculusIntegration.cs" />
+     <Compile Include="Assets\NewtonVR\SteamVR\NVRSteamVRInputDevice.cs" />
+     <Compile Include="Assets\NewtonVR\SteamVR\NVRSteamVRIntegration.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRBoundary.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRCameraRig.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRCommon.cs" />
@@ -79,6 +132,30 @@
      <Compile Include="Assets\OVR\Scripts\Util\OVRSceneSampleController.cs" />
      <Compile Include="Assets\OVR\Scripts\Util\OVRScreenFade.cs" />
      <Compile Include="Assets\OVR\Scripts\Util\OVRWaitCursor.cs" />
+     <Compile Include="Assets\OvrAvatar\Samples\GripPoses\Scripts\PoseEditHelper.cs" />
+     <Compile Include="Assets\OvrAvatar\Samples\RemoteLoopback\Scripts\RemoteLoopbackManager.cs" />
+     <Compile Include="Assets\OvrAvatar\Scripts\OvrAvatar.cs" />
+     <Compile Include="Assets\OvrAvatar\Scripts\OvrAvatarAsset.cs" />
+     <Compile Include="Assets\OvrAvatar\Scripts\OvrAvatarAssetMesh.cs" />
+     <Compile Include="Assets\OvrAvatar\Scripts\OvrAvatarAssetTexture.cs" />
+     <Compile Include="Assets\OvrAvatar\Scripts\OvrAvatarBase.cs" />
+     <Compile Include="Assets\OvrAvatar\Scripts\OvrAvatarBody.cs" />
+     <Compile Include="Assets\OvrAvatar\Scripts\OvrAvatarComponent.cs" />
+     <Compile Include="Assets\OvrAvatar\Scripts\OvrAvatarDriver.cs" />
+     <Compile Include="Assets\OvrAvatar\Scripts\OvrAvatarHand.cs" />
+     <Compile Include="Assets\OvrAvatar\Scripts\OvrAvatarLocalDriver.cs" />
+     <Compile Include="Assets\OvrAvatar\Scripts\OvrAvatarMeshInstance.cs" />
+     <Compile Include="Assets\OvrAvatar\Scripts\OvrAvatarPacket.cs" />
+     <Compile Include="Assets\OvrAvatar\Scripts\OvrAvatarProjectorRenderComponent.cs" />
+     <Compile Include="Assets\OvrAvatar\Scripts\OvrAvatarRemoteDriver.cs" />
+     <Compile Include="Assets\OvrAvatar\Scripts\OvrAvatarRenderComponent.cs" />
+     <Compile Include="Assets\OvrAvatar\Scripts\OvrAvatarSDKCAPI.cs" />
+     <Compile Include="Assets\OvrAvatar\Scripts\OvrAvatarSDKManager.cs" />
+     <Compile Include="Assets\OvrAvatar\Scripts\OvrAvatarSettings.cs" />
+     <Compile Include="Assets\OvrAvatar\Scripts\OvrAvatarSettingsEditor.cs" />
+     <Compile Include="Assets\OvrAvatar\Scripts\OvrAvatarSkinnedMeshRenderComponent.cs" />
+     <Compile Include="Assets\OvrAvatar\Scripts\OvrAvatarSkinnedMeshRenderPBSComponent.cs" />
+     <Compile Include="Assets\OvrAvatar\Scripts\OvrAvatarTouchController.cs" />
      <Compile Include="Assets\Scripts\Basic\BasicController.cs" />
      <Compile Include="Assets\Scripts\Basic\FocoDinamico.cs" />
      <Compile Include="Assets\Scripts\Basic\RayController.cs" />
@@ -87,6 +164,7 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderRGB.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\SeparableWeightedBlurDof34.shader" />
+     <None Include="Assets\OvrAvatar\Content\Materials\AvatarMaterialStateShader.cginc" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ShowAlphaChannel.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\SunShaftsComposite.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionCurves.shader" />
@@ -104,11 +182,13 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\RadialBlur.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfFieldDX11.shader" />
      <None Include="Assets\OVR\Shaders\OVRColorRampAlpha.shader" />
+     <None Include="Assets\OvrAvatar\Content\Materials\AvatarSurfaceShader.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ContrastComposite.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAAPreset3.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\FisheyeShader.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Apply.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\frag_ao.cginc" />
+     <None Include="Assets\OvrAvatar\Content\Materials\AvatarSurfaceShaderSelfOccluding.shader" />
      <None Include="Assets\OVR\Shaders\Unlit Crosshair.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfField34.shader" />
      <None Include="Assets\OVR\Resources\Unlit Transparent Color.shader" />
@@ -126,6 +206,7 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\Bokeh34.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\CameraMotionBlurDX11.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\SeparableBlurPlus.shader" />
+     <None Include="Assets\OvrAvatar\Content\Materials\AvatarSurfaceShaderPBS.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\MultiPassHollywoodFlares.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlurEffectConeTaps.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\CameraMotionBlur.shader" />

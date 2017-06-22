@@ -7,6 +7,6 @@ public class Interactuar : MonoBehaviour
 
 	void Update ()
 	{
-
+		
 	}
 }
