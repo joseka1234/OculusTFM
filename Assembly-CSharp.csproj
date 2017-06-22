@@ -6,7 +6,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{E0F8CAA2-2B6E-BEA0-3672-47D187DD8590}</ProjectGuid>
+    <ProjectGuid>{B8328E25-3F02-5EE8-C984-203B4014AAF2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -82,6 +82,7 @@
      <Compile Include="Assets\Scripts\Basic\BasicController.cs" />
      <Compile Include="Assets\Scripts\Basic\FocoDinamico.cs" />
      <Compile Include="Assets\Scripts\Basic\RayController.cs" />
+     <Compile Include="Assets\Scripts\Basic\TouchVisualization.cs" />
      <Compile Include="Assets\Scripts\Oculus\Interactuar.cs" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderRGB.shader" />
@@ -181,7 +182,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{F74368C4-2449-2B91-2F1F-716D3F0F0FFF}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
+      <Project>{EA456952-0C5D-B0A4-32CF-92D4C0878B4F}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
