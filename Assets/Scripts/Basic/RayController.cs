@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using UnityEngine.AI;
 
 public class RayController : MonoBehaviour
 {
-	const int METODOS_MOVIMIENTO = 3;
+	const int METODOS_MOVIMIENTO = 4;
 
 	public GameObject destino;
 	public GameObject interactable;
@@ -17,6 +18,8 @@ public class RayController : MonoBehaviour
 	private int[] metodosMovimiento;
 	private int auxInt;
 
+	private NavMeshAgent agent;
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -24,6 +27,7 @@ public class RayController : MonoBehaviour
 		metodosMovimiento = new int[METODOS_MOVIMIENTO];
 
 		player = GameObject.Find ("OVRCameraRig");
+		agent = player.GetComponent<NavMeshAgent> ();
 
 		for (int i = 0; i < METODOS_MOVIMIENTO; i++) {
 			metodosMovimiento [i] = i;
@@ -59,6 +63,9 @@ public class RayController : MonoBehaviour
 					break;
 				case 2:
 					TiroParabolico (hit);
+					break;
+				case 3:
+					agent.destination = hit.point;
 					break;
 				}
 			} else if (interactableGO != null) {
