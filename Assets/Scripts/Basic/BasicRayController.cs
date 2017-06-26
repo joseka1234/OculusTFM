@@ -32,6 +32,10 @@ public class BasicRayController : MonoBehaviour
 		for (int i = 0; i < METODOS_MOVIMIENTO; i++) {
 			metodosMovimiento [i] = i;
 		}
+
+		foreach (GameObject floor in GameObject.FindGameObjectsWithTag ("Floor")) {
+			floor.AddComponent<MeshCollider> ();
+		}
 	}
 
 	// Update is called once per frame
@@ -40,7 +44,7 @@ public class BasicRayController : MonoBehaviour
 		Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 		RaycastHit hit;
 
-		if (Physics.Raycast (ray, out hit, 1000)) {
+		if (Physics.Raycast (ray, out hit, 100)) {
 			Destroy (destinoGO);
 			Destroy (interactableGO);
 			if (hit.collider.transform.tag == "Floor") {
@@ -49,35 +53,46 @@ public class BasicRayController : MonoBehaviour
 				// interactableGO = Instantiate (interactable, hit.point, Quaternion.LookRotation (hit.normal)) as GameObject;
 			}
 		}
+		Move (hit);
+		ChangeMoveMode ();
+	}
 
+	void Move (RaycastHit hit)
+	{
 		if (Input.GetMouseButtonDown (0)) {
-
-			if (destinoGO != null) {
-				StopAllCoroutines ();
-				switch (auxInt) {
-				case 0:
-					Teletransporte (hit);
-					break;
-				case 1:
-					DesplazamientoSmooth (hit);
-					break;
-				case 2:
-					TiroParabolico (hit);
-					break;
-				case 3:
-					agent.destination = hit.point;
-					break;
+			try {
+				if (destinoGO != null) {
+					StopAllCoroutines ();
+					switch (auxInt) {
+					case 0:
+						Teletransporte (hit);
+						break;
+					case 1:
+						DesplazamientoSmooth (hit);
+						break;
+					case 2:
+						TiroParabolico (hit);
+						break;
+					case 3:
+						agent.destination = hit.point;
+						break;
+					}
+				} else if (interactableGO != null) {
+					// Hacer lo necesario para interactuar
+					try {
+						Debug.Log ("Interactuando con " + hit.collider.name);
+					} catch (Exception e) {
+						return;
+					}
 				}
-			} else if (interactableGO != null) {
-				// Hacer lo necesario para interactuar
-				try {
-					Debug.Log ("Interactuando con " + hit.collider.name);
-				} catch (Exception e) {
-					return;
-				}
-			}
+			} catch (Exception e) {
+				// DO NOTHING
+			} 
 		}
+	}
 
+	void ChangeMoveMode ()
+	{
 		if (Input.GetMouseButtonDown (1)) {
 			auxInt++;
 			if (auxInt > METODOS_MOVIMIENTO - 1) {
@@ -102,12 +117,12 @@ public class BasicRayController : MonoBehaviour
 
 	void Teletransporte (RaycastHit hit)
 	{
-		player.transform.position = new Vector3 (hit.point.x, 1, hit.point.z);
+		player.transform.position = new Vector3 (hit.point.x, getYCoordinate (), hit.point.z);
 	}
 
 	void TiroParabolico (RaycastHit hit)
 	{
-		StartCoroutine (TiroParabolicoCoroutine (player.transform.position, new Vector3 (hit.point.x, 1, hit.point.z)));
+		StartCoroutine (TiroParabolicoCoroutine (player.transform.position, new Vector3 (hit.point.x, getYCoordinate (), hit.point.z)));
 	}
 
 	IEnumerator TiroParabolicoCoroutine (Vector3 posOrigen, Vector3 posDestino)
@@ -116,7 +131,7 @@ public class BasicRayController : MonoBehaviour
 		Vector3 lerpVector;
 		while (transform.position != posDestino) {
 			lerpVector = Vector3.Lerp (posOrigen, posDestino, aux);
-			player.transform.position = new Vector3 (lerpVector.x, Mathf.Sin (Mathf.LerpAngle (0, Mathf.PI, aux)) * 2.0f + 1.0f, lerpVector.z);
+			player.transform.position = new Vector3 (lerpVector.x, Mathf.Sin (Mathf.LerpAngle (0, Mathf.PI, aux)) * 2.0f + posDestino.y, lerpVector.z);
 			aux += 0.005f;
 			yield return new WaitForSeconds (0.01f);
 		}
@@ -124,7 +139,7 @@ public class BasicRayController : MonoBehaviour
 
 	void DesplazamientoSmooth (RaycastHit hit)
 	{
-		StartCoroutine (DesplazamientoSmoothCoroutine (player.transform.position, new Vector3 (hit.point.x, 1, hit.point.z)));
+		StartCoroutine (DesplazamientoSmoothCoroutine (player.transform.position, new Vector3 (hit.point.x, getYCoordinate (), hit.point.z)));
 	}
 
 	IEnumerator DesplazamientoSmoothCoroutine (Vector3 posOrigen, Vector3 posDestino)
@@ -135,6 +150,11 @@ public class BasicRayController : MonoBehaviour
 			aux += 0.005f;
 			yield return new WaitForSeconds (0.01f);
 		}
+	}
+
+	float getYCoordinate ()
+	{
+		return destinoGO.transform.position.y + (player.transform.GetComponent<CapsuleCollider> ().height / 4.0f);
 	}
 
 }
