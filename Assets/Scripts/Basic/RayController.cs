@@ -2,6 +2,8 @@
 using System.Collections;
 using System;
 using UnityEngine.AI;
+using UnityEditor;
+using NewtonVR;
 
 public class RayController : MonoBehaviour
 {
@@ -13,7 +15,7 @@ public class RayController : MonoBehaviour
 	private GameObject interactableGO;
 	private GameObject destinoGO;
 
-	private GameObject player;
+	public GameObject player;
 
 	private int[] metodosMovimiento;
 	private int auxInt;
@@ -26,7 +28,7 @@ public class RayController : MonoBehaviour
 		auxInt = 0;
 		metodosMovimiento = new int[METODOS_MOVIMIENTO];
 
-		player = GameObject.Find ("OVRCameraRig");
+		// player = GameObject.Find ("OVRCameraRig");
 		agent = player.GetComponent<NavMeshAgent> ();
 
 		for (int i = 0; i < METODOS_MOVIMIENTO; i++) {
@@ -37,35 +39,55 @@ public class RayController : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		Ray ray = new Ray (this.transform.position, this.transform.forward);
-		RaycastHit hit;
-
-		if (Physics.Raycast (ray, out hit, 1000)) {
+		if (destinoGO != null || interactableGO != null) {
 			Destroy (destinoGO);
 			Destroy (interactableGO);
-			if (hit.collider.transform.tag == "Floor") {
-				destinoGO = Instantiate (destino, hit.point, Quaternion.LookRotation (hit.normal)) as GameObject;
-			} else if (hit.collider.transform.tag == "Interactable") {
-				// interactableGO = Instantiate (interactable, hit.point, Quaternion.LookRotation (hit.normal)) as GameObject;
-			}
 		}
 
+		if (IsPointing ()) {
+			Ray ray = new Ray (this.transform.position, this.transform.forward);
+			RaycastHit hit;
+			if (Physics.Raycast (ray, out hit, 1000)) {
+				if (hit.collider.transform.tag == "Floor") {
+					destinoGO = Instantiate (destino, hit.point, Quaternion.LookRotation (hit.normal)) as GameObject;
+				} else if (hit.collider.transform.tag == "Interactable") {
+					// interactableGO = Instantiate (interactable, hit.point, Quaternion.LookRotation (hit.normal)) as GameObject;
+				}
+			}
+
+			Move (hit);	
+		}
+
+		ChangeMoveMode ();
+	}
+
+	private bool IsPointing ()
+	{
+		bool grip = (OVRInput.Get (OVRInput.Axis1D.PrimaryHandTrigger, OVRInput.Controller.RTouch) > 0.1f);
+		bool point = (OVRInput.Get (OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.RTouch) <= 0.0f);
+		bool indexNearTouch = OVRInput.Get (OVRInput.NearTouch.PrimaryIndexTrigger, OVRInput.Controller.RTouch);
+
+		return grip && point && !indexNearTouch;
+	}
+
+	private void Move (RaycastHit hit)
+	{
 		if (OVRInput.GetDown (OVRInput.Button.One, OVRInput.Controller.RTouch)) {
 
 			if (destinoGO != null) {
 				StopAllCoroutines ();
 				switch (auxInt) {
 				case 0:
-					Teletransporte (hit);
+					Teletransporte ();
 					break;
 				case 1:
-					DesplazamientoSmooth (hit);
+					DesplazamientoSmooth ();
 					break;
 				case 2:
-					TiroParabolico (hit);
+					TiroParabolico ();
 					break;
 				case 3:
-					agent.destination = hit.point;
+					agent.destination = new Vector3 (GetXCoordinate (), GetYCoordinate (), GetZCoordinate ());
 					break;
 				}
 			} else if (interactableGO != null) {
@@ -77,7 +99,10 @@ public class RayController : MonoBehaviour
 				}
 			}
 		}
+	}
 
+	void ChangeMoveMode ()
+	{
 		if (OVRInput.GetDown (OVRInput.Button.Two, OVRInput.Controller.RTouch)) {
 			auxInt++;
 			if (auxInt > METODOS_MOVIMIENTO - 1) {
@@ -86,14 +111,14 @@ public class RayController : MonoBehaviour
 		}
 	}
 
-	void Teletransporte (RaycastHit hit)
+	void Teletransporte ()
 	{
-		player.transform.position = new Vector3 (hit.point.x, 1, hit.point.z);
+		player.transform.position = new Vector3 (GetXCoordinate (), GetYCoordinate (), GetZCoordinate ());
 	}
 
-	void TiroParabolico (RaycastHit hit)
+	void TiroParabolico ()
 	{
-		StartCoroutine (TiroParabolicoCoroutine (player.transform.position, new Vector3 (hit.point.x, 1, hit.point.z)));
+		StartCoroutine (TiroParabolicoCoroutine (player.transform.position, new Vector3 (GetXCoordinate (), GetYCoordinate (), GetZCoordinate ())));
 	}
 
 	IEnumerator TiroParabolicoCoroutine (Vector3 posOrigen, Vector3 posDestino)
@@ -102,15 +127,15 @@ public class RayController : MonoBehaviour
 		Vector3 lerpVector;
 		while (transform.position != posDestino) {
 			lerpVector = Vector3.Lerp (posOrigen, posDestino, aux);
-			player.transform.position = new Vector3 (lerpVector.x, Mathf.Sin (Mathf.LerpAngle (0, Mathf.PI, aux)) * 2.0f + 1.0f, lerpVector.z);
+			player.transform.position = new Vector3 (lerpVector.x, Mathf.Sin (Mathf.LerpAngle (0, Mathf.PI, aux)) * 2.0f + posDestino.y, lerpVector.z);
 			aux += 0.005f;
 			yield return new WaitForSeconds (0.01f);
 		}
 	}
 
-	void DesplazamientoSmooth (RaycastHit hit)
+	void DesplazamientoSmooth ()
 	{
-		StartCoroutine (DesplazamientoSmoothCoroutine (player.transform.position, new Vector3 (hit.point.x, 1, hit.point.z)));
+		StartCoroutine (DesplazamientoSmoothCoroutine (player.transform.position, new Vector3 (GetXCoordinate (), GetYCoordinate (), GetZCoordinate ())));
 	}
 
 	IEnumerator DesplazamientoSmoothCoroutine (Vector3 posOrigen, Vector3 posDestino)
@@ -121,6 +146,28 @@ public class RayController : MonoBehaviour
 			aux += 0.005f;
 			yield return new WaitForSeconds (0.01f);
 		}
+	}
+
+	float GetYCoordinate ()
+	{
+		float y;
+		try {
+			y = destinoGO.transform.position.y + (player.GetComponent<CharacterController> ().height / 4);
+		} catch (Exception e) {
+			Debug.Log ("Usando modelo de NewtonVR");
+			y = player.transform.position.y;
+		}
+		return y;
+	}
+
+	float GetXCoordinate ()
+	{
+		return destinoGO.transform.position.x;
+	}
+
+	float GetZCoordinate ()
+	{
+		return destinoGO.transform.position.z;
 	}
 
 }
