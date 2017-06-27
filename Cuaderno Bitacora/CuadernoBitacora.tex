@@ -71,5 +71,68 @@ Para las próximas sesiones se plantea buscar nuevas formas de interacción e im
 \textbf{Idea}: Crear una escena de una bolera. Así se podrían aprovechar las interacciones que se han implementado en esta sesión con lanzamiento de bolas y derribar objetos verticales.\\
 \textbf{Idea}: Basar el trabajo en un pequeño minijuego deportivo inmersivo (bolos, baloncesto, etc...).
 
+\section{Día 3: 24/06/2017}
+
+\subsection{Hechos}
+
+Se cambia la interacción del usuario con el entorno al forzarle a utilizar un gesto para desplazarse, a saber, apuntar con el dedo índice.
+Esto se ve reforzado con el Avatar SDK ya que se pueden ver exactamente los movimientos que están haciendo las manos.
+
+Se integran "Mallas de Navegación" (Nav Meshes) así como agentes de navegación a una escena sencilla para que la navegación se realice utilizando algoritmos de \textit{pathfinding}.
+
+Se comienza a experimentar con escenas complejas.
+
+\subsection{Observaciones}
+
+Al cambiar la interacción se le da al usuario mayor juego a la hora de interactuar con la escena ya que, al no tener siempre la esfera que muestra el destino, se consigue una mayor inmersión.
+
+Utilizando las mallas de navegación conseguimos un movimiento mucho más natural por parte del usuario, evitando así \textit{"atravesar"} objetos del escenario, lo cual, sacaría al usuario de la experiencia inmersiva.
+
+Integrar escenas complejas supone un nuevo problema de navegación ya que hay que adaptar las mallas de navegación a cada parte de la escena.
+
+También se han detectado problemas dependiendo del modelo que se utiliza por lo que se asume que el problema lo tiene el modelo en sí y no la implementación.
+
+
+\subsection{Trabajo Futuro}
+
+Adaptar algunas escenas complejas a la navegación con mallas de navegación para que resulte más inmersivo para el usuario.
+
+Cambiar la estética del objeto de destino, en vez de utilizar una bola, utilizar un emisor de partículas.
+
+Comenzar a integrar objetos interactuables a las escenas complejas.
+
+\section{Día 4: 27/06/2017}
+
+\subsection{Hechos}
+
+Se ha adaptado el script de movimiento para funcionar mejor con escenas complejas.
+Creada escena compleja utilizando Avatar SDK y NewtonVR para representar al usuario, dando como resultado un entorno inmersivo y complejo.
+
+Se ha adaptado el script de movimiento para adaptar la dirección en la que mira el usuario cuando se mueve para reducir la sensación de desorientación.
+
+Se ha probado a cambiar la esfera de destino por un emisor de partículas.
+
+Creado un panel para informar al usuario que tipo de movimiento está empleando.
+
+\subsection{Observaciones}
+
+Integrando lo ya visto antes de NewtonVR y el Avatar SDK a una escena compleja se obtiene como resultado una escena sorprendentemente inmersiva por si misma.
+
+La adaptación de la dirección para disminuir la desorientación al desplazarse puede llegar a causar mareo. Habría que dar la opción de quitarlo o hacer una encuesta en la que se pregunté sobre que tipo de desplazamiento se prefiere.
+
+El cambio de la esfera al emisor de partículas ha dado buen resultado visual. No obstante habría que reforzar más este indicador ya que: el emisor de partículas no está adecuadamente configurado y hace falta algo más para dar bien el feedback al usuario de en dónde va a aparecer o hacia donde va a desplazarse. En lo referente al desplazamiento se prefiere precisión antes que inmersión.
+
+El panel, aunque supone un elemento extradiegético que saca al usuario un poco de la experiencia, se considera necesario para que el usuario no se "pierda" en cuanto al tipo de movimiento que va a utilizar.\\
+\textbf{Idea}: Usar algún elemento intradiegético para mostrar esta información, tal como un reloj en el brazo, alguna interfaz futurista o incluso cambiar el elemento visual que nos dice el tipo de movimiento por un elemento auditivo.
+
+\subsection{Trabajo Futuro}
+
+Trabajar en la integración de sonidos a la escena para aumentar la inmersión.
+Cambiar algunos elementos informativos de extradiegéticos a intradiegéticos para que la experiencia sea más inmersiva.
+
+Implementar la navegación mediante pathfinding en escenarios complejos.
+Investigar técnicas para reducir el mareo aparte del enfoque dinámico que se puedan aplicar a este proyecto.
+
+Comenzar a implementar scripts similares en Unreal Engine para ir teniendo algo sobre lo que trabajar en este motor.
 
 \end{document}
