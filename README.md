@@ -1,7 +1,9 @@
 # OculusTFM
 
 Autor: José Carlos Rodríguez Cortés
+
 Universidad de Granada
+
 Título TFM: Creación de mundos inmersivos en VR
 
 ## Descripción
