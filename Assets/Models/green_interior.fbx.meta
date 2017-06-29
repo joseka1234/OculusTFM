@@ -1,0 +1,171 @@
+fileFormatVersion: 2
+guid: f6251f5c26694124a8a8e7cf4231363e
+timeCreated: 1498755295
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: chair1
+    100002: chair2
+    100004: chair3
+    100006: chair4
+    100008: //RootNode
+    100010: group1
+    100012: mir1
+    100014: mir2
+    100016: mir3
+    100018: mirror1
+    100020: mirror_part
+    100022: pCube11
+    100024: pCube12
+    100026: pCube13
+    100028: pCube14
+    100030: pCube8
+    100032: pointLight1
+    100034: pop_up
+    100036: Table
+    100038: table_support
+    100040: Walls
+    400000: chair1
+    400002: chair2
+    400004: chair3
+    400006: chair4
+    400008: //RootNode
+    400010: group1
+    400012: mir1
+    400014: mir2
+    400016: mir3
+    400018: mirror1
+    400020: mirror_part
+    400022: pCube11
+    400024: pCube12
+    400026: pCube13
+    400028: pCube14
+    400030: pCube8
+    400032: pointLight1
+    400034: pop_up
+    400036: Table
+    400038: table_support
+    400040: Walls
+    2300000: chair1
+    2300002: chair2
+    2300004: chair3
+    2300006: chair4
+    2300008: mir1
+    2300010: mir2
+    2300012: mir3
+    2300014: mirror1
+    2300016: mirror_part
+    2300018: pCube11
+    2300020: pCube12
+    2300022: pCube13
+    2300024: pCube14
+    2300026: pop_up
+    2300028: Table
+    2300030: table_support
+    2300032: Walls
+    3300000: chair1
+    3300002: chair2
+    3300004: chair3
+    3300006: chair4
+    3300008: mir1
+    3300010: mir2
+    3300012: mir3
+    3300014: mirror1
+    3300016: mirror_part
+    3300018: pCube11
+    3300020: pCube12
+    3300022: pCube13
+    3300024: pCube14
+    3300026: pop_up
+    3300028: Table
+    3300030: table_support
+    3300032: Walls
+    4300000: mir3
+    4300002: mir2
+    4300004: mir1
+    4300006: mirror1
+    4300008: chair1
+    4300010: chair2
+    4300012: chair3
+    4300014: Table
+    4300016: table_support
+    4300018: Walls
+    4300020: chair4
+    4300022: pCube11
+    4300024: pCube12
+    4300026: pCube13
+    4300028: pCube14
+    4300030: mirror_part
+    4300032: pop_up
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

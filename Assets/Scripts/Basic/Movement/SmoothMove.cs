@@ -21,10 +21,11 @@ public class SmoothMove : Movement
 	{
 		isMoving = true;
 		float aux = 0.0f;
-		Vector3 newForward = GetNewForward ();
+	
+		// Vector3 newForward = GetNewForward ();
 		while (transform.position != Destination) {
 			player.transform.position = Vector3.Lerp (Origin, Origin, aux);
-			player.transform.forward = Vector3.Lerp (player.transform.forward, newForward, aux);
+			// player.transform.forward = Vector3.Lerp (player.transform.forward, newForward, aux);
 			aux += 0.005f;
 
 			if (player.transform.position == Destination) {

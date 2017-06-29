@@ -6,6 +6,7 @@
 \usepackage{amssymb}
 \usepackage{makeidx}
 \usepackage{graphicx}
+\usepackage{hyperref}
 \author{José Carlos Rodríguez Cortés}
 \title{Cuaderno Bitácora TFM}
 \begin{document}
@@ -29,7 +30,7 @@ Implementación de los algoritmos preparados con anterioridad. A saber:
 	\item Desplazamiento bidimensional sobre un plano con tiempo constante, es decir, sea cual sea la distancia a recorrer siempre se tardará lo mismo, por lo que algunos movimiento serán más acelerados que otros.
 	\item Desplazamiento tridimensional. Se ejecuta un desplazamiento bidimensional con un "salto" implementado a partir de una función senoidal con una algura máxima. También tiene una duración constante por lo que puede ser un movimiento más veloz si apuntamos a zonas distantes del mapa.
 	\end{itemize}
-\item Algoritmo de foco dinámico sin necesidad de eyetracking utilizando para ello el artículo [CITA AL ARTÍCULO AQUÍ].
+\item Algoritmo de foco dinámico sin necesidad de eyetracking utilizando para ello el artículo \cite{Porcino et al.}.
 \end{itemize}
 
 \subsection{Observaciones}
@@ -148,5 +149,49 @@ Al implementar el movimiento a partir del patrón estrategia se aumenta la capac
 \subsection{Trabajo Futuro}
 
 Sin cambios en cuanto al trabajo futuro de los días anteriores.
+
+\section{Día 6: 29/06/2017}
+
+\subsection{Hechos}
+
+Tras estudiar el artículo \cite{Davis et al.} y viendo las conclusiones del mismo se aprecia que surgen menos mareos en escenas menos complejas.
+
+Debido a esto se incorpora un nuevo modelo para hacer pruebas. Este nuevo modelo está formado a partir de texturas mucho más sencillas que el anterior modelo por lo que se espera que el uso del mismo reduzca notablemente el posible mareo que puedan tener los futuros usuarios.
+
+Se ha implementado un sistema de profundidad de campo dinámica similar a la mostrada en el artículo \cite{Carnegie and Rhee}.
+
+\subsection{Observaciones}
+
+El nuevo modelo más simple supone una carga computacional y de renderizado bastante menor que los otros modelos más complejos por lo que, aparte de suponer un factor de reducción de la fatiga a partir del uso de modelos menos complejos, se verá incrementada la velocidad de la escena por lo que el usuario sentirá aún menos fatiga.
+
+El nuevo sistema de enfoque dinámico implementado a partir de la profundidad de campo dinámica se comporta de una manera mucho mejor que el anterior sistema. Con un desenfoque de mayor calidad y un enfoque mucho más efectivo y suave que antes.
+
+\subsection{Trabajo Futuro}
+
+Ajustar el sistema de enfoque dinámico para que los valores de blur no sean demasiado molestos para el usuario.
+
+Probar la nueva escena menos compleja y adaptar las mallas de navegación para la escena con "jugador" usando VR HMD.
+
+\break
+
+\begin{thebibliography}{X}
+
+%-- ITEM 1 --%
+\bibitem[Porcino et al.]{Porcino et al.}
+\textsc{Thiago M. Porcino, Esteban Clua, Daniela Trevisan, Cristina N. Vasconcelos and Luis Valente}\\
+\textit{Minimizing cyber sickness in head mounted display systems: design guidelines and applications}, Fluminense Federal University, Institute of Computing, 2016
+
+%-- ITEM 2 --%
+\bibitem[Davis et al.]{Davis et al.}
+\textsc{Simon Davis, Keith Nesbitt and Eugene Nalivaiko}\\
+\textit{Comparing the onset of cybersickness using the Oculus Rift and two virtual roller coasters}, Proceedings of the 11th Australasian Conference on Interactive Entertainment (IE 2015), vol. 27, 2015, p. 30.
+
+%-- ITEM 3 --%
+\bibitem[Carnegie and Rhee]{Carnegie and Rhee}
+\textsc{Kieran Carnegie and Taehyun Rhee}\\
+\textit{Reducing Visual Discomfort with HMDs Using Dynamic Depth of Field}, Computer Graphics and Applications, IEEE, vol. 35, no. 5, pp. 34–41, 2015.
+
+\end{thebibliography}
+
 
 \end{document}

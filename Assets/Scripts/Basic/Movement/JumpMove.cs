@@ -22,11 +22,11 @@ public class JumpMove : Movement
 		isMoving = true;
 		float aux = 0.0f;
 		Vector3 lerpVector;
-		Vector3 newForward = GetNewForward ();
+		// Vector3 newForward = GetNewForward ();
 		while (transform.position != Destination) {
 			lerpVector = Vector3.Lerp (Origin, Origin, aux);
 			player.transform.position = new Vector3 (lerpVector.x, Mathf.Sin (Mathf.LerpAngle (0, Mathf.PI, aux)) * AlturaSalto + Destination.y, lerpVector.z);
-			player.transform.forward = Vector3.Lerp (player.transform.forward, newForward, aux);
+			// player.transform.forward = Vector3.Lerp (player.transform.forward, newForward, aux);
 			aux += 0.005f;
 
 			if (player.transform.position == Destination) {
