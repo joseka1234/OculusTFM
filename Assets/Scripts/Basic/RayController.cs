@@ -10,18 +10,18 @@ public class RayController : MonoBehaviour
 	public GameObject Player;
 	public float AlturaSalto;
 
-	private GameObject InteractableGO;
 	private GameObject DestinationGO;
 
-	private Coroutine fadeCoroutine;
 	private Movement moveStrategy;
+	private PannelController pannelController;
 
 	private enum Movimientos
 	{
 		TELEPORT,
 		SMOOTH,
 		JUMP,
-		NAV_MESH
+		NAV_MESH,
+		RUNNING_MOVE
 	}
 
 	private Movimientos movimientoActual;
@@ -29,6 +29,7 @@ public class RayController : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
+		pannelController = new PannelController ();
 		Vector3 cameraForward = Player.transform.GetChild (0).forward;
 		Player.transform.forward = new Vector3 (cameraForward.x, Player.transform.forward.y, cameraForward.z);
 		movimientoActual = Movimientos.TELEPORT;
@@ -41,19 +42,11 @@ public class RayController : MonoBehaviour
 			Ray ray = new Ray (this.transform.position, this.transform.forward);
 			RaycastHit hit;
 			if (Physics.Raycast (ray, out hit, 100)) {
-				switch (hit.collider.transform.tag) {
-				case "Floor":
-					MovementCasting (hit);
-					break;
-				case "Interactable":
-					InteractableCasting (hit);
-					break;
-				}
+				MovementCasting (hit);
 			}
 
 			Move (hit);
 		} else {
-			Destroy (InteractableGO);
 			Destroy (DestinationGO);
 		}
 
@@ -65,7 +58,6 @@ public class RayController : MonoBehaviour
 	private void MovementCasting (RaycastHit hit)
 	{
 		if (DestinationGO == null) {
-			Destroy (InteractableGO);
 			DestinationGO = Instantiate (PrefabDestination, hit.point, Quaternion.LookRotation (hit.normal)) as GameObject;
 			DestinationGO.name = "DestinoGO";
 		} else {
@@ -75,12 +67,6 @@ public class RayController : MonoBehaviour
 			DestinationGO.GetComponent<ParticleSystem> ().Play ();
 		} catch {
 		}
-	}
-
-	private void InteractableCasting (RaycastHit hit)
-	{
-		Destroy (DestinationGO);
-		// interactableGO = Instantiate (interactable, hit.point, Quaternion.LookRotation (hit.normal)) as GameObject;
 	}
 
 	private bool HandIsPointing ()
@@ -101,13 +87,6 @@ public class RayController : MonoBehaviour
 					moveStrategy.StopMove ();
 				}
 				moveStrategy.Move ();
-			} else if (InteractableGO != null) {
-				// TODO: Quitar la parte de interacción ya que NewtonVR se encarga solo
-				try {
-					Debug.Log ("Interactuando con " + hit.collider.name);
-				} catch (Exception e) {
-					return;
-				}
 			} else {
 				Debug.LogError ("Situacion inesperada al intentar mover");
 			}
@@ -121,49 +100,29 @@ public class RayController : MonoBehaviour
 			case Movimientos.TELEPORT:
 				movimientoActual = Movimientos.SMOOTH;
 				moveStrategy = new SmoothMove ("Smooth", Player);
+				pannelController.SetMoveName ("SMOOTH");
 				break;
 			case Movimientos.SMOOTH:
 				movimientoActual = Movimientos.JUMP;
 				moveStrategy = new JumpMove (AlturaSalto, "Jump", Player);
+				pannelController.SetMoveName ("JUMP");
 				break;
 			case Movimientos.JUMP:
 				movimientoActual = Movimientos.NAV_MESH;
 				moveStrategy = new NavMeshMove ("NavMesh", Player);
+				pannelController.SetMoveName ("NAV MESH");
 				break;
 			case Movimientos.NAV_MESH:
+				movimientoActual = Movimientos.RUNNING_MOVE;
+				moveStrategy = new RunningMove ("Running", Player, pannelController);
+				pannelController.SetMoveName ("RUNNING");
+				break;
+			case Movimientos.RUNNING_MOVE:
 				movimientoActual = Movimientos.TELEPORT;
-				moveStrategy = new TeleportMove ("Teleport", Player);
+				moveStrategy = new  TeleportMove ("Teleport", Player);
+				pannelController.SetMoveName ("TELEPORT");
 				break;
 			}
-		}
-	}
-
-	#endregion
-
-	#region GUI de movimiento
-
-	void SetMoveName ()
-	{
-		if (fadeCoroutine != null) {
-			StopCoroutine (fadeCoroutine);
-		}
-		TextMesh auxText = GameObject.Find ("Head/Text").GetComponent<TextMesh> ();
-		auxText.color = new Color (0, 0, 0, 1);
-		auxText.text = moveStrategy.Name;
-		fadeCoroutine = StartCoroutine (FadeText ());
-		GameObject.Find ("Head/Text/Plane").GetComponent<MeshRenderer> ().material.color = new Color (1, 1, 1, 1);
-	}
-
-	IEnumerator FadeText ()
-	{
-		TextMesh auxText = GameObject.Find ("Head/Text").GetComponent<TextMesh> ();
-		MeshRenderer plane = GameObject.Find ("Head/Text/Plane").GetComponent<MeshRenderer> ();
-		float aux = 0.0f;
-		while (auxText.color.a > 0) {
-			auxText.color = Color.Lerp (new Color (0, 0, 0, 1), new Color (0, 0, 0, 0), aux);
-			plane.material.color = Color.Lerp (new Color (1, 1, 1, 1), new Color (1, 1, 1, 0), aux);
-			aux += 0.05f;
-			yield return new WaitForSeconds (0.1f);
 		}
 	}
 

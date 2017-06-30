@@ -168,8 +168,10 @@
      <Compile Include="Assets\Scripts\Basic\Movement\JumpMove.cs" />
      <Compile Include="Assets\Scripts\Basic\Movement\Movement.cs" />
      <Compile Include="Assets\Scripts\Basic\Movement\NavMeshMove.cs" />
+     <Compile Include="Assets\Scripts\Basic\Movement\RunningMove.cs" />
      <Compile Include="Assets\Scripts\Basic\Movement\SmoothMove.cs" />
      <Compile Include="Assets\Scripts\Basic\Movement\TeleportMove.cs" />
+     <Compile Include="Assets\Scripts\Basic\PannelController.cs" />
      <Compile Include="Assets\Scripts\Basic\RayController.cs" />
      <Compile Include="Assets\Scripts\Basic\TouchVisualization.cs" />
      <Compile Include="Assets\Scripts\NewtonVR\ManagerOfScene.cs" />
