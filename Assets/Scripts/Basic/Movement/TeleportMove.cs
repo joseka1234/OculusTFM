@@ -3,18 +3,17 @@
 public class TeleportMove : Movement
 {
 
-	public TeleportMove (string Name, GameObject player) : base (Name, player)
+	public void TeleportSetData (string Name, GameObject player)
 	{
+		SetData (Name, player);
 	}
 
 	override public void Move ()
 	{
-		player.transform.position = Destination;
-		player.transform.forward = GetNewForward ();
+		player.transform.position = new Vector3 (GetXCoordinate (), GetYCoordinate (), GetZCoordinate ());
 	}
 
 	override public void StopMove ()
 	{
-		// Con el teleport no es necesario implementar nada aquí
 	}
 }

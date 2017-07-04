@@ -1,7 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System;
-using UnityEngine.AI;
 
 public class RayController : MonoBehaviour
 {
@@ -29,10 +26,13 @@ public class RayController : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		pannelController = new PannelController ();
+		movimientoActual = Movimientos.TELEPORT;
+		moveStrategy = gameObject.AddComponent<TeleportMove> ();
+		gameObject.GetComponent<TeleportMove> ().TeleportSetData ("Teleport", Player);
+	
+		pannelController = GameObject.Find ("Text").GetComponent<PannelController> ();
 		Vector3 cameraForward = Player.transform.GetChild (0).forward;
 		Player.transform.forward = new Vector3 (cameraForward.x, Player.transform.forward.y, cameraForward.z);
-		movimientoActual = Movimientos.TELEPORT;
 	}
 	
 	// Update is called once per frame
@@ -57,15 +57,17 @@ public class RayController : MonoBehaviour
 
 	private void MovementCasting (RaycastHit hit)
 	{
-		if (DestinationGO == null) {
-			DestinationGO = Instantiate (PrefabDestination, hit.point, Quaternion.LookRotation (hit.normal)) as GameObject;
-			DestinationGO.name = "DestinoGO";
-		} else {
-			DestinationGO.transform.position = hit.point;
-		}
-		try {
-			DestinationGO.GetComponent<ParticleSystem> ().Play ();
-		} catch {
+		if (hit.collider.tag == "Floor") {
+			if (DestinationGO == null) {
+				DestinationGO = Instantiate (PrefabDestination, hit.point, Quaternion.LookRotation (hit.normal)) as GameObject;
+				DestinationGO.name = "DestinoGO";
+			} else {
+				DestinationGO.transform.position = hit.point;
+			}
+			try {
+				DestinationGO.GetComponent<ParticleSystem> ().Play ();
+			} catch {
+			}
 		}
 	}
 
@@ -86,7 +88,9 @@ public class RayController : MonoBehaviour
 				if (moveStrategy.playerIsMoving ()) {
 					moveStrategy.StopMove ();
 				}
-				moveStrategy.Move ();
+				if (movimientoActual != Movimientos.RUNNING_MOVE) {
+					moveStrategy.Move ();
+				}
 			} else {
 				Debug.LogError ("Situacion inesperada al intentar mover");
 			}
@@ -99,28 +103,39 @@ public class RayController : MonoBehaviour
 			switch (movimientoActual) {
 			case Movimientos.TELEPORT:
 				movimientoActual = Movimientos.SMOOTH;
-				moveStrategy = new SmoothMove ("Smooth", Player);
-				pannelController.SetMoveName ("SMOOTH");
+				Destroy (gameObject.GetComponent<TeleportMove> ());
+				moveStrategy = gameObject.AddComponent<SmoothMove> ();
+				gameObject.GetComponent<SmoothMove> ().SmoothSetData ("Smooth", Player);
+				pannelController.SetPannelText ("SMOOTH");
 				break;
 			case Movimientos.SMOOTH:
 				movimientoActual = Movimientos.JUMP;
-				moveStrategy = new JumpMove (AlturaSalto, "Jump", Player);
-				pannelController.SetMoveName ("JUMP");
+				Destroy (gameObject.GetComponent<SmoothMove> ());
+				moveStrategy = gameObject.AddComponent<JumpMove> ();
+				gameObject.GetComponent<JumpMove> ().JumpSetData (AlturaSalto, "Jump", Player);
+				pannelController.SetPannelText ("JUMP");
 				break;
 			case Movimientos.JUMP:
 				movimientoActual = Movimientos.NAV_MESH;
-				moveStrategy = new NavMeshMove ("NavMesh", Player);
-				pannelController.SetMoveName ("NAV MESH");
+				Destroy (gameObject.GetComponent<JumpMove> ());
+				moveStrategy = gameObject.AddComponent<NavMeshMove> ();
+				gameObject.GetComponent<NavMeshMove> ().NavMeshSetData ("NavMesh", Player);
+				pannelController.SetPannelText ("NAV MESH");
 				break;
 			case Movimientos.NAV_MESH:
 				movimientoActual = Movimientos.RUNNING_MOVE;
-				moveStrategy = new RunningMove ("Running", Player, pannelController);
-				pannelController.SetMoveName ("RUNNING");
+				Destroy (gameObject.GetComponent<NavMeshMove> ());
+				moveStrategy = gameObject.AddComponent<RunningMove> ();
+				gameObject.GetComponent<RunningMove> ().RunningSetData ("Running", Player, pannelController, 2.0f);
+				gameObject.GetComponent<RunningMove> ().Move ();
+				pannelController.SetPannelText ("RUNNING");
 				break;
 			case Movimientos.RUNNING_MOVE:
 				movimientoActual = Movimientos.TELEPORT;
-				moveStrategy = new  TeleportMove ("Teleport", Player);
-				pannelController.SetMoveName ("TELEPORT");
+				Destroy (gameObject.GetComponent<RunningMove> ());
+				moveStrategy = gameObject.AddComponent<TeleportMove> ();
+				gameObject.GetComponent<TeleportMove> ().TeleportSetData ("Teleport", Player);
+				pannelController.SetPannelText ("TELEPORT");
 				break;
 			}
 		}

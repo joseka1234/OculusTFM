@@ -4,22 +4,24 @@ using System;
 public abstract class Movement : MonoBehaviour
 {
 	public string Name;
+
 	protected Vector3 Destination;
 	protected Vector3 Origin;
 	protected GameObject player;
-	protected bool isMoving;
 	protected float YCorrector;
+
+	private bool isMoving;
 
 	public abstract void Move ();
 
 	public abstract void StopMove ();
 
-	protected Movement (string Name, GameObject player)
+	protected void SetData (string Name, GameObject player)
 	{
 		this.Name = Name;
 		this.player = player;
 		Origin = this.player.transform.position;
-		Destination = new Vector3 (GetXCoordinate (), GetYCoordinate (), GetZCoordinate ());
+		// Destination = new Vector3 (GetXCoordinate (), GetYCoordinate (), GetZCoordinate ());
 		isMoving = false;
 	}
 
@@ -61,6 +63,11 @@ public abstract class Movement : MonoBehaviour
 	public bool playerIsMoving ()
 	{
 		return isMoving;
+	}
+
+	public void setMoving (bool isMoving)
+	{
+		this.isMoving = isMoving;
 	}
 
 	protected void UpdateDestination ()
