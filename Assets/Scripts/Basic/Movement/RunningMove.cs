@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
+using UnityToolbag;
+using System.Linq;
 
 public class RunningMove : Movement
 {
@@ -15,9 +17,14 @@ public class RunningMove : Movement
 	private PannelController pannelController;
 	private Coroutine trainingCoroutine;
 
+	private bool BIsWalking;
+	private bool BIsRunning;
+
 	public RunningMove (string Name, GameObject player, PannelController pannelController) : base (Name, player)
 	{	
 		this.pannelController = pannelController;
+		BIsRunning = false;
+		BIsRunning = false;
 
 		Display = new OVRDisplay ();
 		Display.RecenterPose ();
@@ -42,16 +49,14 @@ public class RunningMove : Movement
 		}
 	}
 
-	private bool isWalking ()
+	private void isWalking ()
 	{
-		// Mirar si se está caminando comparando los patrones de aceleración en otro hilo
-		return false;
+		
 	}
 
-	private bool isRunning ()
+	private void isRunning ()
 	{
-		// Mirar si se está corriendo comparando los patrones de aceleración en otro hilo
-		return false;
+		
 	}
 
 	#region Training Samples

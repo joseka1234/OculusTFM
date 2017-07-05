@@ -164,6 +164,7 @@
      <Compile Include="Assets\Scripts\Basic\BasicController.cs" />
      <Compile Include="Assets\Scripts\Basic\BasicRayController.cs" />
      <Compile Include="Assets\Scripts\Basic\DeathZone.cs" />
+     <Compile Include="Assets\Scripts\Basic\Dispatcher.cs" />
      <Compile Include="Assets\Scripts\Basic\FocoDinamico.cs" />
      <Compile Include="Assets\Scripts\Basic\Movement\JumpMove.cs" />
      <Compile Include="Assets\Scripts\Basic\Movement\Movement.cs" />
