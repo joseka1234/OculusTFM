@@ -6,34 +6,22 @@ public class PannelController : MonoBehaviour
 	public string TEXT;
 	public Coroutine fadeCoroutine;
 
-	public void SetMoveName ()
+	public void SetPannelText (string pannelText)
 	{
 		if (fadeCoroutine != null) {
 			StopCoroutine (fadeCoroutine);
 		}
-		TextMesh auxText = GameObject.Find ("Head/Text").GetComponent<TextMesh> ();
-		auxText.color = new Color (0, 0, 0, 1);
-		auxText.text = TEXT;
-		fadeCoroutine = StartCoroutine (FadeText ());
-		GameObject.Find ("Head/Text/Plane").GetComponent<MeshRenderer> ().material.color = new Color (1, 1, 1, 1);
-	}
-
-	public void SetMoveName (string pannelText)
-	{
-		if (fadeCoroutine != null) {
-			StopCoroutine (fadeCoroutine);
-		}
-		TextMesh auxText = GameObject.Find ("Head/Text").GetComponent<TextMesh> ();
+		TextMesh auxText = gameObject.GetComponent<TextMesh> ();
 		auxText.color = new Color (0, 0, 0, 1);
 		auxText.text = pannelText;
-		GameObject.Find ("Head/Text/Plane").GetComponent<MeshRenderer> ().material.color = new Color (1, 1, 1, 1);
-		fadeCoroutine = StartCoroutine (FadeText ());
+		transform.GetChild (0).GetComponent<MeshRenderer> ().material.color = new Color (1, 1, 1, 1);
+		fadeCoroutine = StartCoroutine ("FadeText");
 	}
 
 	private IEnumerator FadeText ()
 	{
-		TextMesh auxText = GameObject.Find ("Head/Text").GetComponent<TextMesh> ();
-		MeshRenderer plane = GameObject.Find ("Head/Text/Plane").GetComponent<MeshRenderer> ();
+		TextMesh auxText = gameObject.GetComponent<TextMesh> ();
+		MeshRenderer plane = transform.GetChild (0).GetComponent<MeshRenderer> ();
 		float aux = 0.0f;
 		while (auxText.color.a > 0) {
 			auxText.color = Color.Lerp (new Color (0, 0, 0, 1), new Color (0, 0, 0, 0), aux);
@@ -42,5 +30,4 @@ public class PannelController : MonoBehaviour
 			yield return new WaitForSeconds (0.1f);
 		}
 	}
-
 }

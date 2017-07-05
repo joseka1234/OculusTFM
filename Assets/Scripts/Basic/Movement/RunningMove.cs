@@ -1,22 +1,26 @@
 ﻿using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
+<<<<<<< HEAD
 using UnityToolbag;
+=======
+>>>>>>> 40e28e99df1c2212374e740fafcc08fb262f150b
 using System.Linq;
 
 public class RunningMove : Movement
 {
-	private const int NUMBER_OF_SAMPLES = 10000;
+	private const int NUMBER_OF_SAMPLES = 1000;
+	private const float MAX_DEVIATION = 0.2f;
 
 	private List<float> walkingLinearSample;
 	private List<float> walkingAngularSample;
-	private List<float> runningLinearSample;
-	private List<float> runningAngularSample;
 
 	private OVRDisplay Display;
 	private PannelController pannelController;
 	private Coroutine trainingCoroutine;
+	private float Velocity;
 
+<<<<<<< HEAD
 	private bool BIsWalking;
 	private bool BIsRunning;
 
@@ -25,21 +29,52 @@ public class RunningMove : Movement
 		this.pannelController = pannelController;
 		BIsRunning = false;
 		BIsRunning = false;
+=======
+	private Coroutine moveCoroutine;
+
+	private bool isTraining;
+
+	public void RunningSetData (string Name, GameObject player, PannelController pannelController, float Velocity)
+	{
+		SetData (Name, player);
+		isTraining = true;
+		this.pannelController = pannelController;
+		this.Velocity = Velocity;
+>>>>>>> 40e28e99df1c2212374e740fafcc08fb262f150b
 
 		Display = new OVRDisplay ();
 		Display.RecenterPose ();
 
 		walkingLinearSample = new List<float> ();
 		walkingAngularSample = new List<float> ();
-		runningLinearSample = new List<float> ();
-		runningAngularSample = new List<float> ();
 
 		trainingCoroutine = StartCoroutine (TrainingWalking ());
 	}
 
 	public override void Move ()
 	{
+		moveCoroutine = StartCoroutine (MoveCoroutine ());
+	}
 
+	private IEnumerator MoveCoroutine ()
+	{
+		List<float> LinearSamples = new List<float> ();
+		List<float> AngularSamples = new List<float> ();
+		while (true) {
+			if (!isTraining) {
+				for (int i = 0; i < NUMBER_OF_SAMPLES / 100; i++) {
+					LinearSamples.Add (GetMergeAcceleration (Display.acceleration));
+					AngularSamples.Add (GetMergeAcceleration (Display.angularAcceleration));
+					yield return new WaitForSeconds (0.01f);
+				}
+				if (isWalking (LinearSamples, AngularSamples)) {
+					player.transform.Translate (player.transform.GetChild (0).forward * Velocity);
+				}
+				LinearSamples.Clear ();
+				AngularSamples.Clear ();
+			}
+			yield return new WaitForSeconds (0.1f);
+		}
 	}
 
 	public override void StopMove ()
@@ -47,8 +82,12 @@ public class RunningMove : Movement
 		if (trainingCoroutine != null) {
 			StopCoroutine (trainingCoroutine);
 		}
+		if (moveCoroutine != null) {
+			StopCoroutine (moveCoroutine);
+		}
 	}
 
+<<<<<<< HEAD
 	private void isWalking ()
 	{
 		
@@ -57,15 +96,72 @@ public class RunningMove : Movement
 	private void isRunning ()
 	{
 		
+=======
+	private bool isWalking (List<float> LinearSamples, List<float> AngularSamples)
+	{
+
+		// Estudio con la desviación típica
+		//bool linearMove = Mathf.Abs (DesviacionTipica (LinearSamples) - DesviacionTipica (walkingLinearSample)) < MAX_DEVIATION;
+		//bool angularMove = Mathf.Abs (DesviacionTipica (AngularSamples) - DesviacionTipica (walkingAngularSample)) < MAX_DEVIATION;
+
+		// Estudio de máximos y mínimos
+		float minSample, maxSample, minWalkingSample, maxWalkingSample;
+
+		// Aceleración Lineal
+		minSample = LinearSamples.Min (x => x);
+		maxSample = LinearSamples.Max (x => x);
+		minWalkingSample = walkingLinearSample.Min (x => x);
+		maxWalkingSample = walkingLinearSample.Max (x => x);
+		bool linearMove = (minSample >= minWalkingSample) && (maxSample <= maxWalkingSample);
+
+		// Aceleración angular
+		minSample = AngularSamples.Min (x => x);
+		maxSample = AngularSamples.Max (x => x);
+		minWalkingSample = walkingAngularSample.Min (x => x);
+		maxWalkingSample = walkingAngularSample.Max (x => x);
+		bool angularMove = (minSample >= minWalkingSample) && (maxSample <= maxWalkingSample);
+
+		return linearMove && angularMove;
 	}
+
+	#region Medidas estadísticas para detección del patrón
+
+	private float Media (List<float> Sample)
+	{
+		float aux = 0.0f;
+		foreach (float data in Sample) {
+			aux += data;
+		}
+		return aux / (float)Sample.Count;
+>>>>>>> 40e28e99df1c2212374e740fafcc08fb262f150b
+	}
+
+	private float Varianza (List<float> Sample)
+	{
+		float aux = 0.0f;
+		float media = Media (Sample);
+		foreach (float data in Sample) {
+			aux += Mathf.Pow (data - media, 2);
+		}
+		return aux / (float)Sample.Count;
+	}
+
+	private float DesviacionTipica (List<float> Sample)
+	{
+		return Mathf.Sqrt (Varianza (Sample));
+	}
+
+	#endregion
 
 	#region Training Samples
 
 	private IEnumerator TrainingWalking ()
 	{
-		pannelController.SetMoveName ("NOW\nWALK!");
+		isTraining = true;
+		yield return new WaitForSeconds (2.0f);
+		pannelController.SetPannelText ("NOW\nWALK!");
 		Debug.Log ("Training Walking");
-		yield return new WaitForSeconds (5.0f);
+		yield return new WaitForSeconds (2.0f);
 
 		for (int i = 0; i < NUMBER_OF_SAMPLES; i++) {
 			walkingLinearSample.Add (GetMergeAcceleration (Display.acceleration));
@@ -74,25 +170,10 @@ public class RunningMove : Movement
 		}
 
 		Debug.Log ("End Training Walking");
-		pannelController.SetMoveName ("STOP\nWALKING");
-		yield return new WaitForSeconds (5.0f);
-		trainingCoroutine = StartCoroutine (TrainingRunning ());
-	}
-
-	private IEnumerator TrainingRunning ()
-	{
-		pannelController.SetMoveName ("NOW\nRUN!");
-		Debug.Log ("Training Running");
-		yield return new WaitForSeconds (5.0f);
-
-		for (int i = 0; i < NUMBER_OF_SAMPLES; i++) {
-			runningLinearSample.Add (GetMergeAcceleration (Display.acceleration));
-			runningAngularSample.Add (GetMergeAcceleration (Display.angularAcceleration));
-			yield return new WaitForSeconds (0.01f);
-		}
-
-		Debug.Log ("End Training Running");
-		pannelController.SetMoveName ("STOP\nRUNNING");
+		pannelController.SetPannelText ("STOP\nWALKING");
+		yield return new WaitForSeconds (2.0f);
+		pannelController.SetPannelText ("YOU CAN\nWALK");
+		isTraining = false;
 	}
 
 	private float GetMergeAcceleration (Vector3 rawAcceleration)
