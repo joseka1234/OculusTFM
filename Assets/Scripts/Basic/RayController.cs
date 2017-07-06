@@ -88,11 +88,15 @@ public class RayController : MonoBehaviour
 				if (moveStrategy.playerIsMoving ()) {
 					moveStrategy.StopMove ();
 				}
-				if (movimientoActual != Movimientos.RUNNING_MOVE) {
-					moveStrategy.Move ();
-				}
+				moveStrategy.Move ();
 			} else {
 				Debug.LogError ("Situacion inesperada al intentar mover");
+			}
+		}
+
+		if (movimientoActual == Movimientos.RUNNING_MOVE) {
+			if (OVRInput.GetUp (OVRInput.Button.One, OVRInput.Controller.RTouch)) {
+				moveStrategy.StopMove ();
 			}
 		}
 	}
@@ -127,7 +131,6 @@ public class RayController : MonoBehaviour
 				Destroy (gameObject.GetComponent<NavMeshMove> ());
 				moveStrategy = gameObject.AddComponent<RunningMove> ();
 				gameObject.GetComponent<RunningMove> ().RunningSetData ("Running", Player, pannelController, 2.0f);
-				gameObject.GetComponent<RunningMove> ().Move ();
 				pannelController.SetPannelText ("RUNNING");
 				break;
 			case Movimientos.RUNNING_MOVE:

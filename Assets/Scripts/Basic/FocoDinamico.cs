@@ -7,6 +7,7 @@ public class FocoDinamico : MonoBehaviour
 {
 
 	private const string FOCUSABLE = "Focusable";
+	private const string INTERACTABLE = "Interactable";
 
 	public float RadioCono;
 	public float LongitudCono;
@@ -31,9 +32,6 @@ public class FocoDinamico : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		foreach (GameObject obj in GameObject.FindGameObjectsWithTag (FOCUSABLE)) {
-			obj.layer = 0;
-		}
 		this.GetComponent<UnityStandardAssets.ImageEffects.DepthOfField> ().focalTransform = getObjectFocus ().transform;
 		// focus.transform.localScale = Vector3.one / 2.0f;
 	}
@@ -107,7 +105,7 @@ public class FocoDinamico : MonoBehaviour
 			return 1.0f;
 			break;
 		case "Default":
-			return 0.0f;
+			return 1.0f;
 			break;
 		}
 
@@ -118,6 +116,9 @@ public class FocoDinamico : MonoBehaviour
 	{
 		heuristicValues.Clear ();
 		foreach (GameObject obj in GameObject.FindGameObjectsWithTag (FOCUSABLE)) {
+			heuristicValues.Add (obj.name, CalcularValorHeuristica (obj));
+		}
+		foreach (GameObject obj in GameObject.FindGameObjectsWithTag(INTERACTABLE)) {
 			heuristicValues.Add (obj.name, CalcularValorHeuristica (obj));
 		}
 	}
