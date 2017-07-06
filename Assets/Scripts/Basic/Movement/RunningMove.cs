@@ -1,10 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
-<<<<<<< HEAD
-using UnityToolbag;
-=======
->>>>>>> 40e28e99df1c2212374e740fafcc08fb262f150b
 using System.Linq;
 
 public class RunningMove : Movement
@@ -20,16 +16,7 @@ public class RunningMove : Movement
 	private Coroutine trainingCoroutine;
 	private float Velocity;
 
-<<<<<<< HEAD
-	private bool BIsWalking;
-	private bool BIsRunning;
 
-	public RunningMove (string Name, GameObject player, PannelController pannelController) : base (Name, player)
-	{	
-		this.pannelController = pannelController;
-		BIsRunning = false;
-		BIsRunning = false;
-=======
 	private Coroutine moveCoroutine;
 
 	private bool isTraining;
@@ -40,7 +27,6 @@ public class RunningMove : Movement
 		isTraining = true;
 		this.pannelController = pannelController;
 		this.Velocity = Velocity;
->>>>>>> 40e28e99df1c2212374e740fafcc08fb262f150b
 
 		Display = new OVRDisplay ();
 		Display.RecenterPose ();
@@ -87,16 +73,6 @@ public class RunningMove : Movement
 		}
 	}
 
-<<<<<<< HEAD
-	private void isWalking ()
-	{
-		
-	}
-
-	private void isRunning ()
-	{
-		
-=======
 	private bool isWalking (List<float> LinearSamples, List<float> AngularSamples)
 	{
 
@@ -133,7 +109,6 @@ public class RunningMove : Movement
 			aux += data;
 		}
 		return aux / (float)Sample.Count;
->>>>>>> 40e28e99df1c2212374e740fafcc08fb262f150b
 	}
 
 	private float Varianza (List<float> Sample)

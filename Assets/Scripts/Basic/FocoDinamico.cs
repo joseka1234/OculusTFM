@@ -6,6 +6,8 @@ using UnityEngine;
 public class FocoDinamico : MonoBehaviour
 {
 
+	private const string FOCUSABLE = "Focusable";
+
 	public float RadioCono;
 	public float LongitudCono;
 
@@ -29,7 +31,7 @@ public class FocoDinamico : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		foreach (GameObject obj in GameObject.FindGameObjectsWithTag ("Interactable")) {
+		foreach (GameObject obj in GameObject.FindGameObjectsWithTag (FOCUSABLE)) {
 			obj.layer = 0;
 		}
 		this.GetComponent<UnityStandardAssets.ImageEffects.DepthOfField> ().focalTransform = getObjectFocus ().transform;
@@ -115,7 +117,7 @@ public class FocoDinamico : MonoBehaviour
 	void DefineHeuristicValues ()
 	{
 		heuristicValues.Clear ();
-		foreach (GameObject obj in GameObject.FindGameObjectsWithTag ("Interactable")) {
+		foreach (GameObject obj in GameObject.FindGameObjectsWithTag (FOCUSABLE)) {
 			heuristicValues.Add (obj.name, CalcularValorHeuristica (obj));
 		}
 	}
