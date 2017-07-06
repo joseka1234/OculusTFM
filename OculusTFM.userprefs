@@ -2,52 +2,9 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Basic\Movement\RunningMove.cs">
     <Files>
-<<<<<<< HEAD
-      <File FileName="Assets\Scripts\Basic\RayController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Basic\Movement\Movement.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Basic\Movement\NavMeshMove.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Basic\Movement\TeleportMove.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Basic\Movement\SmoothMove.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Basic\Movement\JumpMove.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Basic\Movement\RunningMove.cs" Line="59" Column="3" />
-      <File FileName="Assets\Scripts\Basic\BasicRayController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Basic\Dispatcher.cs" Line="1" Column="1" />
-=======
-      <File FileName="Assets\Scripts\Basic\RayController.cs" Line="92" Column="27" />
-      <File FileName="Assets\Scripts\Basic\Movement\Movement.cs" Line="19" Column="11" />
-      <File FileName="Assets\Scripts\Basic\Movement\TeleportMove.cs" Line="8" Column="24" />
-      <File FileName="Assets\Scripts\Basic\Movement\SmoothMove.cs" Line="11" Column="24" />
-      <File FileName="Assets\Scripts\Basic\Movement\JumpMove.cs" Line="13" Column="3" />
-      <File FileName="Assets\Scripts\Basic\Movement\NavMeshMove.cs" Line="10" Column="24" />
-      <File FileName="Assets\Scripts\Basic\Movement\RunningMove.cs" Line="99" Column="3" />
-      <File FileName="Assets\Scripts\Basic\PannelController.cs" Line="7" Column="33" />
->>>>>>> 40e28e99df1c2212374e740fafcc08fb262f150b
+      <File FileName="Assets\Scripts\Basic\Movement\RunningMove.cs" Line="42" Column="100" />
+      <File FileName="Assets\Scripts\Basic\RayController.cs" Line="99" Column="30" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State name="__root__">
-          <Node name="OculusTFM" expanded="True">
-            <Node name="Assembly-CSharp" expanded="True">
-              <Node name="OVR" expanded="True">
-                <Node name="Scripts" expanded="True" />
-              </Node>
-              <Node name="Scripts" expanded="True">
-                <Node name="Basic" expanded="True">
-                  <Node name="Movement" expanded="True">
-                    <Node name="RunningMove.cs" selected="True" />
-                  </Node>
-                </Node>
-              </Node>
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-      <Pad Id="MonoDevelop.NUnit.TestPad">
-        <State name="__root__">
-          <Node name="OculusTFM" expanded="True" selected="True" />
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
