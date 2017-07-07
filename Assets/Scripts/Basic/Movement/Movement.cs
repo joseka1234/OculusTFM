@@ -8,7 +8,7 @@ public abstract class Movement : MonoBehaviour
 	protected Vector3 Destination;
 	protected Vector3 Origin;
 	protected GameObject player;
-	protected float YCorrector;
+	protected float YPosition;
 
 	private bool isMoving;
 
@@ -21,6 +21,7 @@ public abstract class Movement : MonoBehaviour
 		this.Name = Name;
 		this.player = player;
 		Origin = this.player.transform.position;
+		YPosition = this.player.transform.position.y;
 		// Destination = new Vector3 (GetXCoordinate (), GetYCoordinate (), GetZCoordinate ());
 		isMoving = false;
 	}
@@ -29,15 +30,17 @@ public abstract class Movement : MonoBehaviour
 
 	protected float GetYCoordinate ()
 	{
+		/*
 		GameObject destino = GameObject.Find ("DestinoGO");
 		float y;
 		try {
 			y = destino.transform.position.y + (player.GetComponent<CharacterController> ().height / 4);
 		} catch (Exception e) {
-			// Debug.Log ("Usando modelo de NewtonVR");
 			y = player.transform.position.y;
 		}
 		return y;
+		*/
+		return YPosition;
 	}
 
 	protected float GetXCoordinate ()

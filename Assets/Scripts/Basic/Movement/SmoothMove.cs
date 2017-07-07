@@ -14,7 +14,7 @@ public class SmoothMove : Movement
 	override public void Move ()
 	{
 		Destination = new Vector3 (GetXCoordinate (), GetYCoordinate (), GetZCoordinate ());
-		YCorrector = GetYCoordinate ();
+		YPosition = GetYCoordinate ();
 		moveCoroutine = StartCoroutine (MoveCoroutine ());
 	}
 
@@ -41,7 +41,7 @@ public class SmoothMove : Movement
 		if (moveCoroutine != null) {
 			StopCoroutine (moveCoroutine);	
 		}
-		player.transform.position = new Vector3 (player.transform.position.x, YCorrector, player.transform.position.z);
+		player.transform.position = new Vector3 (player.transform.position.x, GetYCoordinate (), player.transform.position.z);
 	}
 }
 

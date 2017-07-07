@@ -8,7 +8,7 @@ public class NavMeshMove : Movement
 	public void NavMeshSetData (string Name, GameObject player)
 	{
 		SetData (Name, player);
-		Agent = player.GetComponent<NavMeshAgent> ();
+		Agent = player.AddComponent<NavMeshAgent> ();
 	}
 
 	override public void Move ()
@@ -18,6 +18,6 @@ public class NavMeshMove : Movement
 
 	override public void StopMove ()
 	{
-		Agent.destination = player.transform.position;
+		Destroy (Agent);
 	}
 }

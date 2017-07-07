@@ -1,160 +1,134 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System;
-using UnityEngine.AI;
 
 public class BasicRayController : MonoBehaviour
 {
-	const int METODOS_MOVIMIENTO = 4;
+	public GameObject PrefabDestination;
+	public GameObject Player;
+	public float AlturaSalto;
+	public float DistanciaRayo;
 
-	public GameObject destino;
-	public GameObject interactable;
+	private GameObject DestinationGO;
 
-	private GameObject interactableGO;
-	private GameObject destinoGO;
+	private Movement moveStrategy;
+	private PannelController pannelController;
 
-	private GameObject player;
+	private enum Movimientos
+	{
+		TELEPORT,
+		SMOOTH,
+		JUMP,
+		NAV_MESH,
+		RUNNING_MOVE
+	}
 
-	private int[] metodosMovimiento;
-	private int auxInt;
-
-	private NavMeshAgent agent;
+	private Movimientos movimientoActual;
 
 	// Use this for initialization
 	void Start ()
 	{
-		auxInt = 0;
-		metodosMovimiento = new int[METODOS_MOVIMIENTO];
-
-		player = GameObject.Find ("PlayerNoVR");
-		agent = player.GetComponent<NavMeshAgent> ();
-
-		for (int i = 0; i < METODOS_MOVIMIENTO; i++) {
-			metodosMovimiento [i] = i;
-		}
-
-		foreach (GameObject floor in GameObject.FindGameObjectsWithTag ("Floor")) {
-			floor.AddComponent<MeshCollider> ();
-		}
+		movimientoActual = Movimientos.TELEPORT;
+		moveStrategy = gameObject.AddComponent<TeleportMove> ();
+		gameObject.GetComponent<TeleportMove> ().TeleportSetData ("Teleport", Player);
+	
+		// pannelController = GameObject.Find ("Text").GetComponent<PannelController> ();
+		Vector3 cameraForward = Player.transform.GetChild (0).forward;
+		Player.transform.forward = new Vector3 (cameraForward.x, Player.transform.forward.y, cameraForward.z);
 	}
-
+	
 	// Update is called once per frame
-	void Update ()
+	void LateUpdate ()
 	{
 		Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 		RaycastHit hit;
-
-		if (Physics.Raycast (ray, out hit, 100)) {
-			Destroy (destinoGO);
-			Destroy (interactableGO);
-			if (hit.collider.transform.tag == "Floor") {
-				destinoGO = Instantiate (destino, hit.point, Quaternion.LookRotation (hit.normal)) as GameObject;
-			} else if (hit.collider.transform.tag == "Interactable") {
-				// interactableGO = Instantiate (interactable, hit.point, Quaternion.LookRotation (hit.normal)) as GameObject;
-			}
+		if (Physics.Raycast (ray, out hit, DistanciaRayo)) {
+			MovementCasting (hit);
 		}
-		Move (hit);
+		Move ();
 		ChangeMoveMode ();
 	}
 
-	void Move (RaycastHit hit)
+	#region Funciones para el movimiento
+
+	private void MovementCasting (RaycastHit hit)
+	{
+		if (hit.collider.tag == "Floor") {
+			if (DestinationGO == null) {
+				DestinationGO = Instantiate (PrefabDestination, hit.point, Quaternion.LookRotation (hit.normal)) as GameObject;
+				DestinationGO.name = "DestinoGO";
+			} else {
+				DestinationGO.transform.position = hit.point;
+			}
+			try {
+				DestinationGO.GetComponent<ParticleSystem> ().Play ();
+			} catch {
+				// Do nothing
+			}
+		}
+	}
+
+	private void Move ()
 	{
 		if (Input.GetMouseButtonDown (0)) {
-			try {
-				if (destinoGO != null) {
-					StopAllCoroutines ();
-					switch (auxInt) {
-					case 0:
-						Teletransporte (hit);
-						break;
-					case 1:
-						DesplazamientoSmooth (hit);
-						break;
-					case 2:
-						TiroParabolico (hit);
-						break;
-					case 3:
-						agent.destination = hit.point;
-						break;
-					}
-				} else if (interactableGO != null) {
-					// Hacer lo necesario para interactuar
-					try {
-						Debug.Log ("Interactuando con " + hit.collider.name);
-					} catch (Exception e) {
-						return;
-					}
+			if (DestinationGO != null) {
+				if (moveStrategy.playerIsMoving ()) {
+					moveStrategy.StopMove ();
 				}
-			} catch (Exception e) {
-				// DO NOTHING
-			} 
+				moveStrategy.Move ();
+			} else {
+				Debug.LogError ("Situacion inesperada al intentar mover");
+			}
+		}
+
+		if (movimientoActual == Movimientos.RUNNING_MOVE) {
+			if (Input.GetMouseButtonUp (0)) {
+				moveStrategy.StopMove ();
+			}
 		}
 	}
 
 	void ChangeMoveMode ()
 	{
 		if (Input.GetMouseButtonDown (1)) {
-			auxInt++;
-			if (auxInt > METODOS_MOVIMIENTO - 1) {
-				auxInt = 0;
+			moveStrategy.StopMove ();
+			switch (movimientoActual) {
+			case Movimientos.TELEPORT:
+				movimientoActual = Movimientos.SMOOTH;
+				Destroy (gameObject.GetComponent<TeleportMove> ());
+				moveStrategy = gameObject.AddComponent<SmoothMove> ();
+				gameObject.GetComponent<SmoothMove> ().SmoothSetData ("Smooth", Player);
+				// pannelController.SetPannelText ("SMOOTH");
+				break;
+			case Movimientos.SMOOTH:
+				movimientoActual = Movimientos.JUMP;
+				Destroy (gameObject.GetComponent<SmoothMove> ());
+				moveStrategy = gameObject.AddComponent<JumpMove> ();
+				gameObject.GetComponent<JumpMove> ().JumpSetData (AlturaSalto, "Jump", Player);
+				// pannelController.SetPannelText ("JUMP");
+				break;
+			case Movimientos.JUMP:
+				movimientoActual = Movimientos.NAV_MESH;
+				Destroy (gameObject.GetComponent<JumpMove> ());
+				moveStrategy = gameObject.AddComponent<NavMeshMove> ();
+				gameObject.GetComponent<NavMeshMove> ().NavMeshSetData ("NavMesh", Player);
+				// pannelController.SetPannelText ("NAV MESH");
+				break;
+			case Movimientos.NAV_MESH:
+				movimientoActual = Movimientos.RUNNING_MOVE;
+				Destroy (gameObject.GetComponent<NavMeshMove> ());
+				moveStrategy = gameObject.AddComponent<RunningMove> ();
+				// gameObject.GetComponent<RunningMove> ().RunningSetData ("Running", Player, pannelController, 2.0f);
+				// pannelController.SetPannelText ("RUNNING");
+				break;
+			case Movimientos.RUNNING_MOVE:
+				movimientoActual = Movimientos.TELEPORT;
+				Destroy (gameObject.GetComponent<RunningMove> ());
+				moveStrategy = gameObject.AddComponent<TeleportMove> ();
+				gameObject.GetComponent<TeleportMove> ().TeleportSetData ("Teleport", Player);
+				// pannelController.SetPannelText ("TELEPORT");
+				break;
 			}
-			switch (auxInt) {
-			case 0:
-				Debug.Log ("Teletransporte");
-				break;
-			case 1:
-				Debug.Log ("Movimiento Constante");
-				break;
-			case 2:
-				Debug.Log ("Salto");
-				break;
-			case 3:
-				Debug.Log ("NavMesh Move");
-				break;
-			}
 		}
 	}
 
-	void Teletransporte (RaycastHit hit)
-	{
-		player.transform.position = new Vector3 (hit.point.x, getYCoordinate (), hit.point.z);
-	}
-
-	void TiroParabolico (RaycastHit hit)
-	{
-		StartCoroutine (TiroParabolicoCoroutine (player.transform.position, new Vector3 (hit.point.x, getYCoordinate (), hit.point.z)));
-	}
-
-	IEnumerator TiroParabolicoCoroutine (Vector3 posOrigen, Vector3 posDestino)
-	{
-		float aux = 0.0f;
-		Vector3 lerpVector;
-		while (transform.position != posDestino) {
-			lerpVector = Vector3.Lerp (posOrigen, posDestino, aux);
-			player.transform.position = new Vector3 (lerpVector.x, Mathf.Sin (Mathf.LerpAngle (0, Mathf.PI, aux)) * 2.0f + posDestino.y, lerpVector.z);
-			aux += 0.005f;
-			yield return new WaitForSeconds (0.01f);
-		}
-	}
-
-	void DesplazamientoSmooth (RaycastHit hit)
-	{
-		StartCoroutine (DesplazamientoSmoothCoroutine (player.transform.position, new Vector3 (hit.point.x, getYCoordinate (), hit.point.z)));
-	}
-
-	IEnumerator DesplazamientoSmoothCoroutine (Vector3 posOrigen, Vector3 posDestino)
-	{
-		float aux = 0.0f;
-		while (transform.position != posDestino) {
-			player.transform.position = Vector3.Lerp (posOrigen, posDestino, aux);
-			aux += 0.005f;
-			yield return new WaitForSeconds (0.01f);
-		}
-	}
-
-	float getYCoordinate ()
-	{
-		return destinoGO.transform.position.y + (player.transform.GetComponent<CapsuleCollider> ().height / 4.0f);
-	}
-
+	#endregion
 }

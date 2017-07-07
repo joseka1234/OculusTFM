@@ -3,9 +3,9 @@
 public class RayController : MonoBehaviour
 {
 	public GameObject PrefabDestination;
-	public GameObject PrefabInteractable;
 	public GameObject Player;
 	public float AlturaSalto;
+	public float DistanciaRayo;
 
 	private GameObject DestinationGO;
 
@@ -36,12 +36,12 @@ public class RayController : MonoBehaviour
 	}
 	
 	// Update is called once per frame
-	void Update ()
+	void LateUpdate ()
 	{
 		if (HandIsPointing ()) {
 			Ray ray = new Ray (this.transform.position, this.transform.forward);
 			RaycastHit hit;
-			if (Physics.Raycast (ray, out hit, 100)) {
+			if (Physics.Raycast (ray, out hit, DistanciaRayo)) {
 				MovementCasting (hit);
 			}
 
@@ -53,7 +53,7 @@ public class RayController : MonoBehaviour
 		ChangeMoveMode ();
 	}
 
-	#region Funciones para el movimiento y la interacción (TODO: Quitar sección de interacción)
+	#region Funciones para el movimiento
 
 	private void MovementCasting (RaycastHit hit)
 	{
