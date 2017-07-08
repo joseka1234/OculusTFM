@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PannelController : MonoBehaviour
 {
@@ -11,21 +12,22 @@ public class PannelController : MonoBehaviour
 		if (fadeCoroutine != null) {
 			StopCoroutine (fadeCoroutine);
 		}
-		TextMesh auxText = gameObject.GetComponent<TextMesh> ();
-		auxText.color = new Color (0, 0, 0, 1);
+		Text auxText = transform.GetChild (1).GetComponent<Text> ();
+		auxText.color = new Color (0.0f, 0.0f, 0.0f, 1.0f);
 		auxText.text = pannelText;
-		transform.GetChild (0).GetComponent<MeshRenderer> ().material.color = new Color (1, 1, 1, 1);
+
+		transform.GetChild (0).GetComponent<Image> ().color = new Color (0.67f, 1.0f, 1.0f, 1.0f);
 		fadeCoroutine = StartCoroutine ("FadeText");
 	}
 
 	private IEnumerator FadeText ()
 	{
-		TextMesh auxText = gameObject.GetComponent<TextMesh> ();
-		MeshRenderer plane = transform.GetChild (0).GetComponent<MeshRenderer> ();
+		Text auxText = transform.GetChild (1).GetComponent<Text> ();
+		Image plane = transform.GetChild (0).GetComponent<Image> ();
 		float aux = 0.0f;
 		while (auxText.color.a > 0) {
-			auxText.color = Color.Lerp (new Color (0, 0, 0, 1), new Color (0, 0, 0, 0), aux);
-			plane.material.color = Color.Lerp (new Color (1, 1, 1, 1), new Color (1, 1, 1, 0), aux);
+			auxText.color = Color.Lerp (new Color (0.0f, 0.0f, 0.0f, 1.0f), new Color (0.0f, 0.0f, 0.0f, 0.0f), aux);
+			plane.color = Color.Lerp (new Color (0.67f, 1.0f, 1.0f, 1.0f), new Color (0.67f, 1.0f, 1.0f, 0.0f), aux);
 			aux += 0.05f;
 			yield return new WaitForSeconds (0.1f);
 		}

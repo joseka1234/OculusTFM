@@ -6,11 +6,10 @@ public class RayController : MonoBehaviour
 	public GameObject Player;
 	public float AlturaSalto;
 	public float DistanciaRayo;
+	public PannelController pannelController;
 
 	private GameObject DestinationGO;
-
 	private Movement moveStrategy;
-	private PannelController pannelController;
 
 	private enum Movimientos
 	{
@@ -29,8 +28,6 @@ public class RayController : MonoBehaviour
 		movimientoActual = Movimientos.TELEPORT;
 		moveStrategy = gameObject.AddComponent<TeleportMove> ();
 		gameObject.GetComponent<TeleportMove> ().TeleportSetData ("Teleport", Player);
-	
-		pannelController = GameObject.Find ("Text").GetComponent<PannelController> ();
 		Vector3 cameraForward = Player.transform.GetChild (0).forward;
 		Player.transform.forward = new Vector3 (cameraForward.x, Player.transform.forward.y, cameraForward.z);
 	}

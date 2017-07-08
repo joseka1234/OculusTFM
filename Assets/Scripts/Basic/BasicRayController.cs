@@ -6,11 +6,10 @@ public class BasicRayController : MonoBehaviour
 	public GameObject Player;
 	public float AlturaSalto;
 	public float DistanciaRayo;
+	public PannelController pannelController;
 
 	private GameObject DestinationGO;
-
 	private Movement moveStrategy;
-	private PannelController pannelController;
 
 	private enum Movimientos
 	{
@@ -29,8 +28,7 @@ public class BasicRayController : MonoBehaviour
 		movimientoActual = Movimientos.TELEPORT;
 		moveStrategy = gameObject.AddComponent<TeleportMove> ();
 		gameObject.GetComponent<TeleportMove> ().TeleportSetData ("Teleport", Player);
-	
-		// pannelController = GameObject.Find ("Text").GetComponent<PannelController> ();
+
 		Vector3 cameraForward = Player.transform.GetChild (0).forward;
 		Player.transform.forward = new Vector3 (cameraForward.x, Player.transform.forward.y, cameraForward.z);
 	}
@@ -96,35 +94,34 @@ public class BasicRayController : MonoBehaviour
 				Destroy (gameObject.GetComponent<TeleportMove> ());
 				moveStrategy = gameObject.AddComponent<SmoothMove> ();
 				gameObject.GetComponent<SmoothMove> ().SmoothSetData ("Smooth", Player);
-				// pannelController.SetPannelText ("SMOOTH");
+				pannelController.SetPannelText ("SMOOTH");
 				break;
 			case Movimientos.SMOOTH:
 				movimientoActual = Movimientos.JUMP;
 				Destroy (gameObject.GetComponent<SmoothMove> ());
 				moveStrategy = gameObject.AddComponent<JumpMove> ();
 				gameObject.GetComponent<JumpMove> ().JumpSetData (AlturaSalto, "Jump", Player);
-				// pannelController.SetPannelText ("JUMP");
+				pannelController.SetPannelText ("JUMP");
 				break;
 			case Movimientos.JUMP:
 				movimientoActual = Movimientos.NAV_MESH;
 				Destroy (gameObject.GetComponent<JumpMove> ());
 				moveStrategy = gameObject.AddComponent<NavMeshMove> ();
 				gameObject.GetComponent<NavMeshMove> ().NavMeshSetData ("NavMesh", Player);
-				// pannelController.SetPannelText ("NAV MESH");
+				pannelController.SetPannelText ("NAV MESH");
 				break;
 			case Movimientos.NAV_MESH:
 				movimientoActual = Movimientos.RUNNING_MOVE;
 				Destroy (gameObject.GetComponent<NavMeshMove> ());
 				moveStrategy = gameObject.AddComponent<RunningMove> ();
-				// gameObject.GetComponent<RunningMove> ().RunningSetData ("Running", Player, pannelController, 2.0f);
-				// pannelController.SetPannelText ("RUNNING");
+				pannelController.SetPannelText ("RUNNING");
 				break;
 			case Movimientos.RUNNING_MOVE:
 				movimientoActual = Movimientos.TELEPORT;
 				Destroy (gameObject.GetComponent<RunningMove> ());
 				moveStrategy = gameObject.AddComponent<TeleportMove> ();
 				gameObject.GetComponent<TeleportMove> ().TeleportSetData ("Teleport", Player);
-				// pannelController.SetPannelText ("TELEPORT");
+				pannelController.SetPannelText ("TELEPORT");
 				break;
 			}
 		}
