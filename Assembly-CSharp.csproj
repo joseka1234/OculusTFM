@@ -173,11 +173,11 @@
      <Compile Include="Assets\Scripts\Basic\Movement\SmoothMove.cs" />
      <Compile Include="Assets\Scripts\Basic\Movement\TeleportMove.cs" />
      <Compile Include="Assets\Scripts\Basic\PannelController.cs" />
+     <Compile Include="Assets\Scripts\Basic\PatternRecognition.cs" />
      <Compile Include="Assets\Scripts\Basic\RayController.cs" />
      <Compile Include="Assets\Scripts\Basic\TouchVisualization.cs" />
      <Compile Include="Assets\Scripts\NewtonVR\HandInteraction.cs" />
      <Compile Include="Assets\Scripts\NewtonVR\ManagerOfScene.cs" />
-     <Compile Include="Assets\Scripts\Oculus\Interactuar.cs" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderRGB.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\SeparableWeightedBlurDof34.shader" />
