@@ -263,6 +263,41 @@ Probar el nuevo sistema de interfaz de usuario con las gafas de RV en el laborat
 
 Implementar algoritmos optimizados para el detector de patrones de dibujo usado para la metáfora de interacción de \textbf{"Varita Mágica"}.
 
+\section{Día 11: 09/07/2017}
+
+\subsection{Hechos}
+
+Se ha terminado con la implementación del sistema que detecta patrones de dibujado para la metáfora de interacción de \textbf{"Varita Mágica"}.
+
+\subsection{Observaciones}
+
+A falta de realizar pruebas experimentales, el algoritmo parece que dará buenos resultados, no obstante, el algoritmo se aprecia como bastante ineficiente ya que realiza múltiples cálculos para detectar los patrones.
+
+Un punto a favor que tiene este algoritmo es que no requiere de entrenamiento previo ya que el se basa en cálculos matemáticos sobre geometría y el artículo de dónde lo he extraído \cite{Vanhatalo} ya proporciona parámetros para reconocer varias figuras.
+
+Por lo pronto se están reconociendo hasta cuatro figuras diferentes para implementar 4 acciones diferentes que se definirán en un futuro. Estas figuras geométricas son:
+
+\begin{itemize}
+\item Linea
+\item Circulo
+\item Cuadrado
+\item Triangulo
+\end{itemize}
+
+\subsection{Trabajo Futuro}
+
+Definir las acciones que se realizarán al dibujar cada figura geométrica en el mundo virtual.
+
+Buscar alguna optimización para el algoritmo de detección de patrones para una mejor ejecución. 
+\textit{Idea}: Intentar optimizar cada una de las partes del algoritmo, a saber:
+
+\begin{itemize}
+\item Algoritmo Douglas Peucker para la simplificación del polígono.
+\item Algoritmo Convex Hull.
+\item Algoritmo Triángulo de máxima área dentro de un Convex Hull
+\item Algoritmo Rectángulo de mínima área que envuelve un Convex Hull
+\end{itemize}
+
 %--- Sección de bibliografía ---%
 \break
 
