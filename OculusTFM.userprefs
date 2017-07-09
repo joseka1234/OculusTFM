@@ -1,4 +1,4 @@
-﻿<Properties StartupItem="Assembly-CSharp.csproj">
+﻿<Properties StartupItem="Assembly-CSharp.csproj" RefactoringSettings.EnableRefactorings="True">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Basic\PatternRecognition.cs">
     <Files>
@@ -9,16 +9,9 @@
       <File FileName="Assets\Scripts\Basic\Movement\SmoothMove.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Basic\Movement\NavMeshMove.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Basic\Movement\JumpMove.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Basic\PannelController.cs" Line="16" Column="52" />
-      <File FileName="Assets\Scripts\Basic\PatternRecognition.cs" Line="116" Column="26" />
+      <File FileName="Assets\Scripts\Basic\PannelController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Basic\PatternRecognition.cs" Line="293" Column="12" />
     </Files>
-    <Pads>
-      <Pad Id="MonoDevelop.NUnit.TestPad">
-        <State name="__root__">
-          <Node name="OculusTFM" expanded="True" selected="True" />
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
