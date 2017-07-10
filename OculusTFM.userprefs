@@ -10,7 +10,7 @@
       <File FileName="Assets\Scripts\Basic\Movement\NavMeshMove.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Basic\Movement\JumpMove.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Basic\PannelController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Basic\PatternRecognition.cs" Line="293" Column="12" />
+      <File FileName="Assets\Scripts\Basic\PatternRecognition.cs" Line="26" Column="12" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
