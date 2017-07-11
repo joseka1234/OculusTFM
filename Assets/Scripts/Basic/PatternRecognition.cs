@@ -1,14 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using System.Security.Cryptography;
 
 public class PatternRecognition : MonoBehaviour
 {
+	public float samplesPerSecond;
 	private const float EPSILON = 0.5f;
 	private const float EXTENSION = 10.0f;
 
 	private bool dibujando;
 	private List<Vector2> pattern;
+	private Coroutine patternCoroutine;
 
 	enum Orientation
 	{
@@ -47,33 +51,51 @@ public class PatternRecognition : MonoBehaviour
 	}
 	
 	// Update is called once per frame
-	void Update ()
+	void LateUpdate ()
 	{
 		if (OVRInput.GetDown (OVRInput.Button.One, OVRInput.Controller.RTouch)) {
-			StartCoroutine (getPattern ());
+			if (!dibujando) {
+				if (pattern.Count > 0) {
+					pattern.Clear ();
+				}
+				dibujando = true;
+				patternCoroutine = StartCoroutine (getPattern ());
+			}
+		}
+
+		if (OVRInput.GetUp (OVRInput.Button.One, OVRInput.Controller.RTouch)) {
+			StopCoroutine (patternCoroutine);
+			dibujando = false;
+			if (pattern.Count > 3) {
+				switch (detectGeometry ()) {
+				case Geometry.LINE:
+					Debug.Log ("LINE DRAWED");
+					break;
+				case Geometry.CIRCLE:
+					Debug.Log ("CIRCLE DRAWED");
+					break;
+				case Geometry.RECTANGLE:
+					Debug.Log ("RECTANGLE DRAWED");
+					break;
+				case Geometry.TRIANGLE:
+					Debug.Log ("TRIANGLE DRAWED");
+					break;
+				case Geometry.UNDEFINED:
+					Debug.Log ("UNDEFINED GEOMETRY");
+					break;
+				}
+			} else {
+				Debug.Log ("No hay suficientes muestras para detectar un patrón");
+			}
 		}
 	}
 
 	private IEnumerator getPattern ()
 	{
-		pattern.Clear ();
-		while (!OVRInput.GetUp (OVRInput.Button.One, OVRInput.Controller.RTouch)) {
+		while (dibujando) {
 			pattern.Add (new Vector2 (transform.position.x, transform.position.y));
-			yield return new WaitForSeconds (0.01f);
-		}
-		switch (detectGeometry ()) {
-		case Geometry.LINE:
-			Debug.Log ("LINE DRAWED");
-			break;
-		case Geometry.CIRCLE:
-			Debug.Log ("CIRCLE DRAWED");
-			break;
-		case Geometry.RECTANGLE:
-			Debug.Log ("RECTANGLE DRAWED");
-			break;
-		case Geometry.TRIANGLE:
-			Debug.Log ("TRIANGLE DRAWED");
-			break;
+			yield return new WaitForSeconds (1.0f / samplesPerSecond);
+			// Debug.Log ("Point Saved " + pattern.Count);
 		}
 	}
 
@@ -81,31 +103,45 @@ public class PatternRecognition : MonoBehaviour
 
 	private Geometry detectGeometry ()
 	{
+		Debug.Log ("Detectando geometría");
+
+		/*
+		Debug.Log ("Comenzando Douglas Peucker");
 		List<Vector2> simplifiedPattern = douglasPeucker (pattern, EPSILON);
-		List<Vector2> convexHullofPattern = convexHull (pattern);
+		*/
 
+		Debug.Log ("Comenzando Convex Hull");
+		List<Vector2> convexHullofPattern = QuickHull (pattern);
+
+		Debug.Log ("Comenzando Perimetro de convex hull");
 		float convexHullPerimeter = perimeterOfPolygon (convexHullofPattern);
-		float convexHullArea = areaOfPolygon (convexHullofPattern);
-		float areaOfMaximumTriangle = area (maximumAreaEnclosedTriangle (pattern));
-		Rectangle auxRectangle = minimumAreaEnclosingRectangle (pattern);
-		float rectanglePerimeter = (auxRectangle.extent.x * 2) + (auxRectangle.extent.y * 2);
 
-		if (Mathf.Pow (convexHullPerimeter, 2) / convexHullArea >= 55.0f) {
+		Debug.Log ("Comenzando Area de convex hull");
+		float convexHullArea = areaOfPolygon (convexHullofPattern);
+
+		Debug.Log (Mathf.Pow (convexHullPerimeter, 2) / (convexHullArea + 0.0001f));
+		if (Mathf.Pow (convexHullPerimeter, 2) / (convexHullArea + 0.0001f) < -2.5f) {
 			return Geometry.LINE;
 		}
 
-		if (Mathf.Pow (convexHullPerimeter, 2) / convexHullArea < 14.0f) {
+		if (Mathf.Pow (convexHullPerimeter, 2) / (convexHullArea + 0.0001f) > -2.5f) {
 			return Geometry.CIRCLE;
 		}
 
-		if (areaOfMaximumTriangle / convexHullArea >= 0.8f) {
+		Debug.Log ("Comenzando Triángulo de Máxima Área");
+		float areaOfMaximumTriangle = area (maximumAreaEnclosedTriangle2 (convexHullofPattern));
+
+		if (areaOfMaximumTriangle / (convexHullArea + 0.0001f) >= 0.8f) {
 			return Geometry.TRIANGLE;
 		}
 
-		if (convexHullPerimeter / rectanglePerimeter >= 0.9f) {
+		Debug.Log ("Comenzando Caja englobante de mínima área");
+		Rectangle auxRectangle = minimumAreaEnclosingRectangle (convexHullofPattern);
+		float rectanglePerimeter = (auxRectangle.extent.x * 2) + (auxRectangle.extent.y * 2);
+
+		if (convexHullPerimeter / (rectanglePerimeter + 0.0001f) >= 0.9f) {
 			return Geometry.RECTANGLE;
 		}
-
 		return Geometry.UNDEFINED;
 	}
 
@@ -134,37 +170,84 @@ public class PatternRecognition : MonoBehaviour
 		return height * width;
 	}
 
+	private Triangle maximumAreaEnclosedTriangle2 (List<Vector2> Pattern)
+	{
+		int a = 0, b = 1, c = 2;
+
+		for (int i = 0; i < Pattern.Count; i++) {
+			for (int j = 0; j < Pattern.Count; j++) {
+				for (int k = 0; k < Pattern.Count; k++) {
+					if (i != j && i != k && j != k) {
+						if (area (Pattern [a], Pattern [b], Pattern [c]) <= area (Pattern [i], Pattern [j], Pattern [k])) {
+							a = i;
+							b = j;
+							c = k;
+						}
+					}
+				}
+			}
+		}
+
+		Debug.Log (a + ", " + b + ", " + c + "\nCount: " + Pattern.Count);
+
+		Triangle auxTriangle = new Triangle ();
+		Debug.Log (auxTriangle);
+
+		try {
+			auxTriangle.a = Pattern [a];
+			auxTriangle.b = Pattern [b];
+			auxTriangle.c = Pattern [c];
+		} catch (Exception e) {
+			Debug.Log (e.Message);
+		}
+
+		return auxTriangle;
+	}
+
 	private Triangle maximumAreaEnclosedTriangle (List<Vector2> Pattern)
 	{
 		Triangle auxTriangle;
-
+		int infiniteLoopContrller = 10000;
 		auxTriangle.a = Pattern [0];
 		auxTriangle.b = Pattern [1];
 		auxTriangle.c = Pattern [2];
 		int a = 0, b = 1, c = 2;
 
-		do {
+		while (true) {
 			while (true) {
-				while (area (Pattern [a], Pattern [b], Pattern [c + 1]) >= area (Pattern [a], Pattern [b], Pattern [c])) {
-					c++;
+				while (area (Pattern [a], Pattern [b], Pattern [c]) <= area (Pattern [a], Pattern [b], Pattern [(c + 1) % Pattern.Count])) {
+					c = (c + 1) % Pattern.Count;
 				}
-				if (area (Pattern [a], Pattern [b + 1], Pattern [c]) >= area (Pattern [a], Pattern [b], Pattern [c])) {
-					b++;
+				if (area (Pattern [a], Pattern [b], Pattern [c]) <= area (Pattern [a], Pattern [(b + 1 % Pattern.Count)], Pattern [c])) {
+					b = (b + 1) % Pattern.Count;
+					continue;
 				} else {
+					break;
+				}
+				// Testeamos para que no haya un bucle infinito
+				--infiniteLoopContrller;
+				if (infiniteLoopContrller == 0) {
 					break;
 				}
 			}
 
-			if (area (Pattern [a], Pattern [b], Pattern [c]) > area (auxTriangle.a, auxTriangle.b, auxTriangle.c)) {
+			if (area (Pattern [a], Pattern [b], Pattern [c]) > area (auxTriangle)) {
 				auxTriangle.a = Pattern [a];
 				auxTriangle.b = Pattern [b];
 				auxTriangle.c = Pattern [c];
 			}
 
-			a++;
-			b = (a == b) ? b + 1 : b;
-			c = (b == c) ? c + 1 : c;
-		} while (a == 0);
+			a = (a + 1) % Pattern.Count;
+			if (a == b) {
+				b = (b + 1) % Pattern.Count;
+			}
+			if (b == c) {
+				c = (c + 1) % Pattern.Count;
+			}
+			if (a == 0) {
+				break;
+			}
+		}	
 
 		return auxTriangle;
 	}
@@ -241,26 +324,108 @@ public class PatternRecognition : MonoBehaviour
 		return new Vector2 (vector.y, -vector.x);
 	}
 
-	private List<Vector2> convexHull (List<Vector2> Pattern)
+	private List<Vector2> QuickHull (List<Vector2> Pattern)
 	{
-		List<Vector2> aux = new List<Vector2> ();
-		if (Pattern.Count < 3) {
-			return aux;
-		}
-		int p = getLeftmostIndexPoint (Pattern);
-		int q;
-		do {
-			aux.Add (Pattern [p]);
-			q = (p + 1) % Pattern.Count;
-			for (int i = 0; i < Pattern.Count; i++) {
-				if (getOrientation (Pattern [p], Pattern [i], Pattern [q]) == Orientation.COUNTER_CLOCKWISE) {
-					q = i;
-				}
-			}
-			p = q;
-		} while (p != 1);
 
-		return aux;
+		List<Vector2> patternClone = Pattern;
+		if (Pattern.Count < 3) {
+			return patternClone;
+		}
+		int minimum = -1;
+		int maximum = -1;
+		float minX = float.MaxValue;
+		float maxX = float.MinValue;
+
+		for (int i = 0; i < Pattern.Count; i++) {
+			if (Pattern [i].x < minX) {
+				minX = Pattern [i].x;
+				minimum = i;
+			}
+			if (Pattern [i].x > maxX) {
+				maxX = Pattern [i].x;
+				maximum = i;
+			}
+		}
+
+		Vector2 PointA = Pattern [minimum];
+		Vector2 PointB = Pattern [maximum];
+		List<Vector2> ConvexHull = new List<Vector2> ();
+
+		ConvexHull.Add (PointA);
+		ConvexHull.Add (PointB);
+
+		patternClone.Remove (PointA);
+		patternClone.Remove (PointB);
+
+		List<Vector2> left = new List<Vector2> ();
+		List<Vector2> right = new List<Vector2> ();
+
+		for (int i = 0; i < patternClone.Count; i++) {
+			Vector2 auxPoint = patternClone [i];
+			Orientation pointOrientation = getOrientation (PointA, PointB, auxPoint);
+			if (pointOrientation == Orientation.COUNTER_CLOCKWISE) {
+				left.Add (auxPoint);
+			} else if (pointOrientation == Orientation.CLOCKWISE) {
+				right.Add (auxPoint);
+			}	
+		}
+
+		HullSet (PointA, PointB, right, ConvexHull);
+		HullSet (PointB, PointA, left, ConvexHull);
+
+		return ConvexHull;
+	}
+
+	private void HullSet (Vector2 PointA, Vector2 PointB, List<Vector2> sideSet, List<Vector2> hull)
+	{
+		int insertPos = hull.IndexOf (PointB);
+
+		if (sideSet.Count == 0) {
+			return;
+		}
+
+		if (sideSet.Count == 1) {
+			Vector2 auxPoint = sideSet [0];
+			sideSet.Remove (auxPoint);
+			hull.Add (auxPoint);
+			return;
+		}
+
+		float distance = float.MinValue;
+		int farPoint = -1;
+
+		for (int i = 0; i < sideSet.Count; i++) {
+			Vector2 auxPoint = sideSet [i];
+			float auxDistance = distanciaTresPuntos (PointA, PointB, auxPoint);
+
+			if (auxDistance > distance) {
+				distance = auxDistance;
+				farPoint = i;
+			}
+		}
+
+		Vector2 auxPoint2 = sideSet [farPoint];
+		sideSet.Remove (auxPoint2);
+		hull.Add (auxPoint2);
+
+		List<Vector2> innerLeft = new List<Vector2> ();
+		for (int i = 0; i < sideSet.Count; i++) {
+			Vector2 innerAuxPoint = sideSet [i];
+			if (getOrientation (PointA, auxPoint2, innerAuxPoint) == Orientation.CLOCKWISE) {
+				innerLeft.Add (innerAuxPoint);
+			}
+		}
+
+		List<Vector2> innerRight = new List<Vector2> ();
+		for (int i = 0; i < sideSet.Count; i++) {
+			Vector2 innerAuxPoint = sideSet [i];
+			if (getOrientation (auxPoint2, PointB, innerAuxPoint) == Orientation.CLOCKWISE) {
+				innerLeft.Add (innerAuxPoint);
+			}
+		}
+
+		HullSet (PointA, auxPoint2, innerLeft, hull);
+		HullSet (auxPoint2, PointB, innerRight, hull);
 	}
 
 	private int getLeftmostIndexPoint (List<Vector2> points)
@@ -282,7 +447,7 @@ public class PatternRecognition : MonoBehaviour
 
 	private Orientation getOrientation (Vector2 A, Vector2 B, Vector2 C)
 	{
-		float aux = (B.y - A.y) * (C.x - B.x) - (B.x - A.x) * (C.y - B.y);
+		float aux = (B.x - A.x) * (C.y - A.y) - (B.y - A.y) * (C.x - A.x);
 
 		if (aux == 0.0f) {
 			return Orientation.COLINEAR;
@@ -399,6 +564,14 @@ public class PatternRecognition : MonoBehaviour
 	private float distanciaPuntoPunto (Vector2 A, Vector2 B)
 	{
 		return Mathf.Sqrt (Mathf.Pow (B.x - A.x, 2) + Mathf.Pow (B.y - A.y, 2));
+	}
+
+	private float distanciaTresPuntos (Vector2 A, Vector2 B, Vector2 C)
+	{
+		float abx = B.x - A.x;
+		float aby = B.y - A.y;
+		float aux = abx * (A.y - C.y) - aby * (A.x - C.x);
+		return Mathf.Abs (aux);
 	}
 
 	#endregion
