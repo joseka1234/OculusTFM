@@ -7,7 +7,7 @@ using System.Security.Cryptography;
 public class PatternRecognition : MonoBehaviour
 {
 	public float samplesPerSecond;
-	private const float EPSILON = 0.5f;
+	private const float EPSILON = 1.5f;
 	private const float EXTENSION = 10.0f;
 
 	private bool dibujando;
@@ -53,16 +53,40 @@ public class PatternRecognition : MonoBehaviour
 	// Update is called once per frame
 	void LateUpdate ()
 	{
+		// VRPatternRecorder ();
+		// VRPatternAnalysis ();
+		NoVRPatternRecorder ();
+		NoVRPatternAnalysis ();
+	}
+
+	private void VRPatternRecorder ()
+	{
 		if (OVRInput.GetDown (OVRInput.Button.One, OVRInput.Controller.RTouch)) {
 			if (!dibujando) {
 				if (pattern.Count > 0) {
 					pattern.Clear ();
 				}
 				dibujando = true;
-				patternCoroutine = StartCoroutine (getPattern ());
+				patternCoroutine = StartCoroutine (getPatternVR ());
 			}
 		}
+	}
 
+	private void NoVRPatternRecorder ()
+	{
+		if (Input.GetMouseButtonDown (0)) {
+			if (!dibujando) {
+				if (pattern.Count > 0) {
+					pattern.Clear ();
+				}
+				dibujando = true;
+				patternCoroutine = StartCoroutine (getPatternNoVR ());
+			}
+		}
+	}
+
+	private void VRPatternAnalysis ()
+	{
 		if (OVRInput.GetUp (OVRInput.Button.One, OVRInput.Controller.RTouch)) {
 			StopCoroutine (patternCoroutine);
 			dibujando = false;
@@ -90,7 +114,36 @@ public class PatternRecognition : MonoBehaviour
 		}
 	}
 
-	private IEnumerator getPattern ()
+	private void NoVRPatternAnalysis ()
+	{
+		if (Input.GetMouseButtonUp (0)) {
+			StopCoroutine (patternCoroutine);
+			dibujando = false;
+			if (pattern.Count > 3) {
+				switch (detectGeometry ()) {
+				case Geometry.LINE:
+					Debug.Log ("LINE DRAWED");
+					break;
+				case Geometry.CIRCLE:
+					Debug.Log ("CIRCLE DRAWED");
+					break;
+				case Geometry.RECTANGLE:
+					Debug.Log ("RECTANGLE DRAWED");
+					break;
+				case Geometry.TRIANGLE:
+					Debug.Log ("TRIANGLE DRAWED");
+					break;
+				case Geometry.UNDEFINED:
+					Debug.Log ("UNDEFINED GEOMETRY");
+					break;
+				}
+			} else {
+				Debug.Log ("No hay suficientes muestras para detectar un patrón");
+			}
+		}
+	}
+
+	private IEnumerator getPatternVR ()
 	{
 		while (dibujando) {
 			pattern.Add (new Vector2 (transform.position.x, transform.position.y));
@@ -99,48 +152,41 @@ public class PatternRecognition : MonoBehaviour
 		}
 	}
 
+	private IEnumerator getPatternNoVR ()
+	{
+		while (dibujando) {
+			pattern.Add (new Vector2 (Input.mousePosition.x, Input.mousePosition.y));
+			yield return new WaitForSeconds (1.0f / samplesPerSecond);
+			// Debug.Log (Input.mousePosition);
+		}
+	}
+
 	#region Geometry Detection
 
 	private Geometry detectGeometry ()
 	{
-		Debug.Log ("Detectando geometría");
-
-		/*
-		Debug.Log ("Comenzando Douglas Peucker");
 		List<Vector2> simplifiedPattern = douglasPeucker (pattern, EPSILON);
-		*/
-
-		Debug.Log ("Comenzando Convex Hull");
-		List<Vector2> convexHullofPattern = QuickHull (pattern);
-
-		Debug.Log ("Comenzando Perimetro de convex hull");
+		List<Vector2> convexHullofPattern = QuickHull (simplifiedPattern);
 		float convexHullPerimeter = perimeterOfPolygon (convexHullofPattern);
-
-		Debug.Log ("Comenzando Area de convex hull");
 		float convexHullArea = areaOfPolygon (convexHullofPattern);
-
-		Debug.Log (Mathf.Pow (convexHullPerimeter, 2) / (convexHullArea + 0.0001f));
-		if (Mathf.Pow (convexHullPerimeter, 2) / (convexHullArea + 0.0001f) < -2.5f) {
-			return Geometry.LINE;
-		}
-
-		if (Mathf.Pow (convexHullPerimeter, 2) / (convexHullArea + 0.0001f) > -2.5f) {
-			return Geometry.CIRCLE;
-		}
-
-		Debug.Log ("Comenzando Triángulo de Máxima Área");
 		float areaOfMaximumTriangle = area (maximumAreaEnclosedTriangle2 (convexHullofPattern));
-
-		if (areaOfMaximumTriangle / (convexHullArea + 0.0001f) >= 0.8f) {
-			return Geometry.TRIANGLE;
-		}
-
-		Debug.Log ("Comenzando Caja englobante de mínima área");
 		Rectangle auxRectangle = minimumAreaEnclosingRectangle (convexHullofPattern);
 		float rectanglePerimeter = (auxRectangle.extent.x * 2) + (auxRectangle.extent.y * 2);
 
-		if (convexHullPerimeter / (rectanglePerimeter + 0.0001f) >= 0.9f) {
-			return Geometry.RECTANGLE;
+		/*
+		Debug.Log ("Hull Perimeter ^ 2 / Hull Area\n" + Mathf.Pow (convexHullPerimeter, 2) / (convexHullArea + 0.0001f));
+		Debug.Log ("Triangle Area / Hull Area\n" + areaOfMaximumTriangle / (convexHullArea + 0.0001f));
+		Debug.Log ("Hull Perimeter / Rectangle Perimeter\n" + convexHullPerimeter / (rectanglePerimeter + 0.0001f));
+		*/
+
+		if (Mathf.Pow (convexHullPerimeter, 2) / (convexHullArea + 0.0001f) > 500.0f) {
+			return Geometry.LINE;
+		} else {
+			if (Mathf.Pow (convexHullPerimeter, 2) / (convexHullArea + 0.0001f) < 500 && Mathf.Pow (convexHullPerimeter, 2) / (convexHullArea + 0.0001f) > 100.0f) {
+				return Geometry.CIRCLE;
+			} else {
+				return Geometry.RECTANGLE;
+			}
 		}
 		return Geometry.UNDEFINED;
 	}
@@ -151,14 +197,16 @@ public class PatternRecognition : MonoBehaviour
 		for (int i = 0; i < points.Count - 1; i++) {
 			aux += distanciaPuntoPunto (points [i], points [i + 1]);
 		}
+		aux += distanciaPuntoPunto (points [0], points [points.Count - 1]);
 		return aux;
 	}
 
 	private float areaOfPolygon (List<Vector2> points)
 	{
 		float aux = 0.0f;
-		for (int i = 0; i < points.Count - 1; i++) {
-			aux += areaUnderSegment (points [i], points [i + 1]);
+		Vector2 mainPoint = points [0];
+		for (int i = 1; i < points.Count - 1; i++) {
+			aux += area (mainPoint, points [i], points [i + 1]);	
 		}
 		return aux;
 	}
@@ -172,6 +220,14 @@ public class PatternRecognition : MonoBehaviour
 
 	private Triangle maximumAreaEnclosedTriangle2 (List<Vector2> Pattern)
 	{
+		Triangle auxTriangle = new Triangle ();
+		auxTriangle.a = Vector2.zero;
+		auxTriangle.b = Vector2.zero;
+		auxTriangle.c = Vector2.zero;
+		if (Pattern.Count < 3) {
+			Debug.Log ("Menos de 3 elementos en el patrón");
+			return auxTriangle;
+		}
 		int a = 0, b = 1, c = 2;
 
 		for (int i = 0; i < Pattern.Count; i++) {
@@ -187,11 +243,6 @@ public class PatternRecognition : MonoBehaviour
 				}
 			}
 		}
-
-		Debug.Log (a + ", " + b + ", " + c + "\nCount: " + Pattern.Count);
-
-		Triangle auxTriangle = new Triangle ();
-		Debug.Log (auxTriangle);
 
 		try {
 			auxTriangle.a = Pattern [a];
@@ -259,9 +310,34 @@ public class PatternRecognition : MonoBehaviour
 
 	private float area (Vector2 a, Vector2 b, Vector2 c)
 	{
+		Matrix4x4 mat = new Matrix4x4 ();
+		mat.m00 = a.x;
+		mat.m01 = a.y;
+		mat.m02 = 1;
+		mat.m03 = 0;
+
+		mat.m10 = b.x;
+		mat.m11 = b.y;
+		mat.m12 = 1;
+		mat.m13 = 0;
+
+		mat.m20 = c.x;
+		mat.m21 = c.y;
+		mat.m22 = 1;
+		mat.m23 = 0;
+
+		mat.m30 = 0;
+		mat.m31 = 0;
+		mat.m32 = 0;
+		mat.m33 = 1;
+
+		return Mathf.Abs (0.5f * mat.determinant);
+
+		/*
 		Vector2 u = perp (getVectorFromPoints (a, b));
 		Vector2 v = getVectorFromPoints (a, c);
 		return 0.5f * Mathf.Abs (u.x * v.x + u.y * v.y);
+		*/
 	}
 
 	private Vector2 getVectorFromPoints (Vector2 a, Vector2 b)
