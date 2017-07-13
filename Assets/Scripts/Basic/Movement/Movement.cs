@@ -22,7 +22,6 @@ public abstract class Movement : MonoBehaviour
 		this.player = player;
 		Origin = this.player.transform.position;
 		YPosition = this.player.transform.position.y;
-		// Destination = new Vector3 (GetXCoordinate (), GetYCoordinate (), GetZCoordinate ());
 		isMoving = false;
 	}
 
@@ -40,6 +39,12 @@ public abstract class Movement : MonoBehaviour
 		}
 		return y;
 		*/
+
+		/*
+		GameObject destino = GameObject.Find ("DestinoGO");
+		return destino.transform.position.y + 20.0f;
+		*/
+
 		return YPosition;
 	}
 

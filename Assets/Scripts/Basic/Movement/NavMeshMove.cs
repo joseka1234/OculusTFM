@@ -9,6 +9,8 @@ public class NavMeshMove : Movement
 	{
 		SetData (Name, player);
 		Agent = player.AddComponent<NavMeshAgent> ();
+		Agent.speed = 150;
+		Agent.acceleration = 80;
 	}
 
 	override public void Move ()
