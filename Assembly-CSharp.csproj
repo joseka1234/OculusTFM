@@ -161,6 +161,7 @@
      <Compile Include="Assets\OvrAvatar\Scripts\OvrAvatarSkinnedMeshRenderComponent.cs" />
      <Compile Include="Assets\OvrAvatar\Scripts\OvrAvatarSkinnedMeshRenderPBSComponent.cs" />
      <Compile Include="Assets\OvrAvatar\Scripts\OvrAvatarTouchController.cs" />
+     <Compile Include="Assets\Scripts\Basic\BallController.cs" />
      <Compile Include="Assets\Scripts\Basic\BasicController.cs" />
      <Compile Include="Assets\Scripts\Basic\BasicRayController.cs" />
      <Compile Include="Assets\Scripts\Basic\DeathZone.cs" />
