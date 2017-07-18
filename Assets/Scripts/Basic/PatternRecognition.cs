@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using System.Security.Cryptography;
 
 public class PatternRecognition : MonoBehaviour
 {
+
+	public string Hand;
 	public float samplesPerSecond;
 	private const float EPSILON = 1.5f;
 	private const float EXTENSION = 10.0f;
@@ -13,6 +14,8 @@ public class PatternRecognition : MonoBehaviour
 	private bool dibujando;
 	private List<Vector2> pattern;
 	private Coroutine patternCoroutine;
+
+
 
 	enum Orientation
 	{
@@ -48,20 +51,37 @@ public class PatternRecognition : MonoBehaviour
 	{
 		pattern = new List<Vector2> ();
 		dibujando = false;
+		// transform.GetChild (0).GetComponent<ParticleSystemRenderer> ().material.mainTexture = Resources.Load ("Spark") as Texture;
+	}
+
+	bool start = true;
+
+	void Update ()
+	{
+		if (start) {
+			transform.GetChild (0).GetComponent<ParticleSystemRenderer> ().material.mainTexture = Resources.Load ("Spark") as Texture;
+			start = false;
+		}
 	}
 	
 	// Update is called once per frame
 	void LateUpdate ()
 	{
-		// VRPatternRecorder ();
-		// VRPatternAnalysis ();
-		NoVRPatternRecorder ();
-		NoVRPatternAnalysis ();
+		VRPatternRecorder ();
+		VRPatternAnalysis ();
+
+		// Only For Testing
+		// TODO: Delete this functions
+		// NoVRPatternRecorder ();
+		// NoVRPatternAnalysis ();
 	}
 
 	private void VRPatternRecorder ()
 	{
-		if (OVRInput.GetDown (OVRInput.Button.One, OVRInput.Controller.RTouch)) {
+		if (
+			(Hand == "RTOUCH")
+			? OVRInput.GetDown (OVRInput.Button.One, OVRInput.Controller.RTouch)
+			: OVRInput.GetDown (OVRInput.Button.One, OVRInput.Controller.LTouch)) {
 			if (!dibujando) {
 				if (pattern.Count > 0) {
 					pattern.Clear ();
@@ -87,25 +107,32 @@ public class PatternRecognition : MonoBehaviour
 
 	private void VRPatternAnalysis ()
 	{
-		if (OVRInput.GetUp (OVRInput.Button.One, OVRInput.Controller.RTouch)) {
+		Material material = transform.GetChild (0).GetComponent<ParticleSystemRenderer> ().material;
+		if ((Hand == "RTOUCH")
+			? OVRInput.GetUp (OVRInput.Button.One, OVRInput.Controller.RTouch)
+			: OVRInput.GetUp (OVRInput.Button.One, OVRInput.Controller.LTouch)) {
 			StopCoroutine (patternCoroutine);
 			dibujando = false;
 			if (pattern.Count > 3) {
 				switch (detectGeometry ()) {
 				case Geometry.LINE:
-					Debug.Log ("LINE DRAWED");
+					Debug.Log ("LINE DRAWED WITH " + Hand);
+					material.color = Color.red;
 					break;
 				case Geometry.CIRCLE:
-					Debug.Log ("CIRCLE DRAWED");
+					Debug.Log ("CIRCLE DRAWED WITH " + Hand);
+					material.color = Color.green;
 					break;
 				case Geometry.RECTANGLE:
-					Debug.Log ("RECTANGLE DRAWED");
+					Debug.Log ("RECTANGLE DRAWED WITH " + Hand);
+					material.color = Color.blue;
 					break;
 				case Geometry.TRIANGLE:
-					Debug.Log ("TRIANGLE DRAWED");
+					Debug.Log ("TRIANGLE DRAWED WITH " + Hand);
 					break;
 				case Geometry.UNDEFINED:
-					Debug.Log ("UNDEFINED GEOMETRY");
+					Debug.Log ("UNDEFINED GEOMETRY WITH " + Hand);
+					material.color = Color.white;
 					break;
 				}
 			} else {
@@ -145,8 +172,11 @@ public class PatternRecognition : MonoBehaviour
 
 	private IEnumerator getPatternVR ()
 	{
+		GameObject head = GameObject.Find ("Head");
 		while (dibujando) {
-			pattern.Add (new Vector2 (transform.position.x, transform.position.y));
+			Vector3 auxVector = head.GetComponent<Camera> ().WorldToScreenPoint (transform.position);
+			pattern.Add (new Vector2 (auxVector.x, auxVector.y));
+			// pattern.Add (new Vector2 (transform.position.x, transform.position.y));
 			yield return new WaitForSeconds (1.0f / samplesPerSecond);
 			// Debug.Log ("Point Saved " + pattern.Count);
 		}
@@ -170,8 +200,9 @@ public class PatternRecognition : MonoBehaviour
 		float convexHullPerimeter = perimeterOfPolygon (convexHullofPattern);
 		float convexHullArea = areaOfPolygon (convexHullofPattern);
 		float areaOfMaximumTriangle = area (maximumAreaEnclosedTriangle2 (convexHullofPattern));
-		Rectangle auxRectangle = minimumAreaEnclosingRectangle (convexHullofPattern);
-		float rectanglePerimeter = (auxRectangle.extent.x * 2) + (auxRectangle.extent.y * 2);
+
+		// Rectangle auxRectangle = minimumAreaEnclosingRectangle (convexHullofPattern);
+		// float rectanglePerimeter = (auxRectangle.extent.x * 2) + (auxRectangle.extent.y * 2);
 
 		/*
 		Debug.Log ("Hull Perimeter ^ 2 / Hull Area\n" + Mathf.Pow (convexHullPerimeter, 2) / (convexHullArea + 0.0001f));
@@ -182,6 +213,7 @@ public class PatternRecognition : MonoBehaviour
 		if (Mathf.Pow (convexHullPerimeter, 2) / (convexHullArea + 0.0001f) > 500.0f) {
 			return Geometry.LINE;
 		} else {
+			Debug.Log (Mathf.Pow (convexHullPerimeter, 2) / (convexHullArea + 0.0001f));
 			if (Mathf.Pow (convexHullPerimeter, 2) / (convexHullArea + 0.0001f) < 500 && Mathf.Pow (convexHullPerimeter, 2) / (convexHullArea + 0.0001f) > 100.0f) {
 				return Geometry.CIRCLE;
 			} else {
@@ -225,7 +257,7 @@ public class PatternRecognition : MonoBehaviour
 		auxTriangle.b = Vector2.zero;
 		auxTriangle.c = Vector2.zero;
 		if (Pattern.Count < 3) {
-			Debug.Log ("Menos de 3 elementos en el patrón");
+			// Debug.Log ("Menos de 3 elementos en el patrón");
 			return auxTriangle;
 		}
 		int a = 0, b = 1, c = 2;
