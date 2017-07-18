@@ -59,8 +59,13 @@ public class PatternRecognition : MonoBehaviour
 	void Update ()
 	{
 		if (start) {
-			transform.GetChild (0).GetComponent<ParticleSystemRenderer> ().material.mainTexture = Resources.Load ("Spark") as Texture;
+			ParticleSystemRenderer psr = transform.GetChild (0).GetComponent<ParticleSystemRenderer> ();
+			psr.material.mainTexture = Resources.Load ("Spark") as Texture;
 			start = false;
+		}
+
+		if (Input.GetKeyDown (KeyCode.Escape)) {
+			Application.Quit ();
 		}
 	}
 	
