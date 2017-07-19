@@ -8,14 +8,15 @@ public class PatternRecognition : MonoBehaviour
 
 	public string Hand;
 	public float samplesPerSecond;
+	protected Color magicColor;
 	private const float EPSILON = 1.5f;
 	private const float EXTENSION = 10.0f;
 
 	private bool dibujando;
 	private List<Vector2> pattern;
 	private Coroutine patternCoroutine;
-
-
+	private bool magicIntersection;
+	private WandAction wandAction;
 
 	enum Orientation
 	{
@@ -51,17 +52,29 @@ public class PatternRecognition : MonoBehaviour
 	{
 		pattern = new List<Vector2> ();
 		dibujando = false;
+		magicIntersection = false;
+		magicColor = Color.white;
 		// transform.GetChild (0).GetComponent<ParticleSystemRenderer> ().material.mainTexture = Resources.Load ("Spark") as Texture;
 	}
 
+	/// <summary>
+	///  Usamos el booleano start para corregir el bug del sistema por el cual se desasigna la textura del sistema de
+	///  partículas de la punta de la varita.
+	/// </summary>
 	bool start = true;
 
 	void Update ()
 	{
+		/*
 		if (start) {
 			ParticleSystemRenderer psr = transform.GetChild (0).GetComponent<ParticleSystemRenderer> ();
 			psr.material.mainTexture = Resources.Load ("Spark") as Texture;
 			start = false;
+		}
+		*/
+
+		if (!magicIntersection) {
+			transform.GetChild (0).GetComponent<ParticleSystemRenderer> ().material.color = magicColor;
 		}
 
 		if (Input.GetKeyDown (KeyCode.Escape)) {
@@ -72,21 +85,50 @@ public class PatternRecognition : MonoBehaviour
 	// Update is called once per frame
 	void LateUpdate ()
 	{
-		VRPatternRecorder ();
-		VRPatternAnalysis ();
+		
+		// VRPatternRecorder ();
+		// VRPatternAnalysis ();
 
 		// Only For Testing
 		// TODO: Delete this functions
-		// NoVRPatternRecorder ();
-		// NoVRPatternAnalysis ();
+		NoVRPatternRecorder ();
+		NoVRPatternAnalysis ();
+		ExecuteAction ();
+
 	}
+
+	#region Acciones de cada varita
+
+	private void ExecuteAction ()
+	{
+		Color auxColor = transform.GetChild (0).GetComponent<ParticleSystemRenderer> ().material.color;
+
+		if (auxColor == Color.red) {
+			wandAction = this.gameObject.AddComponent<WandMovement> ();
+			gameObject.GetComponent<WandMovement> ().SetWandMovementData (Hand);
+		} else if (auxColor == Color.blue) {
+			
+		} else if (auxColor == Color.green) {
+			
+		} else if (auxColor == new Color (1, 1, 0, 1)) {
+			
+		} else if (auxColor == new Color (1, 0, 1, 1)) {
+			
+		} else if (auxColor == new Color (0, 1, 1, 1)) {
+			
+		}
+	}
+
+	#endregion
+
+	#region Recogida de datos y reconocimiento de patrones (VR y NoVR)
 
 	private void VRPatternRecorder ()
 	{
-		if (
-			(Hand == "RTOUCH")
-			? OVRInput.GetDown (OVRInput.Button.One, OVRInput.Controller.RTouch)
-			: OVRInput.GetDown (OVRInput.Button.One, OVRInput.Controller.LTouch)) {
+		// Diferenciamos entre la mano derecha y la izquierda para hacer el análisis.
+		if ((Hand == "RTOUCH")
+			? OVRInput.Get (OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.RTouch) > 0.1f
+			: OVRInput.Get (OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.LTouch) > 0.1f) {
 			if (!dibujando) {
 				if (pattern.Count > 0) {
 					pattern.Clear ();
@@ -112,32 +154,33 @@ public class PatternRecognition : MonoBehaviour
 
 	private void VRPatternAnalysis ()
 	{
-		Material material = transform.GetChild (0).GetComponent<ParticleSystemRenderer> ().material;
+		// Diferenciamos entre la mano derecha y la izquierda para hacer el análisis.
 		if ((Hand == "RTOUCH")
-			? OVRInput.GetUp (OVRInput.Button.One, OVRInput.Controller.RTouch)
-			: OVRInput.GetUp (OVRInput.Button.One, OVRInput.Controller.LTouch)) {
+			? OVRInput.Get (OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.RTouch) < 0.1f
+			: OVRInput.Get (OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.LTouch) < 0.1f) {
+
 			StopCoroutine (patternCoroutine);
 			dibujando = false;
 			if (pattern.Count > 3) {
 				switch (detectGeometry ()) {
 				case Geometry.LINE:
 					Debug.Log ("LINE DRAWED WITH " + Hand);
-					material.color = Color.red;
+					magicColor = Color.red;
 					break;
 				case Geometry.CIRCLE:
 					Debug.Log ("CIRCLE DRAWED WITH " + Hand);
-					material.color = Color.green;
+					magicColor = Color.green;
 					break;
 				case Geometry.RECTANGLE:
 					Debug.Log ("RECTANGLE DRAWED WITH " + Hand);
-					material.color = Color.blue;
+					magicColor = Color.blue;
 					break;
 				case Geometry.TRIANGLE:
 					Debug.Log ("TRIANGLE DRAWED WITH " + Hand);
 					break;
 				case Geometry.UNDEFINED:
 					Debug.Log ("UNDEFINED GEOMETRY WITH " + Hand);
-					material.color = Color.white;
+					magicColor = Color.white;
 					break;
 				}
 			} else {
@@ -181,9 +224,7 @@ public class PatternRecognition : MonoBehaviour
 		while (dibujando) {
 			Vector3 auxVector = head.GetComponent<Camera> ().WorldToScreenPoint (transform.position);
 			pattern.Add (new Vector2 (auxVector.x, auxVector.y));
-			// pattern.Add (new Vector2 (transform.position.x, transform.position.y));
 			yield return new WaitForSeconds (1.0f / samplesPerSecond);
-			// Debug.Log ("Point Saved " + pattern.Count);
 		}
 	}
 
@@ -192,9 +233,40 @@ public class PatternRecognition : MonoBehaviour
 		while (dibujando) {
 			pattern.Add (new Vector2 (Input.mousePosition.x, Input.mousePosition.y));
 			yield return new WaitForSeconds (1.0f / samplesPerSecond);
-			// Debug.Log (Input.mousePosition);
 		}
 	}
+
+	#endregion
+
+	#region Color Intersection
+
+	private Color sumaColores (Color a, Color b)
+	{
+		float red = Mathf.Min (a.r + b.r, 1.0f);
+		float green = Mathf.Min (a.g + b.g, 1.0f);
+		float blue = Mathf.Min (a.b + b.b, 1.0f);
+
+		return new Color (red, green, blue);
+	}
+
+	void OnTriggerEnter (Collider col)
+	{
+		if (col.tag == "PatternCreator") {
+			magicIntersection = true;
+			Color colColor = col.GetComponent<PatternRecognition> ().magicColor;
+			transform.GetChild (0).GetComponent<ParticleSystemRenderer> ().material.color = sumaColores (colColor, magicColor);
+		}
+	}
+
+	void OnTriggerExit (Collider col)
+	{
+		if (col.tag == "PatternCreator") {
+			magicIntersection = false;
+			transform.GetChild (0).GetComponent<ParticleSystemRenderer> ().material.color = magicColor;
+		}
+	}
+
+	#endregion
 
 	#region Geometry Detection
 
@@ -258,11 +330,10 @@ public class PatternRecognition : MonoBehaviour
 	private Triangle maximumAreaEnclosedTriangle2 (List<Vector2> Pattern)
 	{
 		Triangle auxTriangle = new Triangle ();
-		auxTriangle.a = Vector2.zero;
-		auxTriangle.b = Vector2.zero;
-		auxTriangle.c = Vector2.zero;
+		auxTriangle.a = Pattern [0];
+		auxTriangle.b = Pattern [0];
+		auxTriangle.c = Pattern [0];
 		if (Pattern.Count < 3) {
-			// Debug.Log ("Menos de 3 elementos en el patrón");
 			return auxTriangle;
 		}
 		int a = 0, b = 1, c = 2;
