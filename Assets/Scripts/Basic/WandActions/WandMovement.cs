@@ -36,14 +36,24 @@ public class WandMovement : WandAction
 		Player.transform.forward = new Vector3 (cameraForward.x, Player.transform.forward.y, cameraForward.z);
 	}
 
-	protected override void ButtonTwoAction ()
+	protected override void ButtonTwoPressed ()
 	{
 		ChangeMoveMode ();
 	}
 
-	protected override void ButtonOneAction ()
+	protected override void ButtonOnePressed ()
 	{
 		Move ();
+	}
+
+	protected override void ButtonTwoReleased ()
+	{
+		throw new System.NotImplementedException ();
+	}
+
+	protected override void ButtonOneReleased ()
+	{
+		throw new System.NotImplementedException ();
 	}
 
 	protected override void UpdateAction ()

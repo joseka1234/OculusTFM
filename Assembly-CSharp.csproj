@@ -177,8 +177,9 @@
      <Compile Include="Assets\Scripts\Basic\PatternRecognition.cs" />
      <Compile Include="Assets\Scripts\Basic\RayController.cs" />
      <Compile Include="Assets\Scripts\Basic\TouchVisualization.cs" />
-     <Compile Include="Assets\Scripts\Basic\WandAction.cs" />
-     <Compile Include="Assets\Scripts\Basic\WandMovement.cs" />
+     <Compile Include="Assets\Scripts\Basic\WandActions\WandAction.cs" />
+     <Compile Include="Assets\Scripts\Basic\WandActions\WandInteraction.cs" />
+     <Compile Include="Assets\Scripts\Basic\WandActions\WandMovement.cs" />
      <Compile Include="Assets\Scripts\NewtonVR\HandInteraction.cs" />
      <Compile Include="Assets\Scripts\NewtonVR\ManagerOfScene.cs" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
