@@ -267,6 +267,7 @@ public class PatternRecognition : MonoBehaviour
 	{
 
 		// Por ahora se probará a que el color combinado sea permanente y que haya que hacer otra combinación para cambiar de color.
+		// Esto se hace para facilitar la interacción del usuario y que no se vea con colores que no necesita o no ha buscado.
 		/*
 		if (col.tag == "PatternCreator") {
 			magicIntersection = false;

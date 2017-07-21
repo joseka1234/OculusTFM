@@ -298,6 +298,30 @@ Buscar alguna optimización para el algoritmo de detección de patrones para una
 \item Algoritmo Rectángulo de mínima área que envuelve un Convex Hull
 \end{itemize}
 
+\section{EXTRA}
+
+Durante los días que van desde el Día 11 hasta el Día 12 se ha implementado todo lo relacionado con la metáfora de la varita y se ha desarrollado y refinado la idea para adaptarla al proyecto actual y seguir con esta linea de investigación para trabajos futuros.
+
+\section{Día 12: 22/07/2017}
+
+\subsection{Hechos}
+
+Se ha terminado de refinar la metáfora de interacción de \textit{"Varita Mágica"} con un patrón de estrategia que cubre cada una de las posibles acciones a realizar con la varita (actualmente son posibles 6 acciones, 3 acciones básicas basadas en los movimientos de varita que realicemos y 3 acciones más al combinar estas acciones entre sí, teniendo en cuenta que al combinar acciones iguales se obtendrá un resultado igual).
+
+\subsection{Observaciones}
+
+Al utilizar el patrón estrategia para implementar las distintas acciones de la varita se consigue una mayor flexibilidad a la hora de crear nuevas acciones.
+
+La metáfora de \textit{"Varita Mágica"} evoluciona un paso más allá al utilizar distintos colores y conjunciones de colores para representar las distintas acciones al usuario, consiguiendo así que sea capaz de identificar en todo momento la acción que está realizando.
+
+Cada una de las acciones es lo suficientemente compleja como para no tener que utilizar demasiadas acciones de varita para interactuar de diferentes formas (por ahora con 2 \textit{"colores"} de varita podemos manipular objetos, a saber: mover, rotar y escalar; y desplazarnos por la escena de múltiples maneras, a saber: teletransporte, movimiento suave, salto, movimiento suave con \textit{"pathfinding"} y movimiento de caminar/correr. Este último está todavía en fase de desarrollo y no funciona correctamente).
+
+\subsection{Trabajo Futuro}
+
+Implementar el resto de acciones que se pueden realizar con la varita mágica (quedan 4 tipos de acciones por implementar).
+
+Implementar un método de feedback para el usuario acerca de dónde está apuntando con la varita en todo momento. Para esto se ha planteado utilizar un paquete de emisores de partículas llamado \textit{"BasicBeamShot"} y en concreto su "prefab" \textit{"GeroBeam"} para representar la dirección en la que apuntamos y la distancia a la que podemos interactuar con los objetos mediante un flujo constante de luz que salga de la punta de la varita y fluya en la dirección de la misma, con lo que podemos saber en todo momento con que objeto podemos o no interactuar. Además de esto, y debido a que este recurso permite modificar a placer el tamaño del rayo podemos saber en todo momento la distancia máxima de interacción en la que podemos trabajar si necesidad de desplazarnos por la escena.
+
 %--- Sección de bibliografía ---%
 \break
 

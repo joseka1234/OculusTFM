@@ -109,7 +109,7 @@ MonoBehaviour:
   m_MinSize: {x: 713, y: 492}
   m_MaxSize: {x: 18008, y: 14042}
   vertical: 0
-  controlID: 11
+  controlID: 153
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -133,7 +133,7 @@ MonoBehaviour:
   m_MinSize: {x: 436, y: 492}
   m_MaxSize: {x: 14006, y: 14042}
   vertical: 0
-  controlID: 12
+  controlID: 154
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -157,7 +157,7 @@ MonoBehaviour:
   m_MinSize: {x: 202, y: 342}
   m_MaxSize: {x: 4002, y: 8042}
   vertical: 1
-  controlID: 86
+  controlID: 13
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -231,7 +231,7 @@ MonoBehaviour:
   m_MinSize: {x: 234, y: 492}
   m_MaxSize: {x: 10004, y: 14042}
   vertical: 1
-  controlID: 13
+  controlID: 155
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -415,23 +415,23 @@ MonoBehaviour:
     height: 580
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 7c740000
-    m_LastClickedID: 29820
-    m_ExpandedIDs: 8e2bfbffda2bfbff2c2cfbff88fdfcffdefbffff000000006c3b00006a710000c67100007c740000
+    m_SelectedIDs: f0090000
+    m_LastClickedID: 0
+    m_ExpandedIDs: defbffff00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: PatternCreator
-      m_OriginalName: PatternCreator
+      m_Name: 
+      m_OriginalName: 
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 29820
+      m_UserData: 0
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 0
+      m_OriginalEventType: 11
       m_IsRenamingFilename: 0
       m_ClientGUIView: {fileID: 8}
     m_SearchString: 
@@ -525,7 +525,7 @@ MonoBehaviour:
   m_Rotation:
     m_Target: {x: 0.06623251, y: -0.7439118, z: 0.07456352, w: 0.660794}
     speed: 2
-    m_Value: {x: 0.06623252, y: -0.74391186, z: 0.074563526, w: 0.6607941}
+    m_Value: {x: -0.06623251, y: 0.7439118, z: -0.07456352, w: -0.660794}
   m_Size:
     m_Target: 2.046161
     speed: 2
@@ -650,19 +650,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/BasicBeamShot
+    - Assets
   m_ViewMode: 1
   m_StartGridSize: 96
   m_LastFolders:
-  - Assets/BasicBeamShot
+  - Assets
   m_LastFoldersGridSize: 96
   m_LastProjectPath: D:\Unity Projects\OculusTFM
   m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 95}
-    m_SelectedIDs: e4560000
-    m_LastClickedID: 22244
-    m_ExpandedIDs: 0000000014270000642700009a3200002c340000a8340000e6340000ea3400005235000032370000763700007e38000088380000443900000a3a0000343d0000363d00004c46000054460000fe460000684700006a470000ba470000e0560000e456000000ca9a3bffffff7f
+    m_SelectedIDs: 18280000
+    m_LastClickedID: 10264
+    m_ExpandedIDs: 00000000182800006e28000040340000de3500006a360000b0360000b43600002a370000143900005c390000a03a0000a43a0000ae3a00007a3b00009a3b00002c3c0000883c0000ec3f0000ee3f0000f03f0000f23f0000f43f0000f63f0000f83f000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -690,7 +690,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000142700009a3200002c340000a8340000e6340000ea3400005235000032370000763700007e3800008838000044390000343d0000363d0000
+    m_ExpandedIDs: 00000000182800006e28000040340000de3500006a360000b0360000b43600002a370000143900005c390000a03a0000a43a0000ae3a00007a3b00009a3b00002c3c0000883c0000ec3f0000ee3f0000f03f0000f23f0000f43f0000f63f0000f83f0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
