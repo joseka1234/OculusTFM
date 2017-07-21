@@ -9,6 +9,7 @@ public class PatternRecognition : MonoBehaviour
 	public string Hand;
 	public float samplesPerSecond;
 	protected Color magicColor;
+
 	private const float EPSILON = 1.5f;
 	private const float EXTENSION = 10.0f;
 
@@ -16,7 +17,7 @@ public class PatternRecognition : MonoBehaviour
 	private List<Vector2> pattern;
 	private Coroutine patternCoroutine;
 	private bool magicIntersection;
-	private WandAction wandAction;
+	public WandAction wandAction;
 
 	enum Orientation
 	{
@@ -93,21 +94,22 @@ public class PatternRecognition : MonoBehaviour
 		// TODO: Delete this functions
 		NoVRPatternRecorder ();
 		NoVRPatternAnalysis ();
-		ExecuteAction ();
-
 	}
 
 	#region Acciones de cada varita
 
 	private void ExecuteAction ()
 	{
-		Color auxColor = transform.GetChild (0).GetComponent<ParticleSystemRenderer> ().material.color;
+		// Cada vez que cambiemos de acción destruimos la anterior para evitar tener más de una instancia del mismo script.
+		Destroy (this.gameObject.GetComponent<WandAction> ());
 
+		Color auxColor = transform.GetChild (0).GetComponent<ParticleSystemRenderer> ().material.color;
 		if (auxColor == Color.red) {
 			wandAction = this.gameObject.AddComponent<WandMovement> ();
-			gameObject.GetComponent<WandMovement> ().SetWandMovementData (Hand);
+			gameObject.GetComponent<WandMovement> ().SetWandMovementData ((Hand == "RTOUCH") ? WandAction.HandType.RIGHT : WandAction.HandType.LEFT);
 		} else if (auxColor == Color.blue) {
-			
+			wandAction = this.gameObject.AddComponent<WandInteraction> ();
+			gameObject.GetComponent<WandInteraction> ().SetWandMovementData ((Hand == "RTOUCH") ? WandAction.HandType.RIGHT : WandAction.HandType.LEFT);
 		} else if (auxColor == Color.green) {
 			
 		} else if (auxColor == new Color (1, 1, 0, 1)) {
@@ -155,6 +157,8 @@ public class PatternRecognition : MonoBehaviour
 	private void VRPatternAnalysis ()
 	{
 		// Diferenciamos entre la mano derecha y la izquierda para hacer el análisis.
+		// IMPORTANTE: Se usará el PrimaryIndexTrigger para crear el patrón para dejar libres los botones One y Two para
+		// las acciones de la varita.
 		if ((Hand == "RTOUCH")
 			? OVRInput.Get (OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.RTouch) < 0.1f
 			: OVRInput.Get (OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.LTouch) < 0.1f) {
@@ -183,6 +187,7 @@ public class PatternRecognition : MonoBehaviour
 					magicColor = Color.white;
 					break;
 				}
+				ExecuteAction ();
 			} else {
 				Debug.Log ("No hay suficientes muestras para detectar un patrón");
 			}
@@ -260,10 +265,14 @@ public class PatternRecognition : MonoBehaviour
 
 	void OnTriggerExit (Collider col)
 	{
+
+		// Por ahora se probará a que el color combinado sea permanente y que haya que hacer otra combinación para cambiar de color.
+		/*
 		if (col.tag == "PatternCreator") {
 			magicIntersection = false;
 			transform.GetChild (0).GetComponent<ParticleSystemRenderer> ().material.color = magicColor;
 		}
+		*/
 	}
 
 	#endregion

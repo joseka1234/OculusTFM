@@ -23,7 +23,7 @@ public class WandMovement : WandAction
 		RUNNING_MOVE
 	}
 
-	public void SetWandMovementData (string Hand)
+	public void SetWandMovementData (HandType Hand)
 	{
 		this.Hand = Hand;
 		Player = GameObject.Find ("VRPlayer");
