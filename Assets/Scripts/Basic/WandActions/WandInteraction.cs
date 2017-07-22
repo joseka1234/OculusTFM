@@ -16,6 +16,7 @@ public class WandInteraction : WandAction
 
 	private Vector3 initialLeft;
 	private Vector3 initialRight;
+	private Vector3 initialScale;
 
 	public void SetWandMovementData (HandType Hand)
 	{
@@ -70,12 +71,14 @@ public class WandInteraction : WandAction
 				if (firstScale) {
 					initialLeft = GameObject.Find ("LeftHand").transform.position;
 					initialRight = GameObject.Find ("RightHand").transform.position;
+					initialScale = manipulatedObject.transform.localScale;
 					firstScale = false;
 				}
 				ScaleObject ();
 			} else {
 				initialLeft = Vector3.zero;
 				initialRight = Vector3.zero;
+				initialScale = Vector3.one;
 				firstScale = true;
 			}
 		}
@@ -114,7 +117,7 @@ public class WandInteraction : WandAction
 
 	private void ScaleObject ()
 	{
-		manipulatedObject.transform.localScale *= getDistanceBetweenHands ();
+		manipulatedObject.transform.localScale = initialScale * getDistanceBetweenHands ();
 	}
 
 	private float getDistanceBetweenHands ()
