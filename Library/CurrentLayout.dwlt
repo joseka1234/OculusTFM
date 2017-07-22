@@ -71,7 +71,7 @@ MonoBehaviour:
   m_MinSize: {x: 234, y: 492}
   m_MaxSize: {x: 10004, y: 14042}
   vertical: 1
-  controlID: 238
+  controlID: 13
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -120,7 +120,7 @@ MonoBehaviour:
   m_MinSize: {x: 202, y: 342}
   m_MaxSize: {x: 4002, y: 8042}
   vertical: 1
-  controlID: 338
+  controlID: 86
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_MinSize: {x: 713, y: 492}
   m_MaxSize: {x: 18008, y: 14042}
   vertical: 0
-  controlID: 236
+  controlID: 11
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -163,8 +163,8 @@ MonoBehaviour:
     y: 0
     width: 341
     height: 917
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 277, y: 71}
+  m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 18}
   m_Panes:
   - {fileID: 18}
@@ -238,7 +238,7 @@ MonoBehaviour:
     height: 30
   m_MinSize: {x: 0, y: 0}
   m_MaxSize: {x: 0, y: 0}
-  m_LastLoadedLayoutName: Carlos
+  m_LastLoadedLayoutName: 
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -282,7 +282,7 @@ MonoBehaviour:
   m_MinSize: {x: 436, y: 492}
   m_MaxSize: {x: 14006, y: 14042}
   vertical: 0
-  controlID: 237
+  controlID: 12
 --- !u!114 &13
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -449,19 +449,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/BasicBeamShot
+    - Assets
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/BasicBeamShot
+  - Assets
   m_LastFoldersGridSize: -1
   m_LastProjectPath: D:\Unity Projects\OculusTFM
   m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 27}
-    m_SelectedIDs: c63b0000
-    m_LastClickedID: 15302
-    m_ExpandedIDs: 00000000442800009a2800006c3400000a36000096360000dc360000e0360000563700004039000088390000cc3a0000d03a0000da3a0000a63b0000c63b0000583c0000b43c0000024000000440000006400000084000000a4000000c4000000e40000000ca9a3bffffff7f
+    scrollPos: {x: 0, y: 95}
+    m_SelectedIDs: 18280000
+    m_LastClickedID: 10264
+    m_ExpandedIDs: 00000000182800006e280000ee29000040340000de3500006a360000b0360000b43600002a370000143900005c390000a03a0000a43a0000ae3a00007a3b00009a3b00002c3c0000883c0000ec3f0000ee3f0000f03f0000f23f0000f43f0000f63f0000f83f000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -489,7 +489,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000442800009a2800006c3400000a36000096360000dc360000e0360000563700004039000088390000cc3a0000d03a0000da3a0000a63b0000c63b0000583c0000b43c0000024000000440000006400000084000000a4000000c4000000e40000000ca9a3bffffff7f
+    m_ExpandedIDs: 00000000182800006e28000040340000de3500006a360000b0360000b43600002a370000143900005c390000a03a0000a43a0000ae3a00007a3b00009a3b00002c3c0000883c0000ec3f0000ee3f0000f03f0000f23f0000f43f0000f63f0000f83f0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -607,7 +607,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 7226ffffca26ffffcc26ffffdefbffff00000000
+    m_ExpandedIDs: 74adfcffc205feff6eb6ffff3af4ffffdefbffff00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -626,7 +626,7 @@ MonoBehaviour:
       m_ClientGUIView: {fileID: 8}
     m_SearchString: 
   m_ExpandedScenes:
-  - Escena 1
+  - GimmickScene
   m_CurrenRootInstanceID: 0
   m_Locked: 0
   m_CurrentSortingName: TransformSorting
@@ -657,14 +657,14 @@ MonoBehaviour:
     width: 1004
     height: 581
   m_SceneLighting: 1
-  lastFramingTime: 1287.3409906720344
+  lastFramingTime: 2141.603900874803
   m_2DMode: 0
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -0.32131958, y: 0.99837065, z: -12.6372385}
+    m_Target: {x: 530.73706, y: -878.7532, z: 1868.6775}
     speed: 2
-    m_Value: {x: -0.32131958, y: 0.99837065, z: -12.6372385}
+    m_Value: {x: 530.73706, y: -878.7532, z: 1868.6775}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -687,13 +687,13 @@ MonoBehaviour:
       speed: 2
       m_Value: 0
   m_Rotation:
-    m_Target: {x: -0.24285434, y: 0.17120342, z: -0.04358949, w: -0.9538402}
+    m_Target: {x: 0.3579201, y: -0.35552195, z: 0.14964142, w: 0.8503557}
     speed: 2
-    m_Value: {x: -0.24285436, y: 0.17120342, z: -0.04358949, w: -0.9538402}
+    m_Value: {x: 0.3579201, y: -0.35552195, z: 0.14964142, w: 0.8503557}
   m_Size:
-    m_Target: 22
+    m_Target: 11512.283
     speed: 2
-    m_Value: 22
+    m_Value: 11512.283
   m_Ortho:
     m_Target: 0
     speed: 2

@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Escena 1.unity
+- path: Assets/Scenes/GimmickScene.unity
   isLoaded: 1
   isActive: 1
