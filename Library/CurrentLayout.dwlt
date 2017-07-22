@@ -120,7 +120,7 @@ MonoBehaviour:
   m_MinSize: {x: 202, y: 342}
   m_MaxSize: {x: 4002, y: 8042}
   vertical: 1
-  controlID: 86
+  controlID: 136
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -188,8 +188,8 @@ MonoBehaviour:
     y: 0
     width: 331
     height: 601
-  m_MinSize: {x: 202, y: 221}
-  m_MaxSize: {x: 4002, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 19}
   m_Panes:
   - {fileID: 19}
@@ -449,19 +449,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets
+    - Assets/Models/Rooms
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets
+  - Assets/Models/Rooms
   m_LastFoldersGridSize: -1
   m_LastProjectPath: D:\Unity Projects\OculusTFM
   m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 95}
-    m_SelectedIDs: 18280000
-    m_LastClickedID: 10264
-    m_ExpandedIDs: 00000000182800006e280000ee29000040340000de3500006a360000b0360000b43600002a370000143900005c390000a03a0000a43a0000ae3a00007a3b00009a3b00002c3c0000883c0000ec3f0000ee3f0000f03f0000f23f0000f43f0000f63f0000f83f000000ca9a3bffffff7f
+    m_SelectedIDs: cc3e0000
+    m_LastClickedID: 16076
+    m_ExpandedIDs: 000000001c28000074280000f42900004e340000ee3500007e360000c4360000c8360000403700002e390000783900003a3a0000ca3a0000ce3a0000d83a0000a43b0000c63b0000603c0000be3c00009e3e0000a03e0000a23e0000a43e0000a63e0000a83e0000aa3e000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -489,7 +489,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000182800006e28000040340000de3500006a360000b0360000b43600002a370000143900005c390000a03a0000a43a0000ae3a00007a3b00009a3b00002c3c0000883c0000ec3f0000ee3f0000f03f0000f23f0000f43f0000f63f0000f83f0000
+    m_ExpandedIDs: 000000001c28000074280000f42900004e340000ee3500007e360000c4360000c8360000403700002e39000078390000ca3a0000ce3a0000d83a0000a43b0000c63b0000603c0000be3c00009e3e0000a03e0000a23e0000a43e0000a63e0000a83e0000aa3e0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -517,7 +517,7 @@ MonoBehaviour:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
     m_HadKeyboardFocusLastEvent: 1
-    m_ExpandedInstanceIDs: dcc6feff
+    m_ExpandedInstanceIDs: dcc6feff343a0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -605,9 +605,9 @@ MonoBehaviour:
     height: 580
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 
+    m_SelectedIDs: 70470000
     m_LastClickedID: 0
-    m_ExpandedIDs: 74adfcffc205feff6eb6ffff3af4ffffdefbffff00000000
+    m_ExpandedIDs: 80e5fdff4afdfdff1085feff028efeff70eeffffdefbffff00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -657,14 +657,14 @@ MonoBehaviour:
     width: 1004
     height: 581
   m_SceneLighting: 1
-  lastFramingTime: 2141.603900874803
+  lastFramingTime: 2167.3743048008896
   m_2DMode: 0
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 530.73706, y: -878.7532, z: 1868.6775}
+    m_Target: {x: 6824.9814, y: 13590.342, z: 764.358}
     speed: 2
-    m_Value: {x: 530.73706, y: -878.7532, z: 1868.6775}
+    m_Value: {x: 6824.9814, y: 13590.342, z: 764.358}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -687,13 +687,13 @@ MonoBehaviour:
       speed: 2
       m_Value: 0
   m_Rotation:
-    m_Target: {x: 0.3579201, y: -0.35552195, z: 0.14964142, w: 0.8503557}
+    m_Target: {x: 0.120817974, y: 0.48368487, z: -0.06761886, w: 0.86422205}
     speed: 2
-    m_Value: {x: 0.3579201, y: -0.35552195, z: 0.14964142, w: 0.8503557}
+    m_Value: {x: 0.120817974, y: 0.48368487, z: -0.06761886, w: 0.86422205}
   m_Size:
-    m_Target: 11512.283
+    m_Target: 2.1643112
     speed: 2
-    m_Value: 11512.283
+    m_Value: 2.1643112
   m_Ortho:
     m_Target: 0
     speed: 2
