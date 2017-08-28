@@ -25,6 +25,11 @@ public abstract class Movement : MonoBehaviour
 		isMoving = false;
 	}
 
+	protected void SetNewOrigin ()
+	{
+		Origin = player.transform.position;
+	}
+
 	#region Get coordinates functions
 
 	protected float GetYCoordinate ()
@@ -58,12 +63,6 @@ public abstract class Movement : MonoBehaviour
 	{
 		GameObject destino = GameObject.Find ("DestinoGO");
 		return destino.transform.position.z;
-	}
-
-	protected Vector3 GetNewForward ()
-	{
-		GameObject hand = GameObject.Find ("RightHand");
-		return new Vector3 (hand.transform.forward.x, player.transform.forward.y, hand.transform.forward.z);
 	}
 
 	#endregion

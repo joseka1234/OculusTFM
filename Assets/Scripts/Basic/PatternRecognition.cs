@@ -18,6 +18,7 @@ public class PatternRecognition : MonoBehaviour
 	private Coroutine patternCoroutine;
 	private bool magicIntersection;
 	public WandAction wandAction;
+	private GameObject MagicRing;
 
 	enum Orientation
 	{
@@ -55,7 +56,7 @@ public class PatternRecognition : MonoBehaviour
 		dibujando = false;
 		magicIntersection = false;
 		magicColor = Color.white;
-		// transform.GetChild (0).GetComponent<ParticleSystemRenderer> ().material.mainTexture = Resources.Load ("Spark") as Texture;
+		MagicRing = transform.GetChild (0).GetChild (1).gameObject;
 	}
 
 	/// <summary>
@@ -74,9 +75,7 @@ public class PatternRecognition : MonoBehaviour
 		}
 		*/
 
-		if (!magicIntersection) {
-			transform.GetChild (0).GetComponent<ParticleSystemRenderer> ().material.color = magicColor;
-		}
+		MagicRing.GetComponent<Renderer> ().material.color = magicColor;
 
 		if (Input.GetKeyDown (KeyCode.Escape)) {
 			Application.Quit ();
@@ -87,37 +86,46 @@ public class PatternRecognition : MonoBehaviour
 	void LateUpdate ()
 	{
 		
-		// VRPatternRecorder ();
-		// VRPatternAnalysis ();
+		VRPatternRecorder ();
+		VRPatternAnalysis ();
 
 		// Only For Testing
 		// TODO: Delete this functions
-		NoVRPatternRecorder ();
-		NoVRPatternAnalysis ();
+		// NoVRPatternRecorder ();
+		// NoVRPatternAnalysis ();
 	}
 
 	#region Acciones de cada varita
 
-	private void ExecuteAction ()
+	private void DeleteReferences ()
 	{
+		foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Reference")) {
+			Destroy (obj.gameObject);
+		}
 		// Cada vez que cambiemos de acción destruimos la anterior para evitar tener más de una instancia del mismo script.
 		Destroy (this.gameObject.GetComponent<WandAction> ());
+	}
 
-		Color auxColor = transform.GetChild (0).GetComponent<ParticleSystemRenderer> ().material.color;
-		if (auxColor == Color.red) {
+	private void ExecuteAction (Geometry gometria)
+	{
+		switch (gometria) {
+		case Geometry.TRIANGLE:
+			Debug.Log ("Nada implementado");
+			break;
+		case Geometry.CIRCLE:
+			Debug.Log ("Nada implementado");
+			break;
+		case Geometry.LINE:
 			wandAction = this.gameObject.AddComponent<WandMovement> ();
 			gameObject.GetComponent<WandMovement> ().SetWandMovementData ((Hand == "RTOUCH") ? WandAction.HandType.RIGHT : WandAction.HandType.LEFT);
-		} else if (auxColor == Color.blue) {
+			break;
+		case Geometry.RECTANGLE:
 			wandAction = this.gameObject.AddComponent<WandInteraction> ();
-			gameObject.GetComponent<WandInteraction> ().SetWandMovementData ((Hand == "RTOUCH") ? WandAction.HandType.RIGHT : WandAction.HandType.LEFT);
-		} else if (auxColor == Color.green) {
-			
-		} else if (auxColor == new Color (1, 1, 0, 1)) {
-			
-		} else if (auxColor == new Color (1, 0, 1, 1)) {
-			
-		} else if (auxColor == new Color (0, 1, 1, 1)) {
-			
+			gameObject.GetComponent<WandInteraction> ().SetWandInteractionData ((Hand == "RTOUCH") ? WandAction.HandType.RIGHT : WandAction.HandType.LEFT);
+			break;
+		case Geometry.UNDEFINED:
+			throw new Exception ("Geometría indefinida");
+			break;
 		}
 	}
 
@@ -129,8 +137,8 @@ public class PatternRecognition : MonoBehaviour
 	{
 		// Diferenciamos entre la mano derecha y la izquierda para hacer el análisis.
 		if ((Hand == "RTOUCH")
-			? OVRInput.Get (OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.RTouch) > 0.1f
-			: OVRInput.Get (OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.LTouch) > 0.1f) {
+			? OVRInput.Get (OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.RTouch) > 0.2f
+			: OVRInput.Get (OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.LTouch) > 0.2f) {
 			if (!dibujando) {
 				if (pattern.Count > 0) {
 					pattern.Clear ();
@@ -159,14 +167,21 @@ public class PatternRecognition : MonoBehaviour
 		// Diferenciamos entre la mano derecha y la izquierda para hacer el análisis.
 		// IMPORTANTE: Se usará el PrimaryIndexTrigger para crear el patrón para dejar libres los botones One y Two para
 		// las acciones de la varita.
-		if ((Hand == "RTOUCH")
-			? OVRInput.Get (OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.RTouch) < 0.1f
-			: OVRInput.Get (OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.LTouch) < 0.1f) {
+		if (((Hand == "RTOUCH")
+			? OVRInput.Get (OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.RTouch) < 0.2f
+			: OVRInput.Get (OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.LTouch) < 0.2f)
+		    && dibujando) {
 
-			StopCoroutine (patternCoroutine);
+			try {
+				StopCoroutine (patternCoroutine);
+			} catch (Exception e) {
+				// Do nothing
+			}
+
 			dibujando = false;
+			Geometry geometria = detectGeometry ();
 			if (pattern.Count > 3) {
-				switch (detectGeometry ()) {
+				switch (geometria) {
 				case Geometry.LINE:
 					Debug.Log ("LINE DRAWED WITH " + Hand);
 					magicColor = Color.red;
@@ -187,7 +202,8 @@ public class PatternRecognition : MonoBehaviour
 					magicColor = Color.white;
 					break;
 				}
-				ExecuteAction ();
+				DeleteReferences ();
+				ExecuteAction (geometria);
 			} else {
 				Debug.Log ("No hay suficientes muestras para detectar un patrón");
 			}
@@ -196,7 +212,7 @@ public class PatternRecognition : MonoBehaviour
 
 	private void NoVRPatternAnalysis ()
 	{
-		if (Input.GetMouseButtonUp (0)) {
+		if (Input.GetMouseButtonUp (0) && dibujando) {
 			StopCoroutine (patternCoroutine);
 			dibujando = false;
 			if (pattern.Count > 3) {
@@ -259,19 +275,20 @@ public class PatternRecognition : MonoBehaviour
 		if (col.tag == "PatternCreator") {
 			magicIntersection = true;
 			Color colColor = col.GetComponent<PatternRecognition> ().magicColor;
-			transform.GetChild (0).GetComponent<ParticleSystemRenderer> ().material.color = sumaColores (colColor, magicColor);
+			if (colColor != magicColor) {
+				magicColor = sumaColores (colColor, magicColor);
+			}
 		}
 	}
 
 	void OnTriggerExit (Collider col)
 	{
-
 		// Por ahora se probará a que el color combinado sea permanente y que haya que hacer otra combinación para cambiar de color.
 		// Esto se hace para facilitar la interacción del usuario y que no se vea con colores que no necesita o no ha buscado.
 		/*
 		if (col.tag == "PatternCreator") {
 			magicIntersection = false;
-			transform.GetChild (0).GetComponent<ParticleSystemRenderer> ().material.color = magicColor;
+			MagicRing.GetComponent<Renderer> ().material.color = magicColor;
 		}
 		*/
 	}
@@ -300,7 +317,7 @@ public class PatternRecognition : MonoBehaviour
 		if (Mathf.Pow (convexHullPerimeter, 2) / (convexHullArea + 0.0001f) > 500.0f) {
 			return Geometry.LINE;
 		} else {
-			Debug.Log (Mathf.Pow (convexHullPerimeter, 2) / (convexHullArea + 0.0001f));
+			// Debug.Log (Mathf.Pow (convexHullPerimeter, 2) / (convexHullArea + 0.0001f));
 			if (Mathf.Pow (convexHullPerimeter, 2) / (convexHullArea + 0.0001f) < 500 && Mathf.Pow (convexHullPerimeter, 2) / (convexHullArea + 0.0001f) > 100.0f) {
 				return Geometry.CIRCLE;
 			} else {

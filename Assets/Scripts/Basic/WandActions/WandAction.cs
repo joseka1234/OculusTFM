@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class WandAction : MonoBehaviour
 {
@@ -53,17 +51,18 @@ public abstract class WandAction : MonoBehaviour
 		}
 	}
 
-	protected Vector3 getHandAcceleration ()
+	protected Vector3 getHandVelocity ()
 	{
 		return (Hand == HandType.RIGHT)
-			? OVRInput.GetLocalControllerAcceleration (OVRInput.Controller.RTouch)
-			: OVRInput.GetLocalControllerAcceleration (OVRInput.Controller.LTouch);
+			? OVRInput.GetLocalControllerVelocity (OVRInput.Controller.RTouch)
+			: OVRInput.GetLocalControllerVelocity (OVRInput.Controller.LTouch);
+		
 	}
 
-	protected Vector3 getHandAngularAcceleration ()
+	protected Vector3 getHandAngularVelocity ()
 	{
 		return (Hand == HandType.RIGHT)
-			? OVRInput.GetLocalControllerAngularAcceleration (OVRInput.Controller.RTouch)
-			: OVRInput.GetLocalControllerAngularAcceleration (OVRInput.Controller.LTouch);
+			? OVRInput.GetLocalControllerAngularVelocity (OVRInput.Controller.RTouch)
+			: OVRInput.GetLocalControllerAngularVelocity (OVRInput.Controller.LTouch);
 	}
 }

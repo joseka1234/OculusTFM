@@ -1,11 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class WandInteraction : WandAction
 {
-	private const float MANIPULATION_VELOCITY = 10.0f;
-	private const float ENHANCED_MODIFICATOR = 10.0f;
+	private const float MANIPULATION_VELOCITY = 0.1f;
 	private const float SCALE_REDUCTOR = 1.0f;
 
 	public GameObject manipulatedObject;
@@ -18,25 +15,32 @@ public class WandInteraction : WandAction
 	private Vector3 initialRight;
 	private Vector3 initialScale;
 
-	public void SetWandMovementData (HandType Hand)
+	public void SetWandInteractionData (HandType Hand)
 	{
 		this.Hand = Hand;
 	}
 
 	protected override void ButtonOnePressed ()
 	{
-		if (!isManipulating) {
-			isManipulating = true;
-			Debug.Log ("Catched " + manipulatedObject.name);
-		} else {
-			isManipulating = false;
-			Debug.Log ("Released " + manipulatedObject.name);
+		if (manipulatedObject != null) {
+			if (!isManipulating) {	
+				Debug.Log ("Manipulando");
+				isManipulating = true;
+				manipulatedObject.transform.parent = ((Hand == HandType.RIGHT)
+					? GameObject.Find ("RightHand").transform
+					: GameObject.Find ("LeftHand").transform);
+			} else {
+				Debug.Log ("NO Manipulando");
+				isManipulating = false;
+				manipulatedObject.transform.parent = GameObject.Find ("Piramide").transform;
+				manipulatedObject = null;
+			}
 		}
 	}
 
 	protected override void ButtonOneReleased ()
 	{
-		throw new System.NotImplementedException ();
+		
 	}
 
 	protected override void ButtonTwoPressed ()
@@ -53,20 +57,18 @@ public class WandInteraction : WandAction
 
 	protected override void UpdateAction ()
 	{
-		Ray ray = new Ray (this.transform.position, this.transform.forward);
-		RaycastHit hit;
-		if (Physics.Raycast (ray, out hit, 10000)) {
-			HandleHit (hit);
+		if (!isManipulating) {
+			Ray ray = new Ray (this.transform.position, this.transform.forward);
+			RaycastHit hit;
+			if (Physics.Raycast (ray, out hit, 10000)) {
+				HandleHit (hit);
+			}
 		}
 
-		if (isManipulating) {
-			if (enhancedMove) {
-				manipulatedObject.transform.Translate (getHandAcceleration ().normalized * MANIPULATION_VELOCITY * ENHANCED_MODIFICATOR);
-				manipulatedObject.transform.Rotate (getHandAngularAcceleration ().normalized * MANIPULATION_VELOCITY * ENHANCED_MODIFICATOR / 2.0f);
-			} else {
-				manipulatedObject.transform.Translate (getHandAcceleration ().normalized * MANIPULATION_VELOCITY);
-				manipulatedObject.transform.Rotate (getHandAngularAcceleration ().normalized * MANIPULATION_VELOCITY / 2.0f);
-			}
+		if (isManipulating && manipulatedObject != null) {
+			DeleteReferences ();
+			// TODO: Arreglar el escalado
+			/*
 			if (IsScalable ()) {
 				if (firstScale) {
 					initialLeft = GameObject.Find ("LeftHand").transform.position;
@@ -81,7 +83,27 @@ public class WandInteraction : WandAction
 				initialScale = Vector3.one;
 				firstScale = true;
 			}
+			*/
+
+			// Mover con joystic
+			Vector2 aditionalMovement = getAditionalMovement ().normalized * MANIPULATION_VELOCITY;
+			Vector3 localPosition = manipulatedObject.transform.localPosition;
+			manipulatedObject.transform.localPosition = new Vector3 (localPosition.x + aditionalMovement.x, localPosition.y, localPosition.z + aditionalMovement.y);
 		}
+	}
+
+	private void DeleteReferences ()
+	{
+		foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Reference")) {
+			Destroy (obj.gameObject);
+		}
+	}
+
+	private Vector2 getAditionalMovement ()
+	{
+		return (Hand == HandType.RIGHT) 
+		? OVRInput.Get (OVRInput.Axis2D.PrimaryThumbstick, OVRInput.Controller.RTouch)
+		: OVRInput.Get (OVRInput.Axis2D.PrimaryThumbstick, OVRInput.Controller.LTouch);
 	}
 
 	private void HandleHit (RaycastHit hit)
@@ -92,7 +114,7 @@ public class WandInteraction : WandAction
 			hitObject.transform.position = hit.point;
 		}
 
-		if (hit.transform.tag == "Interactable") {
+		if (hit.transform.tag == "InteractableObject") {
 			manipulatedObject = hit.collider.gameObject;
 			hitObject.GetComponent<Renderer> ().material.color = Color.green;
 		} else {
@@ -103,8 +125,8 @@ public class WandInteraction : WandAction
 
 	private bool IsScalable ()
 	{
-		WandInteraction leftInteraction;
-		WandInteraction rightInteraction;
+		WandInteraction leftInteraction = null;
+		WandInteraction rightInteraction = null;
 		try {
 			leftInteraction = GameObject.Find ("LeftHand/stick/PatternCreator").GetComponent<WandInteraction> ();
 			rightInteraction = GameObject.Find ("RightHand/stick/PatternCreator").GetComponent<WandInteraction> ();
@@ -112,6 +134,9 @@ public class WandInteraction : WandAction
 			return false;
 		}
 
+		if (leftInteraction == null || rightInteraction == null) {
+			return false;
+		}
 		return leftInteraction.manipulatedObject == rightInteraction.manipulatedObject;
 	}
 

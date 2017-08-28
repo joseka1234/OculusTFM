@@ -14,6 +14,7 @@ public class JumpMove : Movement
 
 	override public void Move ()
 	{
+		SetNewOrigin ();
 		Destination = new Vector3 (GetXCoordinate (), GetYCoordinate (), GetZCoordinate ());
 		moveCoroutine = StartCoroutine (MoveCoroutine ());
 	}
@@ -26,7 +27,7 @@ public class JumpMove : Movement
 		while (transform.position != Destination) {
 			lerpVector = Vector3.Lerp (Origin, Destination, aux);
 			player.transform.position = new Vector3 (lerpVector.x, Mathf.Sin (Mathf.LerpAngle (0, Mathf.PI, aux)) * AlturaSalto + Destination.y, lerpVector.z);
-			aux += 0.005f;
+			aux += 0.0005f;
 
 			if (player.transform.position == Destination) {
 				setMoving (false);

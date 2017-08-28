@@ -13,6 +13,7 @@ public class SmoothMove : Movement
 
 	override public void Move ()
 	{
+		SetNewOrigin ();
 		Destination = new Vector3 (GetXCoordinate (), GetYCoordinate (), GetZCoordinate ());
 		moveCoroutine = StartCoroutine (MoveCoroutine ());
 	}
@@ -24,7 +25,7 @@ public class SmoothMove : Movement
 	
 		while (player.transform.position != Destination) {
 			player.transform.position = Vector3.Lerp (Origin, Destination, aux);
-			aux += 0.005f;
+			aux += 0.0005f;
 
 			if (player.transform.position == Destination) {
 				setMoving (false);
