@@ -2,7 +2,7 @@
 
 public class WandInteraction : WandAction
 {
-	private const float MANIPULATION_VELOCITY = 0.1f;
+	private const float MANIPULATION_VELOCITY = 1.0f;
 	private const float SCALE_REDUCTOR = 1.0f;
 
 	public GameObject manipulatedObject;
@@ -67,29 +67,17 @@ public class WandInteraction : WandAction
 
 		if (isManipulating && manipulatedObject != null) {
 			DeleteReferences ();
-			// TODO: Arreglar el escalado
-			/*
-			if (IsScalable ()) {
-				if (firstScale) {
-					initialLeft = GameObject.Find ("LeftHand").transform.position;
-					initialRight = GameObject.Find ("RightHand").transform.position;
-					initialScale = manipulatedObject.transform.localScale;
-					firstScale = false;
-				}
-				ScaleObject ();
-			} else {
-				initialLeft = Vector3.zero;
-				initialRight = Vector3.zero;
-				initialScale = Vector3.one;
-				firstScale = true;
-			}
-			*/
-
-			// Mover con joystic
-			Vector2 aditionalMovement = getAditionalMovement ().normalized * MANIPULATION_VELOCITY;
-			Vector3 localPosition = manipulatedObject.transform.localPosition;
-			manipulatedObject.transform.localPosition = new Vector3 (localPosition.x + aditionalMovement.x, localPosition.y, localPosition.z + aditionalMovement.y);
+			JoysticMovement ();
 		}
+	}
+
+	private void JoysticMovement ()
+	{
+		Vector2 aditionalMovement = getAditionalMovement () * MANIPULATION_VELOCITY;
+		Vector3 movementVector = (aditionalMovement.x * transform.right) + (aditionalMovement.y * transform.forward);
+
+		// manipulatedObject.transform.Translate ((transform.right * aditionalMovement.x) + (transform.forward * aditionalMovement.y));
+		manipulatedObject.transform.position += movementVector;
 	}
 
 	private void DeleteReferences ()
@@ -121,35 +109,6 @@ public class WandInteraction : WandAction
 			manipulatedObject = null;
 			hitObject.GetComponent<Renderer> ().material.color = Color.red;
 		}
-	}
-
-	private bool IsScalable ()
-	{
-		WandInteraction leftInteraction = null;
-		WandInteraction rightInteraction = null;
-		try {
-			leftInteraction = GameObject.Find ("LeftHand/stick/PatternCreator").GetComponent<WandInteraction> ();
-			rightInteraction = GameObject.Find ("RightHand/stick/PatternCreator").GetComponent<WandInteraction> ();
-		} catch {
-			return false;
-		}
-
-		if (leftInteraction == null || rightInteraction == null) {
-			return false;
-		}
-		return leftInteraction.manipulatedObject == rightInteraction.manipulatedObject;
-	}
-
-	private void ScaleObject ()
-	{
-		manipulatedObject.transform.localScale = initialScale * getDistanceBetweenHands ();
-	}
-
-	private float getDistanceBetweenHands ()
-	{
-		Vector3 leftHand = GameObject.Find ("LeftHand").transform.position;
-		Vector3 rightHad = GameObject.Find ("RightHand").transform.position;
-		return (distanceBetweenPoints (leftHand, rightHad) - distanceBetweenPoints (initialLeft, initialRight)) / SCALE_REDUCTOR;
 	}
 
 	private float distanceBetweenPoints (Vector3 A, Vector3 B)

@@ -5,19 +5,17 @@ using System;
 
 public class PatternRecognition : MonoBehaviour
 {
-
-	public string Hand;
 	public float samplesPerSecond;
 	protected Color magicColor;
+	public WandAction wandAction;
+	public HandType Hand;
 
 	private const float EPSILON = 1.5f;
 	private const float EXTENSION = 10.0f;
-
 	private bool dibujando;
+	private bool magicIntersection;
 	private List<Vector2> pattern;
 	private Coroutine patternCoroutine;
-	private bool magicIntersection;
-	public WandAction wandAction;
 	private GameObject MagicRing;
 
 	enum Orientation
@@ -34,6 +32,12 @@ public class PatternRecognition : MonoBehaviour
 		RECTANGLE,
 		TRIANGLE,
 		UNDEFINED
+	}
+
+	public enum HandType
+	{
+		LEFT,
+		RIGHT
 	}
 
 	private struct Rectangle
@@ -67,16 +71,7 @@ public class PatternRecognition : MonoBehaviour
 
 	void Update ()
 	{
-		/*
-		if (start) {
-			ParticleSystemRenderer psr = transform.GetChild (0).GetComponent<ParticleSystemRenderer> ();
-			psr.material.mainTexture = Resources.Load ("Spark") as Texture;
-			start = false;
-		}
-		*/
-
 		MagicRing.GetComponent<Renderer> ().material.color = magicColor;
-
 		if (Input.GetKeyDown (KeyCode.Escape)) {
 			Application.Quit ();
 		}
@@ -85,14 +80,8 @@ public class PatternRecognition : MonoBehaviour
 	// Update is called once per frame
 	void LateUpdate ()
 	{
-		
 		VRPatternRecorder ();
 		VRPatternAnalysis ();
-
-		// Only For Testing
-		// TODO: Delete this functions
-		// NoVRPatternRecorder ();
-		// NoVRPatternAnalysis ();
 	}
 
 	#region Acciones de cada varita
@@ -117,15 +106,36 @@ public class PatternRecognition : MonoBehaviour
 			break;
 		case Geometry.LINE:
 			wandAction = this.gameObject.AddComponent<WandMovement> ();
-			gameObject.GetComponent<WandMovement> ().SetWandMovementData ((Hand == "RTOUCH") ? WandAction.HandType.RIGHT : WandAction.HandType.LEFT);
+			gameObject.GetComponent<WandMovement> ().SetWandMovementData ((Hand == HandType.RIGHT) ? WandAction.HandType.RIGHT : WandAction.HandType.LEFT);
 			break;
 		case Geometry.RECTANGLE:
 			wandAction = this.gameObject.AddComponent<WandInteraction> ();
-			gameObject.GetComponent<WandInteraction> ().SetWandInteractionData ((Hand == "RTOUCH") ? WandAction.HandType.RIGHT : WandAction.HandType.LEFT);
+			gameObject.GetComponent<WandInteraction> ().SetWandInteractionData ((Hand == HandType.RIGHT) ? WandAction.HandType.RIGHT : WandAction.HandType.LEFT);
 			break;
 		case Geometry.UNDEFINED:
 			throw new Exception ("Geometría indefinida");
 			break;
+		}
+	}
+
+	private void ExecutueActionByColor ()
+	{
+		if (magicColor == Color.red) {
+			wandAction = this.gameObject.AddComponent<WandMovement> ();
+			gameObject.GetComponent<WandMovement> ().SetWandMovementData ((Hand == HandType.RIGHT) ? WandAction.HandType.RIGHT : WandAction.HandType.LEFT);
+		} else if (magicColor == Color.green) {
+			// No implementado
+		} else if (magicColor == Color.blue) {
+			wandAction = this.gameObject.AddComponent<WandInteraction> ();
+			gameObject.GetComponent<WandInteraction> ().SetWandInteractionData ((Hand == HandType.RIGHT) ? WandAction.HandType.RIGHT : WandAction.HandType.LEFT);
+		} else if (magicColor == new Color (1, 1, 0)) {
+			// No implementado
+		} else if (magicColor == new Color (1, 0, 1)) {
+			// No implementado
+		} else if (magicColor == new Color (0, 1, 1)) {
+			// No implementado
+		} else {
+			// Color blanco o cualquier combinaión inesperada.
 		}
 	}
 
@@ -136,7 +146,7 @@ public class PatternRecognition : MonoBehaviour
 	private void VRPatternRecorder ()
 	{
 		// Diferenciamos entre la mano derecha y la izquierda para hacer el análisis.
-		if ((Hand == "RTOUCH")
+		if ((Hand == HandType.RIGHT)
 			? OVRInput.Get (OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.RTouch) > 0.2f
 			: OVRInput.Get (OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.LTouch) > 0.2f) {
 			if (!dibujando) {
@@ -149,25 +159,12 @@ public class PatternRecognition : MonoBehaviour
 		}
 	}
 
-	private void NoVRPatternRecorder ()
-	{
-		if (Input.GetMouseButtonDown (0)) {
-			if (!dibujando) {
-				if (pattern.Count > 0) {
-					pattern.Clear ();
-				}
-				dibujando = true;
-				patternCoroutine = StartCoroutine (getPatternNoVR ());
-			}
-		}
-	}
-
 	private void VRPatternAnalysis ()
 	{
 		// Diferenciamos entre la mano derecha y la izquierda para hacer el análisis.
 		// IMPORTANTE: Se usará el PrimaryIndexTrigger para crear el patrón para dejar libres los botones One y Two para
 		// las acciones de la varita.
-		if (((Hand == "RTOUCH")
+		if (((Hand == HandType.RIGHT)
 			? OVRInput.Get (OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.RTouch) < 0.2f
 			: OVRInput.Get (OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.LTouch) < 0.2f)
 		    && dibujando) {
@@ -203,36 +200,8 @@ public class PatternRecognition : MonoBehaviour
 					break;
 				}
 				DeleteReferences ();
-				ExecuteAction (geometria);
-			} else {
-				Debug.Log ("No hay suficientes muestras para detectar un patrón");
-			}
-		}
-	}
-
-	private void NoVRPatternAnalysis ()
-	{
-		if (Input.GetMouseButtonUp (0) && dibujando) {
-			StopCoroutine (patternCoroutine);
-			dibujando = false;
-			if (pattern.Count > 3) {
-				switch (detectGeometry ()) {
-				case Geometry.LINE:
-					Debug.Log ("LINE DRAWED");
-					break;
-				case Geometry.CIRCLE:
-					Debug.Log ("CIRCLE DRAWED");
-					break;
-				case Geometry.RECTANGLE:
-					Debug.Log ("RECTANGLE DRAWED");
-					break;
-				case Geometry.TRIANGLE:
-					Debug.Log ("TRIANGLE DRAWED");
-					break;
-				case Geometry.UNDEFINED:
-					Debug.Log ("UNDEFINED GEOMETRY");
-					break;
-				}
+				// ExecuteAction (geometria);
+				ExecutueActionByColor ();
 			} else {
 				Debug.Log ("No hay suficientes muestras para detectar un patrón");
 			}
@@ -245,14 +214,6 @@ public class PatternRecognition : MonoBehaviour
 		while (dibujando) {
 			Vector3 auxVector = head.GetComponent<Camera> ().WorldToScreenPoint (transform.position);
 			pattern.Add (new Vector2 (auxVector.x, auxVector.y));
-			yield return new WaitForSeconds (1.0f / samplesPerSecond);
-		}
-	}
-
-	private IEnumerator getPatternNoVR ()
-	{
-		while (dibujando) {
-			pattern.Add (new Vector2 (Input.mousePosition.x, Input.mousePosition.y));
 			yield return new WaitForSeconds (1.0f / samplesPerSecond);
 		}
 	}
@@ -276,21 +237,11 @@ public class PatternRecognition : MonoBehaviour
 			magicIntersection = true;
 			Color colColor = col.GetComponent<PatternRecognition> ().magicColor;
 			if (colColor != magicColor) {
+				DeleteReferences ();
 				magicColor = sumaColores (colColor, magicColor);
+				ExecutueActionByColor ();
 			}
 		}
-	}
-
-	void OnTriggerExit (Collider col)
-	{
-		// Por ahora se probará a que el color combinado sea permanente y que haya que hacer otra combinación para cambiar de color.
-		// Esto se hace para facilitar la interacción del usuario y que no se vea con colores que no necesita o no ha buscado.
-		/*
-		if (col.tag == "PatternCreator") {
-			magicIntersection = false;
-			MagicRing.GetComponent<Renderer> ().material.color = magicColor;
-		}
-		*/
 	}
 
 	#endregion
@@ -305,19 +256,15 @@ public class PatternRecognition : MonoBehaviour
 		float convexHullArea = areaOfPolygon (convexHullofPattern);
 		float areaOfMaximumTriangle = area (maximumAreaEnclosedTriangle2 (convexHullofPattern));
 
-		// Rectangle auxRectangle = minimumAreaEnclosingRectangle (convexHullofPattern);
-		// float rectanglePerimeter = (auxRectangle.extent.x * 2) + (auxRectangle.extent.y * 2);
-
 		/*
-		Debug.Log ("Hull Perimeter ^ 2 / Hull Area\n" + Mathf.Pow (convexHullPerimeter, 2) / (convexHullArea + 0.0001f));
-		Debug.Log ("Triangle Area / Hull Area\n" + areaOfMaximumTriangle / (convexHullArea + 0.0001f));
-		Debug.Log ("Hull Perimeter / Rectangle Perimeter\n" + convexHullPerimeter / (rectanglePerimeter + 0.0001f));
+		// Funciones usadas para reconcoer el resto de las figuras geométricas
+		Rectangle auxRectangle = minimumAreaEnclosingRectangle (convexHullofPattern);
+		float rectanglePerimeter = (auxRectangle.extent.x * 2) + (auxRectangle.extent.y * 2);
 		*/
 
 		if (Mathf.Pow (convexHullPerimeter, 2) / (convexHullArea + 0.0001f) > 500.0f) {
 			return Geometry.LINE;
 		} else {
-			// Debug.Log (Mathf.Pow (convexHullPerimeter, 2) / (convexHullArea + 0.0001f));
 			if (Mathf.Pow (convexHullPerimeter, 2) / (convexHullArea + 0.0001f) < 500 && Mathf.Pow (convexHullPerimeter, 2) / (convexHullArea + 0.0001f) > 100.0f) {
 				return Geometry.CIRCLE;
 			} else {
@@ -467,12 +414,6 @@ public class PatternRecognition : MonoBehaviour
 		mat.m33 = 1;
 
 		return Mathf.Abs (0.5f * mat.determinant);
-
-		/*
-		Vector2 u = perp (getVectorFromPoints (a, b));
-		Vector2 v = getVectorFromPoints (a, c);
-		return 0.5f * Mathf.Abs (u.x * v.x + u.y * v.y);
-		*/
 	}
 
 	private Vector2 getVectorFromPoints (Vector2 a, Vector2 b)
