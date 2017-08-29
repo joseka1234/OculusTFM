@@ -46,32 +46,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\BasicBeamShot\SampleStage\GetUI.cs" />
-     <Compile Include="Assets\BasicBeamShot\Script\AutoDestroy.cs" />
-     <Compile Include="Assets\BasicBeamShot\Script\BM_WaveEffect.cs" />
-     <Compile Include="Assets\BasicBeamShot\Script\BasicBullet.cs" />
-     <Compile Include="Assets\BasicBeamShot\Script\BeamCollision.cs" />
-     <Compile Include="Assets\BasicBeamShot\Script\BeamLine.cs" />
-     <Compile Include="Assets\BasicBeamShot\Script\BeamParam.cs" />
-     <Compile Include="Assets\BasicBeamShot\Script\BeamWave.cs" />
-     <Compile Include="Assets\BasicBeamShot\Script\BillBoard.cs" />
-     <Compile Include="Assets\BasicBeamShot\Script\Create_MyLineMesh.cs" />
-     <Compile Include="Assets\BasicBeamShot\Script\Flash.cs" />
-     <Compile Include="Assets\BasicBeamShot\Script\GeroBeam.cs" />
-     <Compile Include="Assets\BasicBeamShot\Script\GeroBeamHit.cs" />
-     <Compile Include="Assets\BasicBeamShot\Script\GetColor_BeamLine.cs" />
-     <Compile Include="Assets\BasicBeamShot\Script\GetColor_Flash.cs" />
-     <Compile Include="Assets\BasicBeamShot\Script\GetColor_Particle.cs" />
-     <Compile Include="Assets\BasicBeamShot\Script\JumpScene.cs" />
-     <Compile Include="Assets\BasicBeamShot\Script\MouseTgt.cs" />
-     <Compile Include="Assets\BasicBeamShot\Script\MultiShooter.cs" />
-     <Compile Include="Assets\BasicBeamShot\Script\RandomRotate.cs" />
-     <Compile Include="Assets\BasicBeamShot\Script\ScaleWiggle.cs" />
-     <Compile Include="Assets\BasicBeamShot\Script\SceneMaster.cs" />
-     <Compile Include="Assets\BasicBeamShot\Script\ShooterRotate.cs" />
-     <Compile Include="Assets\BasicBeamShot\Script\ShotBase.cs" />
-     <Compile Include="Assets\BasicBeamShot\Script\ShotParticleEmitter.cs" />
-     <Compile Include="Assets\BasicBeamShot\Script\ShotParticle_Scale.cs" />
      <Compile Include="Assets\NewtonVR\CollisionSoundFramework\NVRCollisionSoundController.cs" />
      <Compile Include="Assets\NewtonVR\CollisionSoundFramework\NVRCollisionSoundMaterials.cs" />
      <Compile Include="Assets\NewtonVR\CollisionSoundFramework\NVRCollisionSoundObject.cs" />
@@ -292,7 +266,6 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAAPreset3.shader" />
      <None Include="Assets\PostProcessing\Editor Resources\Monitors\HistogramCompute.compute" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\FisheyeShader.shader" />
-     <None Include="Assets\BasicBeamShot\sh\Add_UVScroll_sh.shader" />
      <None Include="Assets\PostProcessing\Resources\Shaders\Uber.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Apply.shader" />
      <None Include="Assets\PostProcessing\Resources\Shaders\Blit.shader" />
@@ -303,7 +276,6 @@
      <None Include="Assets\PostProcessing\Resources\Shaders\FXAA3.cginc" />
      <None Include="Assets\PostProcessing\Resources\Shaders\MotionBlur.shader" />
      <None Include="Assets\PostProcessing\Resources\Shaders\AmbientOcclusion.shader" />
-     <None Include="Assets\BasicBeamShot\HowToUse_JP.txt" />
      <None Include="Assets\OVR\Shaders\Unlit Crosshair.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfField34.shader" />
      <None Include="Assets\PostProcessing\Resources\Bluenoise64\LICENSE.txt" />
@@ -313,11 +285,8 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\SSAOShader.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ConvertDepth.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionCurvesSimple.shader" />
-     <None Include="Assets\BasicBeamShot\sh\Sprite_Add_sh.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderYUV.shader" />
      <None Include="Assets\PostProcessing\Resources\Shaders\Common.cginc" />
-     <None Include="Assets\BasicBeamShot\sh\GeroBeam_sh.shader" />
-     <None Include="Assets\BasicBeamShot\sh\BeamLine_sh.shader" />
      <None Include="Assets\PostProcessing\Resources\Bluenoise64\COPYING.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\CreaseApply.shader" />
      <None Include="Assets\PostProcessing\Editor Resources\UI\Trackball.shader" />
@@ -369,13 +338,11 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\PrepareSunShaftsBlur.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\Blend.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlendModesOverlay.shader" />
-     <None Include="Assets\BasicBeamShot\sh\AddColor_sh.shader" />
      <None Include="Assets\PostProcessing\Resources\Shaders\ColorGrading.cginc" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\SimpleClear.shader" />
      <None Include="Assets\OVR\Resources\Underlay Impostor.shader" />
      <None Include="Assets\PostProcessing\Resources\Shaders\AmbientOcclusion.cginc" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAA3Console.shader" />
-     <None Include="Assets\BasicBeamShot\HowToUse_EN.txt" />
      <None Include="Assets\PostProcessing\Editor Resources\Monitors\WaveformCompute.compute" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAAPreset2.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlurAndFlares.shader" />

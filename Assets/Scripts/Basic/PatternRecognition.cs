@@ -71,7 +71,6 @@ public class PatternRecognition : MonoBehaviour
 
 	void Update ()
 	{
-		MagicRing.GetComponent<Renderer> ().material.color = magicColor;
 		if (Input.GetKeyDown (KeyCode.Escape)) {
 			Application.Quit ();
 		}
@@ -82,6 +81,7 @@ public class PatternRecognition : MonoBehaviour
 	{
 		VRPatternRecorder ();
 		VRPatternAnalysis ();
+		MagicRing.GetComponent<Renderer> ().material.color = magicColor;
 	}
 
 	#region Acciones de cada varita
@@ -93,29 +93,6 @@ public class PatternRecognition : MonoBehaviour
 		}
 		// Cada vez que cambiemos de acción destruimos la anterior para evitar tener más de una instancia del mismo script.
 		Destroy (this.gameObject.GetComponent<WandAction> ());
-	}
-
-	private void ExecuteAction (Geometry gometria)
-	{
-		switch (gometria) {
-		case Geometry.TRIANGLE:
-			Debug.Log ("Nada implementado");
-			break;
-		case Geometry.CIRCLE:
-			Debug.Log ("Nada implementado");
-			break;
-		case Geometry.LINE:
-			wandAction = this.gameObject.AddComponent<WandMovement> ();
-			gameObject.GetComponent<WandMovement> ().SetWandMovementData ((Hand == HandType.RIGHT) ? WandAction.HandType.RIGHT : WandAction.HandType.LEFT);
-			break;
-		case Geometry.RECTANGLE:
-			wandAction = this.gameObject.AddComponent<WandInteraction> ();
-			gameObject.GetComponent<WandInteraction> ().SetWandInteractionData ((Hand == HandType.RIGHT) ? WandAction.HandType.RIGHT : WandAction.HandType.LEFT);
-			break;
-		case Geometry.UNDEFINED:
-			throw new Exception ("Geometría indefinida");
-			break;
-		}
 	}
 
 	private void ExecutueActionByColor ()
@@ -200,7 +177,6 @@ public class PatternRecognition : MonoBehaviour
 					break;
 				}
 				DeleteReferences ();
-				// ExecuteAction (geometria);
 				ExecutueActionByColor ();
 			} else {
 				Debug.Log ("No hay suficientes muestras para detectar un patrón");

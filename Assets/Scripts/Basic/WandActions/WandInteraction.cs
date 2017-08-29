@@ -40,7 +40,7 @@ public class WandInteraction : WandAction
 
 	protected override void ButtonOneReleased ()
 	{
-		
+		// No es necesario implementar.
 	}
 
 	protected override void ButtonTwoPressed ()
@@ -73,10 +73,8 @@ public class WandInteraction : WandAction
 
 	private void JoysticMovement ()
 	{
-		Vector2 aditionalMovement = getAditionalMovement () * MANIPULATION_VELOCITY;
+		Vector2 aditionalMovement = getJoysticMovement () * MANIPULATION_VELOCITY;
 		Vector3 movementVector = (aditionalMovement.x * transform.right) + (aditionalMovement.y * transform.forward);
-
-		// manipulatedObject.transform.Translate ((transform.right * aditionalMovement.x) + (transform.forward * aditionalMovement.y));
 		manipulatedObject.transform.position += movementVector;
 	}
 
@@ -87,7 +85,7 @@ public class WandInteraction : WandAction
 		}
 	}
 
-	private Vector2 getAditionalMovement ()
+	private Vector2 getJoysticMovement ()
 	{
 		return (Hand == HandType.RIGHT) 
 		? OVRInput.Get (OVRInput.Axis2D.PrimaryThumbstick, OVRInput.Controller.RTouch)
@@ -109,10 +107,5 @@ public class WandInteraction : WandAction
 			manipulatedObject = null;
 			hitObject.GetComponent<Renderer> ().material.color = Color.red;
 		}
-	}
-
-	private float distanceBetweenPoints (Vector3 A, Vector3 B)
-	{
-		return Mathf.Sqrt (Mathf.Pow (B.x - A.x, 2) + Mathf.Pow (B.y - A.y, 2) + Mathf.Pow (B.z - A.z, 2));
 	}
 }
