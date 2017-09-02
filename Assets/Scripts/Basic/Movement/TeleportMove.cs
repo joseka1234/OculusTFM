@@ -15,11 +15,11 @@ public class TeleportMove : Movement
 
 	override public void Move ()
 	{
-		StartCoroutine (MoveCoroutine ());
-
+		
+		StartCoroutine (MoveCoroutine (new Vector3 (GetXCoordinate (), GetYCoordinate (), GetZCoordinate ())));
 	}
 
-	private IEnumerator MoveCoroutine ()
+	private IEnumerator MoveCoroutine (Vector3 destino)
 	{
 		float aux = 0.0f;
 
@@ -29,7 +29,7 @@ public class TeleportMove : Movement
 			yield return new WaitForSeconds (0.05f);
 		}
 
-		player.transform.position = new Vector3 (GetXCoordinate (), GetYCoordinate (), GetZCoordinate ());
+		player.transform.position = destino;
 
 		aux = 0.0f;
 		while (aux < 1.0f) {

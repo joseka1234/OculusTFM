@@ -219,6 +219,7 @@
      <Compile Include="Assets\Scripts\Basic\Movement\RunningMove.cs" />
      <Compile Include="Assets\Scripts\Basic\Movement\SmoothMove.cs" />
      <Compile Include="Assets\Scripts\Basic\Movement\TeleportMove.cs" />
+     <Compile Include="Assets\Scripts\Basic\Movement\WheelMovement.cs" />
      <Compile Include="Assets\Scripts\Basic\PannelController.cs" />
      <Compile Include="Assets\Scripts\Basic\PatternRecognition.cs" />
      <Compile Include="Assets\Scripts\Basic\RayController.cs" />

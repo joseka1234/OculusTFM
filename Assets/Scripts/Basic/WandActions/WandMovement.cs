@@ -27,9 +27,12 @@ public class WandMovement : WandAction
 		Player = GameObject.Find ("VRPlayer");
 		PrefabDestination = Resources.Load ("Destino") as GameObject;
 		pannelController = Player.GetComponentInChildren<PannelController> ();
+
 		movimientoActual = Movimientos.TELEPORT;
 		moveStrategy = gameObject.AddComponent<TeleportMove> ();
-		Player.AddComponent<TeleportMove> ().TeleportSetData ("Teleport", Player);
+		gameObject.GetComponent<TeleportMove> ().TeleportSetData ("Teleport", Player);
+		// pannelController.SetPannelText ("TELEPORT");
+
 		Vector3 cameraForward = Player.transform.GetChild (0).forward;
 		Player.transform.forward = new Vector3 (cameraForward.x, Player.transform.forward.y, cameraForward.z);
 	}
@@ -46,12 +49,12 @@ public class WandMovement : WandAction
 
 	protected override void ButtonTwoReleased ()
 	{
-		throw new System.NotImplementedException ();
+		
 	}
 
 	protected override void ButtonOneReleased ()
 	{
-		throw new System.NotImplementedException ();
+		
 	}
 
 	protected override void UpdateAction ()
