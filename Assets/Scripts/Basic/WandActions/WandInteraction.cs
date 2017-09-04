@@ -9,7 +9,6 @@ public class WandInteraction : WandAction
 	private GameObject hitObject;
 
 	private bool isManipulating = false;
-	private bool enhancedMove = false;
 
 	private Vector3 initialLeft;
 	private Vector3 initialRight;
@@ -24,13 +23,13 @@ public class WandInteraction : WandAction
 	{
 		if (manipulatedObject != null) {
 			if (!isManipulating) {	
-				Debug.Log ("Manipulando");
+				// Debug.Log ("Manipulando");
 				isManipulating = true;
 				manipulatedObject.transform.parent = ((Hand == HandType.RIGHT)
 					? GameObject.Find ("RightHand").transform
 					: GameObject.Find ("LeftHand").transform);
 			} else {
-				Debug.Log ("NO Manipulando");
+				// Debug.Log ("NO Manipulando");
 				isManipulating = false;
 				manipulatedObject.transform.parent = GameObject.Find ("Piramide").transform;
 				manipulatedObject = null;
@@ -45,12 +44,12 @@ public class WandInteraction : WandAction
 
 	protected override void ButtonTwoPressed ()
 	{
-		enhancedMove = true;
+		// No es necesario implementar.
 	}
 
 	protected override void ButtonTwoReleased ()
 	{
-		enhancedMove = false;
+		// No es necesario implementar.
 	}
 
 	private bool firstScale = true;

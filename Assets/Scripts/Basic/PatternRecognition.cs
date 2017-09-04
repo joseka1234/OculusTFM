@@ -6,12 +6,14 @@ using System;
 public class PatternRecognition : MonoBehaviour
 {
 	public float samplesPerSecond;
+	public GameObject Wheels;
 	protected Color magicColor;
 	public WandAction wandAction;
 	public HandType Hand;
 
 	private const float EPSILON = 1.5f;
 	private const float EXTENSION = 10.0f;
+	private GameObject wheelsInstace;
 	private bool dibujando;
 	private bool magicIntersection;
 	private List<Vector2> pattern;
@@ -88,6 +90,10 @@ public class PatternRecognition : MonoBehaviour
 
 	private void DeleteReferences ()
 	{
+		if (wheelsInstace != null) {
+			Destroy (wheelsInstace);
+		}
+
 		foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Reference")) {
 			Destroy (obj.gameObject);
 		}
@@ -101,7 +107,9 @@ public class PatternRecognition : MonoBehaviour
 			wandAction = this.gameObject.AddComponent<WandMovement> ();
 			gameObject.GetComponent<WandMovement> ().SetWandMovementData ((Hand == HandType.RIGHT) ? WandAction.HandType.RIGHT : WandAction.HandType.LEFT);
 		} else if (magicColor == Color.green) {
-			// No implementado
+			GameObject player = GameObject.FindGameObjectWithTag ("Player");
+			wheelsInstace = GameObject.Instantiate (Wheels, player.transform);
+			wheelsInstace.GetComponent<WheelMovement> ().Player = player;
 		} else if (magicColor == Color.blue) {
 			wandAction = this.gameObject.AddComponent<WandInteraction> ();
 			gameObject.GetComponent<WandInteraction> ().SetWandInteractionData ((Hand == HandType.RIGHT) ? WandAction.HandType.RIGHT : WandAction.HandType.LEFT);

@@ -1,32 +1,45 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class WheelMovement : MonoBehaviour
 {
-	private const float RADIUS = 0.5f;
-	private float AngularVelocity;
+	private const float RADIUS = 1.0f;
+	private const float ROTATION_REDUCTION = 0.2f;
+
+	public GameObject LeftWheel;
+	public GameObject RightWheel;
+	public GameObject Player;
+
+	private float LeftWheelSpeed;
+	private float RightWheelSpeed;
 
 	void Start ()
 	{
-		AngularVelocity = 0.0f;
+		LeftWheelSpeed = 0.0f;
+		RightWheelSpeed = 0.0f;
 	}
+
 
 	void Update ()
 	{
-		
+		SetSpeeds ();
+		if (LeftWheelSpeed == 0.0f && RightWheelSpeed != 0.0f) {
+			
+			Player.transform.Rotate (new Vector3 (0, -1, 0) * RightWheelSpeed * ROTATION_REDUCTION);
+
+		} else if (LeftWheelSpeed != 0.0f && RightWheelSpeed == 0.0f) {
+
+			Player.transform.Rotate (new Vector3 (0, 1, 0) * LeftWheelSpeed * ROTATION_REDUCTION);
+
+		} else if (LeftWheelSpeed != 0.0f && RightWheelSpeed != 0.0f) {
+			
+			Player.transform.position += Player.transform.GetChild (0).forward * LeftWheelSpeed * RADIUS;
+
+		}
 	}
 
-	private float getLinealVelocity (float radius)
+	private void SetSpeeds ()
 	{
-		StartCoroutine (getAngularVelocity ());
-		return AngularVelocity * radius;
-	}
-
-	private IEnumerator getAngularVelocity ()
-	{
-		AngularVelocity = 0.0f;
-		float auxAngle = this.transform.rotation.z;
-		yield return new WaitForSeconds (1.0f);
-		AngularVelocity = this.transform.rotation.z - auxAngle;
+		LeftWheelSpeed = LeftWheel.GetComponent<WheelManipulation> ().Speed;
+		RightWheelSpeed = RightWheel.GetComponent<WheelManipulation> ().Speed;
 	}
 }
