@@ -1,17 +1,18 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj" RefactoringSettings.EnableRefactorings="True">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Basic\WandActions\WandMovement.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Basic\Movement\SmoothMove.cs">
     <Files>
       <File FileName="Assets\Scripts\Basic\WandActions\WandAction.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Basic\WandActions\WandInteraction.cs" Line="52" Column="34" />
-      <File FileName="Assets\Scripts\Basic\WandActions\WandMovement.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Basic\WandActions\WandInteraction.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Basic\WandActions\WandMovement.cs" Line="118" Column="48" />
       <File FileName="Assets\Scripts\Basic\RayController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Basic\PatternRecognition.cs" Line="111" Column="70" />
-      <File FileName="Assets\Scripts\Basic\Movement\Movement.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Basic\Movement\TeleportMove.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Basic\Movement\NavMeshMove.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Basic\Movement\WheelMovement.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Basic\Movement\WheelManipulation.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Basic\Movement\SmoothMove.cs" Line="28" Column="16" />
+      <File FileName="Assets\Scripts\Basic\Movement\JumpMove.cs" Line="30" Column="15" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

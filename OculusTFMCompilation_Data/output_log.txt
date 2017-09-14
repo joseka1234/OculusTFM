@@ -21,152 +21,155 @@ Platform assembly: C:\Users\Jose Carlos TFM\Documents\GitHub\OculusTFM\OculusTFM
 Loading C:\Users\Jose Carlos TFM\Documents\GitHub\OculusTFM\OculusTFMCompilation_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
 Platform assembly: C:\Users\Jose Carlos TFM\Documents\GitHub\OculusTFM\OculusTFMCompilation_Data\Managed\UnityEngine.VR.dll (this message is harmless)
 Loading C:\Users\Jose Carlos TFM\Documents\GitHub\OculusTFM\OculusTFMCompilation_Data\Managed\UnityEngine.VR.dll into Unity Child Domain
-- Completed reload, in  0.020 seconds
+- Completed reload, in  0.018 seconds
 Platform assembly: C:\Users\Jose Carlos TFM\Documents\GitHub\OculusTFM\OculusTFMCompilation_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: C:\Users\Jose Carlos TFM\Documents\GitHub\OculusTFM\OculusTFMCompilation_Data\Managed\System.dll (this message is harmless)
 desktop: 1920x1080 59Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
-UnloadTime: 0.879577 ms
+UnloadTime: 0.905855 ms
 [NewtonVR] Version : 1.193. Found VRDevice: Oculus Rift CV1. Using Oculus SDK
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-Unity v5.6.1f1, Oculus Utilities v1.15.0, OVRPlugin v1.14.1, SDK v1.16.0.
+Unity v5.6.1f1, Oculus Utilities v1.15.0, OVRPlugin v1.14.1, SDK v1.18.0.
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
 Setting up 4 worker threads for Enlighten.
-  Thread -> id: 1e94 -> priority: 1 
-  Thread -> id: f20 -> priority: 1 
-  Thread -> id: 301c -> priority: 1 
-  Thread -> id: d60 -> priority: 1 
-84.94778
+  Thread -> id: 1dec -> priority: 1 
+  Thread -> id: 3b4 -> priority: 1 
+  Thread -> id: 168c -> priority: 1 
+  Thread -> id: 1160 -> priority: 1 
+NullReferenceException: Object reference not set to an instance of an object
+  at NewtonVR.NVRButtonInputs.get_PressDown () [0x00000] in <filename unknown>:0 
+  at NewtonVR.NVRCanvasInput.ButtonDown (Int32 index) [0x00000] in <filename unknown>:0 
+  at NewtonVR.NVRCanvasInput.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+RECTANGLE DRAWED WITH LEFT
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-RECTANGLE DRAWED WITH RTOUCH
+CIRCLE DRAWED WITH LEFT
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-177.9073
+RECTANGLE DRAWED WITH RIGHT
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-CIRCLE DRAWED WITH RTOUCH
+No hay suficientes muestras para detectar un patrón
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-69.10307
+No hay suficientes muestras para detectar un patrón
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-RECTANGLE DRAWED WITH RTOUCH
+RECTANGLE DRAWED WITH RIGHT
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-LINE DRAWED WITH RTOUCH
+LINE DRAWED WITH RIGHT
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-359.2871
+RECTANGLE DRAWED WITH RIGHT
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-CIRCLE DRAWED WITH RTOUCH
+RECTANGLE DRAWED WITH RIGHT
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-106.8158
+CIRCLE DRAWED WITH RIGHT
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-CIRCLE DRAWED WITH RTOUCH
+LINE DRAWED WITH RIGHT
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-89.5598
+RECTANGLE DRAWED WITH RIGHT
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-RECTANGLE DRAWED WITH RTOUCH
+RECTANGLE DRAWED WITH RIGHT
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-LINE DRAWED WITH RTOUCH
+RECTANGLE DRAWED WITH RIGHT
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-67.12634
+RECTANGLE DRAWED WITH RIGHT
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-RECTANGLE DRAWED WITH RTOUCH
+RECTANGLE DRAWED WITH RIGHT
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-75.73332
+RECTANGLE DRAWED WITH RIGHT
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-RECTANGLE DRAWED WITH RTOUCH
+RECTANGLE DRAWED WITH RIGHT
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-84.87387
+RECTANGLE DRAWED WITH RIGHT
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-RECTANGLE DRAWED WITH RTOUCH
+RECTANGLE DRAWED WITH RIGHT
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-66.40247
+RECTANGLE DRAWED WITH RIGHT
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-RECTANGLE DRAWED WITH RTOUCH
+RECTANGLE DRAWED WITH RIGHT
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-249.9554
+RECTANGLE DRAWED WITH RIGHT
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-CIRCLE DRAWED WITH RTOUCH
+RECTANGLE DRAWED WITH RIGHT
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-284.5327
+RECTANGLE DRAWED WITH RIGHT
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-CIRCLE DRAWED WITH RTOUCH
+RECTANGLE DRAWED WITH RIGHT
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-LINE DRAWED WITH RTOUCH
+RECTANGLE DRAWED WITH RIGHT
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-LINE DRAWED WITH RTOUCH
+RECTANGLE DRAWED WITH RIGHT
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-176.6808
+RECTANGLE DRAWED WITH RIGHT
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-CIRCLE DRAWED WITH RTOUCH
+RECTANGLE DRAWED WITH RIGHT
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-38.28897
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-RECTANGLE DRAWED WITH RTOUCH
+CIRCLE DRAWED WITH LEFT
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 

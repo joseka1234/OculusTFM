@@ -120,11 +120,18 @@ public class WandMovement : WandAction
 			pannelController.SetPannelText ("JUMP");
 			break;
 		case Movimientos.JUMP:
+			/*
 			movimientoActual = Movimientos.NAV_MESH;
 			Destroy (gameObject.GetComponent<JumpMove> ());
 			moveStrategy = gameObject.AddComponent<NavMeshMove> ();
 			gameObject.GetComponent<NavMeshMove> ().NavMeshSetData ("NavMesh", Player);
 			pannelController.SetPannelText ("NAV MESH");
+			*/
+			movimientoActual = Movimientos.TELEPORT;
+			Destroy (gameObject.GetComponent<JumpMove> ());
+			moveStrategy = gameObject.AddComponent<TeleportMove> ();
+			gameObject.GetComponent<TeleportMove> ().TeleportSetData ("Teleport", Player);
+			pannelController.SetPannelText ("TELEPORT");
 			break;
 		case Movimientos.NAV_MESH:
 			movimientoActual = Movimientos.RUNNING_MOVE;
